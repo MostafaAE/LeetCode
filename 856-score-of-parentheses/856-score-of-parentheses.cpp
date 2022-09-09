@@ -2,8 +2,8 @@ class Solution {
 public:
     int scoreOfParentheses(string s)
     {
-        int result = 0;
         stack<int> parser;
+        parser.push(0);
 
         for (char c : s)
         {
@@ -11,16 +11,19 @@ public:
                 parser.push(0);
             else
             {
-                int val = 0;
-                while (!parser.empty() && parser.top() != 0)
-                    val += parser.top(), parser.pop();
+                int last = parser.top();
                 parser.pop();
-                val ? parser.push(val * 2) : parser.push(1);
+
+                if (last == 0)
+                    last = 1;
+                else
+                    last *= 2;
+
+                int parentVal = parser.top() + last;
+                parser.pop();
+                parser.push(parentVal);
             }
         }
-        while (!parser.empty())
-            result += parser.top(), parser.pop();
-
-        return result;
+        return parser.top();
     }
 };
