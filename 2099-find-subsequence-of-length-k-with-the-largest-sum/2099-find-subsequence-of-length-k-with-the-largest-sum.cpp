@@ -3,6 +3,7 @@ public:
     vector<int> maxSubsequence(vector<int> &nums, int k)
     {
         priority_queue<pair<int, int>> pq;
+        set<int> indecies;
         vector<int> result;
         for (int i = 0; i < (int)nums.size(); i++)
         {
@@ -13,14 +14,11 @@ public:
         }
 
         while (!pq.empty())
-            result.push_back(pq.top().second), pq.pop();
+            indecies.insert(pq.top().second), pq.pop();
 
-        sort(result.begin(), result.end());
-
-        for (int i = 0; i < (int)result.size(); i++)
-        {
-            result[i] = nums[result[i]];
-        }
+        for (int idx : indecies)
+            result.push_back(nums[idx]);
+        
         return result;
     }
 };
