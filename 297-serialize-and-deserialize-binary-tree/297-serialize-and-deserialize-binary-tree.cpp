@@ -40,55 +40,28 @@ public:
         return ser;
         
     }
+    
+    int idx = 0;
+    TreeNode *des(vector<string> &nodes)
+    {
+        if (nodes[idx] == "x")
+        {
+            idx++;
+            return nullptr;
+        }
+        TreeNode *node = new TreeNode(stoi(nodes[idx]));
+        idx++;
+        node->left = des(nodes);
+        node->right = des(nodes);
+        return node;
+    }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
         
         vector<string> nodes = split(data, ',');
 
-        if (nodes[0] == "x")
-            return nullptr;
-
-        stack<TreeNode *> st;
-        TreeNode *root = new TreeNode(stoi(nodes[0]));
-
-        st.push(root);
-        bool left = 1;
-        for (int i = 1; i < (int)nodes.size(); i++)
-        {
-            if (nodes[i] == "x")
-            {
-                if (left)
-                {
-                    st.top()->left = nullptr;
-                    left = 0;
-                }
-
-                else
-                {
-                    st.top()->right = nullptr;
-                    st.pop();
-                }
-            }
-            else
-            {
-                TreeNode *cur = new TreeNode(stoi(nodes[i]));
-                if (left)
-                {
-                    st.top()->left = cur;
-                }
-                else
-                {
-                    st.top()->right = cur;
-                    st.pop();
-                }
-
-                st.push(cur);
-
-                left = 1;
-            }
-        }
-        return root;
+        return des(nodes);
         
     }
 };
