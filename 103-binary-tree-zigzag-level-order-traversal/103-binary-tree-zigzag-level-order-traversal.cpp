@@ -14,44 +14,51 @@ public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         
         vector<vector<int>> result;
-        queue<TreeNode *> qu;
+        deque<TreeNode *> dq;
         
         if(!root)
             return result;
         
-        qu.push(root);
+        dq.push_back(root);
 
-        int level = 0;
+        bool forwardLevel = true;
 
-        while (!qu.empty())
+        while (!dq.empty())
         {
-            int sz = (int)qu.size();
-            vector<int> levelNodes;
-            stack<int> reversedNodes;
-
+            int sz = (int)dq.size();
+            vector<int> levelResult;
+            
             while(sz--)
             {
-                TreeNode *node = qu.front();
-                qu.pop();
+                TreeNode *node;
                 
-                if(level%2)
-                    reversedNodes.push(node->val);
-                else
-                    levelNodes.push_back(node->val);
+                if(forwardLevel)
+                {
+                    node = dq.front();
+                    dq.pop_front();
 
-                if(node->left)
-                    qu.push(node->left);
-                    
-                if(node->right)
-                    qu.push(node->right);
+                    if(node->left)
+                        dq.push_back(node->left);
+                    if(node->right)
+                        dq.push_back(node->right);
+                }
+                else
+                {
+                    node = dq.back();
+                    dq.pop_back();
+
+                    if(node->right)
+                        dq.push_front(node->right);
+                    if(node->left)
+                        dq.push_front(node->left);
+                }
+                
+                levelResult.push_back(node->val);
+                
             }
             
-            while(!reversedNodes.empty())
-                levelNodes.push_back(reversedNodes.top()), reversedNodes.pop();
-            
-            result.push_back(levelNodes);
-            
-            level++;
+            result.push_back(levelResult);
+            forwardLevel = !forwardLevel;
             
         }
         
