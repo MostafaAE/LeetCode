@@ -12,52 +12,20 @@
 class Solution {
 public:
 
-    //iterative approach
+    bool is_mirror(TreeNode *first, TreeNode *second)
+    {
+        if(!first && !second)
+            return true;
+        if(!first && second || first && !second || first->val != second->val)
+            return false;
+        
+        return is_mirror(first->left , second->right) & is_mirror(first->right, second->left);
+    }
+    
+    // recursive approach
     bool isSymmetric(TreeNode* root) {
         
-        queue<TreeNode *> left;
-        queue<TreeNode *> right;
-        
-        if(root->left)
-            left.push(root->left);
-        if(root->right)
-            right.push(root->right);
-        
-        while(!left.empty() || !right.empty())
-        {
-            int leftSize = (int)left.size();
-            int rightSize = (int)right.size();
-            
-            if(leftSize != rightSize)
-                return false;
-            
-            while(leftSize--)
-            {
-                TreeNode *curLeft = left.front(); left.pop();
-                
-                TreeNode *curRight = right.front(); right.pop();
-            
-
-                if( (curLeft->val != curRight->val) || (curLeft->left && !curRight->right) 
-                   || (!curLeft->left && curRight->right) || (curLeft->right && !curRight->left) 
-                   || (!curLeft->right && curRight->left))
-                    return false;
-                
-                if(curLeft->left && curRight->right)
-                {
-                    left.push(curLeft->left);
-                    right.push(curRight->right);
-                }
-                    
-                if(curLeft->right && curRight->left)
-                {
-                    left.push(curLeft->right);
-                     right.push(curRight->left);
-                    
-                }
-            }
-        }
-        return true;
+        return is_mirror(root->left, root->right);
         
     }
 };
