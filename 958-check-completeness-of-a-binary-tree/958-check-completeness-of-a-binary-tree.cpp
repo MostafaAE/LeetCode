@@ -33,33 +33,36 @@ public:
         queue<TreeNode *> qu;
         qu.push(root);
 
-        int level = 0;
         bool end = false;
         
         while (!qu.empty())
         {
             int sz = (int)qu.size();
-            if(level < height && sz != pow(2, level))
-                return false;
-            
 
             while (sz--)
             {
                 TreeNode *cur = qu.front();
                 qu.pop();
 
-                if((end && (cur->left || cur->right)) || cur->right && !cur->left)
-                    return false;
-                
-                if (cur->left && !cur->right || !cur->left && !cur->right)
-                    end = true;
-                    
                 if (cur->left)
+                {
+                    if(end)
+                        return false;
                     qu.push(cur->left);
+                }
+                else
+                    end = true;
+                
                 if (cur->right)
+                {
+                    if(end)
+                        return false;
                     qu.push(cur->right);
+                }
+                else
+                    end = true;
             }
-            level++;
+
         }
         return true;
         
