@@ -11,38 +11,53 @@
  */
 class Solution {
 public:
-    
-    string parenthesize(TreeNode *node, bool mirror)
-    {
-        string repr;
-        
-        if (!node)
-            return "()";
-        
-        repr += "(" + to_string(node->val);
-        
-        if(mirror)
-        {
-            repr += parenthesize(node->right, mirror);
-            repr += parenthesize(node->left, mirror);
-        }
-        else
-        {
-            repr += parenthesize(node->left, mirror);
-            repr += parenthesize(node->right, mirror);
-        }
-        
-        repr +=")";
-        
-        return repr;
-    }
-    
-    
+
+    //iterative approach
     bool isSymmetric(TreeNode* root) {
         
-        string leftSubTree = parenthesize(root->left, false);
-        string mirrorRightSubTree = parenthesize(root->right , true);
-        return leftSubTree == mirrorRightSubTree;
+        queue<TreeNode *> left;
+        queue<TreeNode *> right;
+        
+        if(root->left)
+            left.push(root->left);
+        if(root->right)
+            right.push(root->right);
+        
+        while(!left.empty() || !right.empty())
+        {
+            int leftSize = (int)left.size();
+            int rightSize = (int)right.size();
+            
+            if(leftSize != rightSize)
+                return false;
+            
+            while(leftSize--)
+            {
+                TreeNode *curLeft = left.front(); left.pop();
+                
+                TreeNode *curRight = right.front(); right.pop();
+            
+
+                if( (curLeft->val != curRight->val) || (curLeft->left && !curRight->right) 
+                   || (!curLeft->left && curRight->right) || (curLeft->right && !curRight->left) 
+                   || (!curLeft->right && curRight->left))
+                    return false;
+                
+                if(curLeft->left && curRight->right)
+                {
+                    left.push(curLeft->left);
+                    right.push(curRight->right);
+                }
+                    
+                if(curLeft->right && curRight->left)
+                {
+                    left.push(curLeft->right);
+                     right.push(curRight->left);
+                    
+                }
+            }
+        }
+        return true;
         
     }
 };
