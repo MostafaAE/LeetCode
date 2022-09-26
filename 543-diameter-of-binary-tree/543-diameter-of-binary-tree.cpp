@@ -12,31 +12,37 @@
 class Solution {
 public:
     
-    int treeHeight(TreeNode* root)
+    // return (diameter, height)
+    pair<int, int> treeDiameter(TreeNode *root)
     {
-        int leftHeight{}, rightHeight{};
+        pair<int, int> res = make_pair(0,0);
+        
+        if(!root->left && !root->right)
+            return res;
+        pair<int, int> leftData = make_pair(0,0);
+        pair<int, int> rightData = make_pair(0,0);
         
         if(root->left)
-            leftHeight = 1 + treeHeight(root->left);
+        {
+            leftData = treeDiameter(root->left);
+            res.first += 1 + leftData.second;
+        }
         if(root->right)
-            rightHeight = 1 + treeHeight(root->right);
+        {
+            rightData = treeDiameter(root->right);
+            res.first += 1 + rightData.second;
+        }
+        res.first = max(res.first, max(leftData.first, rightData.first));
+        res.second = 1 + max(leftData.second, rightData.second);
         
-        return max(leftHeight, rightHeight);
+        return res;
+        
     }
     
     int diameterOfBinaryTree(TreeNode* root) {
         
-        if(!root)
-            return 0;
-        
-        int res {0}; 
-        
-        if(root->left)
-            res += 1+ treeHeight(root->left);
-        if(root->right)
-            res += 1+ treeHeight(root->right);
-        
-        return max(res, max(diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right)));
+        pair<int,int> res = treeDiameter(root);
+        return res.first;
         
     }
 };
