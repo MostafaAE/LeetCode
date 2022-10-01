@@ -13,12 +13,6 @@ public:
             while(!pq.empty() && i-pq.top().second >= k)
                 pq.pop();
             
-            if(!pq.empty() && nums[i] >= pq.top().first)
-            {
-                while(!pq.empty())
-                    pq.pop();
-            }
-            
             pq.push(make_pair(nums[i],i));
             
             if(i >= k-1)
