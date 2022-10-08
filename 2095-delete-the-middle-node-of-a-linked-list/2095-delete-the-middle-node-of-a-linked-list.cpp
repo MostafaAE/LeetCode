@@ -12,8 +12,19 @@ class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
         
+        // base cases
+        if(head == nullptr)
+            return nullptr;
+        if(head->next == nullptr)
+        {
+            delete head;
+            return nullptr;
+        }
+        
+        // slow and fast pointers to reach the middle of the linked list
         ListNode *slow = head, *fast = head, *prev = nullptr;
         
+        // tortoise and hare
         while(fast && fast->next)
         {
             prev = slow;
@@ -21,17 +32,11 @@ public:
             fast = fast->next->next;
         }
         
-        if(prev)
-        {
-            prev->next = prev->next->next;
-            delete slow;
-            return head;
-        }
-        else
-        {
-            delete head;
-            return nullptr;
-        }
+        // slow is the middle node
+        // delete it
+        prev->next = slow->next;
+        delete slow;
+        return head;
         
     }
 };
