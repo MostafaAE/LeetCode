@@ -25,13 +25,6 @@ public:
                     head = head->next;
                     cur = head;
                 }
-                // if node is last node
-                else if(cur->next == nullptr)
-                {
-                    prev->next = nullptr;
-                    cur = nullptr;
-                }
-                
                 else
                 {
                     prev->next = cur->next;
