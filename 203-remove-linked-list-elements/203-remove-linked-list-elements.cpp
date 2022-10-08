@@ -18,18 +18,16 @@ public:
         {
             if(cur->val == val)
             {
-                 ListNode *temp = cur;
+                ListNode *temp = cur;
+                
                 // if node is first node
                 if(cur == head)
-                {
                     head = head->next;
-                    cur = head;
-                }
                 else
-                {
                     prev->next = cur->next;
-                    cur = cur->next;
-                }
+                
+                cur = cur->next;
+                
                 delete temp;
             }
             else
@@ -37,6 +35,7 @@ public:
                 prev = cur;
                 cur = cur->next;
             }
+             
         }
         
         return head;
