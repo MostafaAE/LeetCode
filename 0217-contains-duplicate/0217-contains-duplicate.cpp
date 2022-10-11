@@ -1,15 +1,17 @@
 class Solution {
 public:
     
-    // Time Complexity: O(nlogn)
+    // Time Complexity: O(n)
+    // Memory Complexity: O(n)
     bool containsDuplicate(vector<int>& nums) 
     {
-        // O(nlogn)
-        sort(nums.begin(), nums.end());
+        unordered_set<int> s;
+        
         // O(n)
-        for(int i = 1 ; i < (int)nums.size() ; i++)
+        for(int i = 0 ; i < (int)nums.size() ; i++)
         {
-            if(nums[i] == nums[i-1])
+            // insert() method takes O(1).
+            if(!s.insert(nums[i]).second)
                 return true;
         }
         return false;
