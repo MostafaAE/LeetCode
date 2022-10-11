@@ -11,37 +11,24 @@
  */
 class Solution {
 public:
-    
-    pair<int, int> diameterAndHeight(TreeNode *root)
+
+    int dfs(TreeNode *root, int &diameter)
     {
-        pair<int, int> curDiamHeight = make_pair(0,0);
+        if(!root)
+            return -1;
         
-        if(!root->left && !root->right)
-            return curDiamHeight;
+        int left = dfs(root->left, diameter);
+    
+        int right = dfs(root->right, diameter);
         
-        pair<int, int> leftDiamHeight = make_pair(0,0);
-        pair<int, int> rightDiamHeight = make_pair(0,0);
-        
-        if(root->left)
-        {
-            leftDiamHeight = diameterAndHeight(root->left);
-            curDiamHeight.first += 1 + leftDiamHeight.second;
-        }
-        
-        if(root->right)
-        {
-            rightDiamHeight = diameterAndHeight(root->right);
-            curDiamHeight.first += 1 + rightDiamHeight.second;
-        }
-        
-        curDiamHeight.first = max(curDiamHeight.first, max(leftDiamHeight.first, rightDiamHeight.first));
-        curDiamHeight.second = 1 + max(leftDiamHeight.second, rightDiamHeight.second);
-        return curDiamHeight;
+        diameter = max(diameter, 2 + left + right);
+        return 1 + max(left , right);
     }
     
     int diameterOfBinaryTree(TreeNode* root) 
     {
-        pair<int, int> diamHeight = diameterAndHeight(root);
-        return diamHeight.first;
+        int diameter = 0;
+        dfs(root, diameter);
+        return diameter;
     }
 };
