@@ -1,27 +1,22 @@
 class Solution {
 public:
     
-    // Time Complexity: O(n+m)
-    // Space Complexity: O(n+m)
+    // Time Complexity: O(m+n)
+    // Space Complexity: O(1)
     void merge(vector<int> &nums1, int m, vector<int> &nums2, int n)
     {
-        vector<int> merged;
-
-        int itr1{}, itr2{};
-
-        while (itr1 < m && itr2 < n)
+        int last{m + n - 1};
+        // start at the end of nums1 and sort in reverse order
+        while (m > 0 && n > 0)
         {
-            if (nums1[itr1] <= nums2[itr2])
-                merged.push_back(nums1[itr1++]);
+            if (nums1[m-1] > nums2[n-1])
+                nums1[last--] = nums1[--m];
             else
-                merged.push_back(nums2[itr2++]);
+                nums1[last--] = nums2[--n];
         }
-
-        while (itr1 < m)
-            merged.push_back(nums1[itr1++]);
-        while (itr2 < n)
-            merged.push_back(nums2[itr2++]);
-
-        nums1 = merged;
+        
+        // fill nums1 with leftover nums2 elements
+        while (n > 0)
+            nums1[last--] = nums2[--n];
     }
 };
