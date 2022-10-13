@@ -5,8 +5,8 @@ public:
      * iterate on one unordered_set and check each element if it exists in the other unordered_set
      *
      * Complexity:
-     * Time Complexity : O(n)
-     * Space Complexity : O(n)
+     * Time Complexity : O(n+m)
+     * Space Complexity : O(n+m)
      */
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) 
     {
