@@ -6,7 +6,7 @@ public:
      * iterate on ther other array and check if element exist in the hashmap and its count > 0
      *
      * Complexity:
-     * Time Complexity : O(n)
+     * Time Complexity : O(n+m)
      * Space Complexity : O(n)
      */
 
