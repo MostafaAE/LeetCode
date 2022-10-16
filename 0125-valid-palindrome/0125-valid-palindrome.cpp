@@ -14,15 +14,15 @@ public:
         int start = 0;
         int end = (int)s.size()-1;
         
-        while(start <= end)
+        while(start < end)
         {
-            if(!isalnum(s[start]))
+            while(start < end && !isalnum(s[start]))
                 start++;
-            if(!isalnum(s[end]))
+            
+            while(start < end && !isalnum(s[end]))
                 end--;
             
-            if(isalnum(s[start]) && isalnum(s[end]) 
-               && tolower(s[start++]) != tolower(s[end--]))
+            if(start < end && tolower(s[start++]) != tolower(s[end--]))
                 return false;
         }
         
