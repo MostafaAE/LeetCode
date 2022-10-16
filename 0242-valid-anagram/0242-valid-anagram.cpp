@@ -3,10 +3,11 @@ public:
     
     /* 
     * Approach:
-    * sort the two strings and compare them
+    * store the frequency of each letter in each string
+    * compare the letter frequencies of the two strings
     * 
     * Complexity:
-    * Time Complexity : O(L*log(L))
+    * Time Complexity : O(L)
     * Space Complexity : O(1)
     */
     bool isAnagram(string s, string t) 
@@ -14,13 +15,21 @@ public:
         if((int)s.size() != (int)t.size())
             return false;
         
-        // O(L*log(L)) => L = s.length = t.length
-        sort(s.begin(), s.end());
-        // O(L*log(L))
-        sort(t.begin(), t.end());
+        int sFreq[26]{}, tFreq[26]{};
         
-        // O(L)
-        return s == t;
+        // O(L) => L = s.length = t.length
+        for(int i = 0 ; i < (int)s.size() ; i++)
+        {
+            sFreq[s[i]-'a']++;
+            tFreq[t[i]-'a']++;
+        }
+        
+        // O(1)
+        for(int i = 0 ; i < 26 ; i++)
+            if(sFreq[i] != tFreq[i])
+                return false;
+        
+        return true;
         
     }
 };
