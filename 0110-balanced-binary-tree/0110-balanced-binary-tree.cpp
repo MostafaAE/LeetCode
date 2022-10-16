@@ -28,10 +28,13 @@ public:
     {
         if(!node)
             return -1;
-            
-        int leftHeight = treeHeight(node->left, balanced);
         
-        int rightHeight = treeHeight(node->right, balanced);
+        int leftHeight{-1}, rightHeight{-1};
+        
+        leftHeight = treeHeight(node->left, balanced);
+        
+        if(balanced)
+            rightHeight = treeHeight(node->right, balanced);
         
         if(balanced && abs(leftHeight-rightHeight) > 1)
             balanced = false;
