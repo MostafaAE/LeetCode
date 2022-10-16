@@ -11,13 +11,13 @@ public:
     */
     int firstUniqChar(string s) {
         
-        int freq[26]{};
+        unordered_map<int, int> um;
         
         for(int i = 0 ; i < (int)s.size() ; i++)
-            freq[s[i]-'a']++;
+            um[s[i]-'a']++;
         
         for(int i = 0 ; i < (int)s.size() ; i++)
-            if(freq[s[i]-'a'] == 1)
+            if(um[s[i]-'a'] == 1)
                 return i;
         
         return -1; 
