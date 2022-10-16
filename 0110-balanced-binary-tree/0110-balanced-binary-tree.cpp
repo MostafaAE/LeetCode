@@ -26,17 +26,12 @@ public:
     
     int treeHeight(TreeNode *node, bool &balanced)
     {
-        
-        if(!node->left && !node->right)
-            return 0;
-        
-        int leftHeight{-1}, rightHeight{-1};
+        if(!node)
+            return -1;
             
-        if(node->left)
-            leftHeight = treeHeight(node->left, balanced);
+        int leftHeight = treeHeight(node->left, balanced);
         
-        if(balanced && node->right)
-            rightHeight = treeHeight(node->right, balanced);
+        int rightHeight = treeHeight(node->right, balanced);
         
         if(balanced && abs(leftHeight-rightHeight) > 1)
             balanced = false;
