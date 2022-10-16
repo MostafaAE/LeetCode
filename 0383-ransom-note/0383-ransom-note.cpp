@@ -18,7 +18,7 @@ public:
         if(m < r)
             return false;
         
-        int mFreq[26]{}, rFreq[26]{};
+        unordered_map<int, int> mFreq, rFreq;
         
         // O(m)
         for(int i = 0 ; i < m ; i++)
