@@ -12,7 +12,7 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * Iterate over the linked-list if the current node value == target, then
+    * Iterate over the linkedlist if the current node value == target, then
     * re-link the previous node with the next node
     *
     * Complexity:
@@ -27,16 +27,22 @@ public:
         {
             if(cur->val == val)
             {
+                ListNode *temp = cur;
+                
+                // if target is first node, move the head pointer
                 if(!prev)
                     head = head->next;
-                
                 else
                     prev->next = cur->next;
+                
+                cur = cur->next;
+                
+                delete temp;
             }
             else
-                prev = cur;
+                prev = cur, cur = cur->next;
             
-            cur = cur->next;
+            
         }
         
         return head;
