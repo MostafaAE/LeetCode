@@ -10,24 +10,34 @@
  */
 class Solution {
 public:
+    /* 
+    * Approach: 
+    * iterate over th two lists using two pointers while comparing the two pointers values
+    * and re-linking the nodes in ascending order
+    *
+    * Complexity:
+    * Time Complexity : O(n)
+    * Space Complexity : O(1)
+    */
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) 
     {
-        ListNode *head = new ListNode();
-        ListNode *dummy = head;
+        ListNode *dummy = new ListNode();
+        ListNode *tail = dummy;
         
         while(list1 && list2)
         {
             if(list1->val <= list2->val)
-                head->next = new ListNode(list1->val), list1 = list1->next;
+                tail->next = list1, list1 = list1->next;
             else
-                head->next = new ListNode(list2->val), list2 = list2->next;
-            head = head->next;
+                tail->next = list2, list2 = list2->next;
+            
+            tail = tail->next;
         }
         
-        while(list1)
-            head->next = new ListNode(list1->val), list1 = list1->next, head = head->next;
-        while(list2)
-            head->next = new ListNode(list2->val), list2 = list2->next, head = head->next;
+        if(list1)
+            tail->next = list1;
+        else if (list2)
+            tail->next = list2;
         
         return dummy->next;
         
