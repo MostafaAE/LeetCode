@@ -12,31 +12,31 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Iterate recursively on the linkedlist till you reach the last node,
-    * then connect each node's next with the previous node while going back from the recursion
+    * Iterate on the linkedlist, and connect each node's next with the previous
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n) auxiliary space for stack
+    * Space Complexity : O(1)
     */
-    ListNode* reverseList(ListNode* cur, ListNode **dummy) 
-    {
-        if(!cur || !cur->next)
-        {
-            *dummy = cur;
-            return cur;
-        }
-        
-        ListNode *node = reverseList(cur->next, dummy);
-        node->next = cur;
-        cur->next = nullptr;
-        return cur;
-    }
     
     ListNode* reverseList(ListNode* head)
     {
-        ListNode *dummy;
-        reverseList(head, &dummy);
-        return dummy;
+        ListNode *cur = head, *prev = nullptr;
+        
+        while(cur)
+        {
+            // last node;
+            if(!cur->next)
+                head = cur;
+            
+            ListNode *next = cur->next;
+
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+        }
+        
+        return head;
+        
     }
 };
