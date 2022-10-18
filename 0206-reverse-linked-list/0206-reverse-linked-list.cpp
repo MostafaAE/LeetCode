@@ -17,7 +17,7 @@ public:
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(1)
+    * Space Complexity : O(n) auxiliary space for stack
     */
     ListNode* reverseList(ListNode* cur, ListNode **dummy) 
     {
