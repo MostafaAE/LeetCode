@@ -10,27 +10,32 @@
  */
 class Solution {
 public:
+    /* 
+    * Approach:
+    * Iterate over the linkedlist, if the current node value == next node value, then
+    * delete the next node
+    * 
+    * Complexity:
+    * Time Complexity : O(n)
+    * Space Complexity : O(1)
+    */
     ListNode* deleteDuplicates(ListNode* head) 
     {
         if(!head)
             return head;
         
-        ListNode *cur = head->next, *prev = head;
+        ListNode *cur = head;
         
-        while(cur)
+        while(cur && cur->next)
         {
-            if(prev->val == cur->val)
+            if(cur->val == cur->next->val)
             {
-                ListNode *temp = cur;
-                cur = cur->next;
-                prev->next = cur;
+                ListNode *temp = cur->next;
+                cur->next = cur->next->next;
                 delete temp;
             }
             else
-            {
-                prev = cur;
                 cur = cur->next;
-            }
         }
         
         return head;
