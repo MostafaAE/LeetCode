@@ -25,10 +25,6 @@ public:
         
         while(cur)
         {
-            // last node;
-            if(!cur->next)
-                head = cur;
-            
             ListNode *next = cur->next;
 
             cur->next = prev;
@@ -36,7 +32,7 @@ public:
             cur = next;
         }
         
-        return head;
+        return prev;
         
     }
 };
