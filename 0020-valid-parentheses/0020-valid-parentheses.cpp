@@ -15,7 +15,7 @@ public:
         
         for(char c : s)
         {
-            if(c == '(' || c == '[' || c == '{')
+            if(!mp.count(c))
                 st.push(c);
             else if(st.empty() || st.top() != mp[c])
                 return false;
