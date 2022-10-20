@@ -2,19 +2,23 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Sort the array and return the middle element, since the majority element appears more
-    * than (n/2)
+    * Boyer-Moore Majority Voting Algorithm
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O(n)
     * Space Complexity : O(1)
     */
     int majorityElement(vector<int>& nums) 
     {
-        sort(nums.begin(), nums.end());
+        int count{}, res{};
         
-        return nums[nums.size()/2];
-        
-        return 0;
+        for(int num : nums)
+        {
+            if(!count)
+                res = num;
+                
+            count += (num == res) ? 1 : -1;
+        }
+        return res;
     }
 };
