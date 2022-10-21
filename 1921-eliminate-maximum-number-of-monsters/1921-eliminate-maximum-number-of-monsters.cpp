@@ -12,26 +12,17 @@ public:
     int eliminateMaximum(vector<int>& dist, vector<int>& speed) 
     {
         int size = (int)dist.size();
-        int cnt {1};
-        vector<int> time(size);
+        int killed {};
+        vector<int> arrivalTime(size);
         
         for(int i = 0 ; i < size ; i++)
-            time[i] = ceil((double)dist[i] / speed[i]);
+            arrivalTime[i] = ceil((double)dist[i] / speed[i]);
         
-        sort(time.begin(), time.end());
+        sort(arrivalTime.begin(), arrivalTime.end());
         
-        if(time[0] == 0)
-            return cnt;
+        for(int i = 0 ; i < size && i < arrivalTime[i] ; i++)
+            killed++;
         
-        for(int i = 1 ; i < size ; i++)
-        {
-            // lose condition
-            if(time[i] - cnt == 0)
-                return cnt;
-            
-            cnt++;
-        }
-        
-        return cnt;
+        return killed;
     }
 };
