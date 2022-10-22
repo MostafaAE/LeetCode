@@ -14,7 +14,8 @@ public:
         
         while(start <= end)
         {
-            int mid = (start + end) / 2;
+            // prevent overflow
+            int mid = start + (end-start) / 2;
             
             if(target == nums[mid])
                 return mid;
