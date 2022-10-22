@@ -11,16 +11,25 @@
  */
 class Solution {
 public:
+    /* 
+    * Approach: 
+    * traverse the tree in dfs while swapping each left and right nodes together
+    *
+    * Complexity:
+    * Time Complexity : O(n)
+    * Space Complexity : O(h) => auxiliary space for stack
+    * h could be (n) or (logn) depending on the shape of the tree
+    */
     TreeNode* invertTree(TreeNode* root) 
     {
         if(!root)
             return nullptr;
         
-        root->left = invertTree(root->left);
-        root->right = invertTree(root->right);
+        invertTree(root->left);
+        invertTree(root->right);
         
         swap(root->left, root->right);
-        return root;
         
+        return root;
     }
 };
