@@ -10,17 +10,52 @@ public:
     */
     vector<int> searchRange(vector<int>& nums, int target) 
     {
-        int start{-1}, end{-1};
-        auto p = equal_range(nums.begin(), nums.end(), target);
+       
+        int start = lower_bound(nums, target);
+        int end = upper_bound(nums, target);
         
-        // found
-        if(p.first != p.second)
+        if(start == end)
+            return {-1, -1};
+        
+        return {start, end-1};
+        
+    }
+    
+    int lower_bound(vector<int> &nums, int target)
+    {
+        int start{}, end{(int)nums.size() - 1};
+
+        while (start <= end)
         {
-            start = p.first - nums.begin();
-            end = p.second - nums.begin() - 1;
+            // prevent overflow
+            int mid = start + (end - start) / 2;
+
+            if (target <= nums[mid])
+                end = mid - 1;
+
+            else
+                start = mid + 1;
         }
-            
-        return {start, end};
-        
+
+        return start;
+    }
+
+    int upper_bound(vector<int> &nums, int target)
+    {
+        int start{}, end{(int)nums.size() - 1};
+
+        while (start <= end)
+        {
+            // prevent overflow
+            int mid = start + (end - start) / 2;
+
+            if (target < nums[mid])
+                end = mid - 1;
+
+            else
+                start = mid + 1;
+        }
+
+        return start;
     }
 };
