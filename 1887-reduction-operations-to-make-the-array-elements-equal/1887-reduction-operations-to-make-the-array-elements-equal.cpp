@@ -8,15 +8,12 @@ public:
     */
     int reductionOperations(vector<int>& nums) 
     {
-        int opsCnt{}, numsCnt{};
+        int opsCnt{};
         sort(nums.begin(), nums.end(), greater<int>());
         
-        for(int i = 0 ; i < (int)nums.size()-1 ; i++)
-        {
-            numsCnt++;
-            if(nums[i] > nums[i+1])
-                opsCnt += numsCnt;
-        }
+        for(int i = 1 ; i < (int)nums.size() ; i++)
+            if(nums[i-1] > nums[i])
+                opsCnt += i;
         
         return opsCnt;
     }
