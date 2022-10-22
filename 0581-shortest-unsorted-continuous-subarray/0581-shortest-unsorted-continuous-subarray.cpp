@@ -2,45 +2,42 @@ class Solution {
 public:
     /* 
     * Approach:
-    * copy the array and sort it, then find the leftmost and rightmost elements from the unsorted
+    * find the leftmost and rightmost elements from the unsorted
     * continious subarray and return the distance between them
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
-    * Space Complexity : O(n)
+    * Time Complexity : O(n)
+    * Space Complexity : O(1)
     */
     int findUnsortedSubarray(vector<int>& nums) 
     {
-        vector<int> sorted (nums);
-        // O(nlogn)
-        sort(sorted.begin(), sorted.end());
-        int start{-1}, end{}, size{(int)nums.size()};
+        int left{-1}, right{-1}, size{(int)nums.size()};
         
-        // find the first element in the unsorted continuous subarray
+        // find the rightmost element in the unsorted continuous subarray
         // O(n)
-        for(int i = 0 ; i < size ; i++)
+        int maxVal{nums[0]};
+        for(int i = 1 ; i < size ; i++)
         {
-            if(nums[i] != sorted[i])
-            {
-                start = i;
-                break;
-            }
+            if(nums[i] < maxVal)
+                right = i;
+            
+            maxVal = max(maxVal, nums[i]);
         }
         
-        // find the last element in the unsorted continuous subarray
+        // find the leftmost element in the unsorted continuous subarray
         // O(n)
-        for(int i = size-1 ; i >= 0 ; i--)
+        int minVal{nums[size-1]};
+        for(int i = size-2 ; i >= 0 ; i--)
         {
-            if(nums[i] != sorted[i])
-            {
-                end = i;
-                break;
-            }
+            if(nums[i] > minVal)
+                left = i;
+            
+            minVal = min(minVal, nums[i]);
         }
-        if(start == -1)
+        if(right == -1)
             return 0;
         
-        return end - start + 1;
+        return right - left + 1;
         
     }
 };
