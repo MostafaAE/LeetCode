@@ -5,7 +5,7 @@ public:
     * basic binary search algorithm
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O(logn)
     * Space Complexity : O(1)
     */
     int search(vector<int>& nums, int target) 
@@ -14,11 +14,14 @@ public:
         
         while(start <= end)
         {
-            int mid = (start+end)/2;
+            int mid = (start + end) / 2;
+            
             if(target == nums[mid])
                 return mid;
+            
             else if (target < nums[mid])
                 end = mid-1;
+            
             else
                 start = mid+1;
         }
