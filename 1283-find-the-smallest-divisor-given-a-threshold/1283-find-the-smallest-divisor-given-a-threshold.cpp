@@ -5,7 +5,7 @@ public:
     * binary search the smallest possible divisor
     * 
     * Complexity:
-    * Time Complexity : O(mlogm) where m is the maximum element in the array
+    * Time Complexity : O(nlogm) where m is the maximum element in the array
     * Space Complexity : O(1)
     */
     int smallestDivisor(vector<int>& nums, int threshold) 
