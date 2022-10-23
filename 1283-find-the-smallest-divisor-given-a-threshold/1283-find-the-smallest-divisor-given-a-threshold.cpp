@@ -5,15 +5,13 @@ public:
     * binary search the smallest possible divisor
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O(mlogm) where m is the maximum element in the array
     * Space Complexity : O(1)
     */
     int smallestDivisor(vector<int>& nums, int threshold) 
     {
-        int start = 1;
-        int end = 1e6;
-        int answer{};
-        
+        int start = 1, end = *max_element(nums.begin(), nums.end()), answer{end};
+
         while(start <= end)
         {
             int mid = start + (end - start)/2;
@@ -27,12 +25,12 @@ public:
         return answer;
     }
     
-    bool possibleDivisor(vector<int>& nums, double d, int threshold)
+    bool possibleDivisor(vector<int>& nums, int d, int threshold)
     {
         long long sum{};
         
         for(int elem : nums)
-            sum += ceil(elem/d);
+            sum += (elem + d-1)/d;
         
         return sum <= threshold;
     }
