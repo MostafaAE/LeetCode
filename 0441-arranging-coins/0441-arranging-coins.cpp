@@ -2,22 +2,33 @@ class Solution {
 public:
     /* 
     * Approach:
-    * summation math equation
+    * binary search based on summation math equation
     * 
     * Complexity:
-    * Time Complexity : O(1)
+    * Time Complexity : O(logn)
     * Space Complexity : O(1)
     */
     int arrangeCoins(int n) 
     {
-        // summation eq = k*(k+1) / 2
-        // let's reverse it
-        // k^2 + k + 0 <= 2n
-        // by completing the square
-        // k^2 + k = (k+h)^2 - d =  (k+0.5)^2 - 0.25 <= 2n
-        // result = sqrt(2n + 0.25) - 0.5
+        int start = 0, end = n;
         
-        return (int)(sqrt(2*(long long)n + 0.25) - 0.5);
+        while(start <= end)
+        {
+            long long k = start + (end-start)/2;
+            
+            long long summation = k*(k+1) / 2;
+            
+            if(summation == n)
+                return k;
+            
+            else if (summation > n)
+                end = k-1;
+            
+            else
+                start = k+1;
+            
+        }
+        return end;
     }
 };
 
