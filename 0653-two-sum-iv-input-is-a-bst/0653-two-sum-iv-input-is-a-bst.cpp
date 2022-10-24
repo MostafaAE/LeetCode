@@ -13,29 +13,26 @@ class Solution {
 public:
     /* 
     * Complexity:
-    * Time Complexity : O(n^2)
+    * Time Complexity : O(n)
     * Space Complexity : O(n)
     */
-    bool findTarget(TreeNode* root, int k, vector<int> &visited) 
+    bool findTarget(TreeNode* root, int k, unordered_set<int> &s) 
     {
         if(!root)
             return false;
         
-        for(int nodeVal : visited)
-            if(nodeVal + root->val == k)
-                return true;
+        int diff = k - root->val;
         
-        visited.push_back(root->val);
+        if(s.count(root->val))
+            return true;
         
-        bool foundLeft = findTarget(root->left, k, visited);
-
-        bool foundRight = findTarget(root->right, k, visited);
+        s.insert(diff);
         
-        return foundLeft || foundRight;
+        return findTarget(root->left, k, s) || findTarget(root->right, k, s);
     }
     bool findTarget(TreeNode* root, int k)
     {
-        vector<int> visited;
-        return findTarget(root, k , visited);
+        unordered_set<int> s;
+        return findTarget(root, k , s);
     }
 };
