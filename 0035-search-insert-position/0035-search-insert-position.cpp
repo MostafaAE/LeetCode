@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Binary search
+    * find lower bound of the target
     * 
     * Complexity:
     * Time Complexity : O(logn)
@@ -14,16 +14,13 @@ public:
         
         while(start <= end)
         {
-            int mid = (start+end)/2;
+            int mid = start + (end - start)/2;
             
-            if(target == nums[mid])
-                return mid;
-            
-            if(target < nums[mid])
-                end = mid-1;
+            if(target <= nums[mid])
+                end = mid - 1; 
             
             else
-                start = mid+1;
+                start = mid + 1;   
         }
         return start;
         
