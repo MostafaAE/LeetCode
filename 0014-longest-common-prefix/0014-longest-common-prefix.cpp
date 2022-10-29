@@ -3,28 +3,23 @@ public:
     /* 
     * Complexity:
     * Time Complexity : O(NL)
-    * Space Complexity : O(L)
+    * Space Complexity : O(1)
     */
     string longestCommonPrefix(vector<string>& strs) 
     {
-        string curLongestPrefix = strs[0];
+        int ans = strs[0].size();
         
         for(int i = 1 ; i < (int)strs.size() ; i++)
         {
-            string curPrefix{};
+            int minSize = min((int)strs[i].size() , ans);
             
-            int minSz = min((int)strs[i].size() , (int)curLongestPrefix.size());
-                
-            for(int j = 0 ; j < minSz ; j++)
-            {
-                if(curLongestPrefix[j] == strs[i][j])
-                    curPrefix += curLongestPrefix[j];
-                else
-                    break;
-            }
-        
-            curLongestPrefix = curPrefix;
+            int j = 0;
+            while(j < minSize && strs[0][j] == strs[i][j]) 
+                j++;
+            
+            ans = min(ans, j);
         }
-        return curLongestPrefix;
+        
+        return strs[0].substr(0, ans);;
     }
 };
