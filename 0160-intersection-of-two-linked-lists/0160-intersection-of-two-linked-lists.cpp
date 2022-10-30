@@ -15,31 +15,15 @@ public:
     */
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) 
     {
-        int countA{}, countB{};
         ListNode *curA = headA, *curB = headB;
         
-        while(curA)
-            countA++, curA = curA->next;
-        
-        while(curB)
-            countB++, curB = curB->next;
-        
-        if(countA > countB)
-            for(int i = 0 ; i < countA-countB ; i++)
-                headA = headA->next;
-        else
-            for(int i = 0 ; i < countB-countA ; i++)
-                headB = headB->next;
-        
-        while(headA && headB)
+        while(curA != curB)
         {
-            if(headA == headB)
-                return headA;
-            headA = headA->next;
-            headB = headB->next;
+            curA = curA ? curA->next : headB;
+            curB = curB ? curB->next : headA;
         }
         
-        return nullptr;
+        return curA;
         
     }
 };
