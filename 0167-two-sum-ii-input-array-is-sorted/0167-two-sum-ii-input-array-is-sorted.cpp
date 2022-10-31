@@ -2,25 +2,28 @@ class Solution {
 public:
     /* 
     * Approach:
-    * iterate on each element and binary search the difference between the target and the element
+    * iterate on the array using two pointers (start, end)
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O(n)
     * Space Complexity : O(1)
     */
     vector<int> twoSum(vector<int>& numbers, int target) 
     {
-        for(int i = 0 ; i < (int)numbers.size() ; i++)
+        int start{}, end{(int)numbers.size()-1};
+        
+        while(start < end)
         {
-            int diff = target - numbers[i];
+            int sum =  numbers[start] + numbers[end];
             
-            auto ub = upper_bound(numbers.begin(), numbers.end(), diff);
-            ub--;
-            int ubIdx = ub-numbers.begin();
-            
-            if(*ub == diff && ubIdx != i)
-                return {i+1, ubIdx+1};
+            if (sum > target)
+                end--;
+            else if (sum < target)
+                start++; 
+            else
+                break;
         }
-        return {0, 0};
+    
+        return {start+1, end+1};
     }
 };
