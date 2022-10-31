@@ -2,37 +2,25 @@ class Solution {
 public:
     /* 
     * Approach:
-    * binary search (monotonic function)
+    * binary search
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O((m+n)logn) where m is the maximum element in the array
     * Space Complexity : O(1)
     */
     int specialArray(vector<int>& nums) 
     {
-        int start{1}, end{(int)nums.size()}, answer{-1};
-        
         // O(nlogn)
         sort(nums.begin(), nums.end());
         
-        // O(logn)
-        while(start <= end)
+        // O(mlogn)
+        for(int i = 1 ; i <= nums[(int)nums.size()-1] ; i++)
         {
-            int mid = start + (end - start) / 2;
-
-            if(greaterEqCount(nums, mid) >= mid)
-                start = mid + 1, answer = mid;
-            else
-                end = mid - 1;
+            auto lb = lower_bound(nums.begin(), nums.end(), i);
+            if(distance(lb, nums.end()) == i)
+                return i;
         }
-        
-        return (greaterEqCount(nums, answer) == answer) ? answer : -1;
+        return -1;
     }
     
-    int greaterEqCount(vector<int> &nums, int x)
-    {
-        // O(logn)
-        auto lb = lower_bound(nums.begin(), nums.end(), x);
-        return distance(lb, nums.end());
-    }
 };
