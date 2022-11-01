@@ -20,7 +20,7 @@ public:
         // Total time complexity = O(log(m) + log(n))
         while(start <= end)
         {
-            int row = (start+end)/2;
+            int row = start + (end - start) / 2;
             
             if(target < matrix[row][0])
                 end = row-1;
