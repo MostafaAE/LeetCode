@@ -1,23 +1,21 @@
 class Solution {
 public:
     /* 
-    * Approach:
-    * Binary search each row for the smallest +ve value to get the -ve numbers in that row
-    *
     * Complexity:
-    * Time Complexity : O(mlogn)
+    * Time Complexity : O(m+n)
     * Space Complexity : O(1)
     */
     int countNegatives(vector<vector<int>>& grid) 
     {
-        int count{}, m = (int)grid.size();
+        int count{}, row = 0, col = grid[0].size()-1, m = (int)grid.size();
         
-        for(int i = 0 ; i < m ; i++)
+        while(col >= 0 && row < m)
         {
-            auto ub = upper_bound(grid[i].rbegin(), grid[i].rend(), -1);
-            count += ub - grid[i].rbegin();
+            if(grid[row][col] < 0)
+                count += m-row, col--;
+            else
+                row++;
         }
-        
         return count;  
     }
 };
