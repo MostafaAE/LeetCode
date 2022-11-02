@@ -2,25 +2,24 @@ class Solution {
 public:
     /* 
     * Approach:
+    * binary search
+    *
     * Complexity:
     * Time Complexity : O(nlogn)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
     bool checkIfExist(vector<int>& arr) 
     {
-        unordered_set<int> s;
-        
+        // O(nlogn)
         sort(arr.begin(), arr.end());
         
+        // O(nlogn)
         for(int i = 0 ; i < (int)arr.size() ; i++)
         {
-            if(s.count(arr[i]))
+            auto lb = lower_bound(arr.begin(), arr.end(), arr[i]*2);
+            int idx = lb-arr.begin();
+            if(lb != arr.end() && *lb == arr[i]*2 && idx != i)
                 return true;
-            
-            if(arr[i] < 0 && arr[i]%2 == 0)
-                s.insert(arr[i]/2);
-            else
-                s.insert(arr[i]*2);
         }
             
         return false;
