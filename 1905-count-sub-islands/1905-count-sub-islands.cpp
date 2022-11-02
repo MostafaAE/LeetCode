@@ -4,6 +4,7 @@ private:
     // delta for: up, down, left, right
     int dr[4]{-1, 1, 0 , 0};
     int dc[4]{0, 0, -1 , 1};
+    bool isSubIsland;
 public:
     /* 
     * Approach:
@@ -22,10 +23,10 @@ public:
         {
             for(int c = 0 ; c < n ; c++)
             {
-                bool isSubIsland = true;
                 if(!visited[r][c] && grid2[r][c])
                 {
-                    dfs(grid1, grid2, r, c ,visited, isSubIsland);
+                    isSubIsland = true;
+                    dfs(grid1, grid2, r, c ,visited);
                     count += isSubIsland;
                 }    
             }
@@ -33,7 +34,7 @@ public:
         return count;
     }
     
-    void dfs(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int r, int c, vector<vector<bool>>& visited, bool& isSubIsland)
+    void dfs(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int r, int c, vector<vector<bool>>& visited)
     {
         if(!grid1[r][c])
             isSubIsland = false; 
@@ -44,7 +45,7 @@ public:
         {
             int nr = r + dr[d], nc = c + dc[d];
             if(isValid(nr, nc, grid2) && !visited[nr][nc] && grid2[nr][nc])
-                dfs(grid1, grid2, nr, nc, visited, isSubIsland);
+                dfs(grid1, grid2, nr, nc, visited);
         }
     }
     
