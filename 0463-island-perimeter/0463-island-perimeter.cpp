@@ -4,7 +4,6 @@ private:
     // delta for: up, down, left, right
     int dr[4]{-1, 1, 0 , 0};
     int dc[4]{0, 0, -1 , 1};
-    int perimeter{};
     
 public:
     /* 
@@ -19,32 +18,36 @@ public:
     {
         int rows{(int)grid.size()}, cols{(int)grid[0].size()};
         vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+        int perimeter{};
         
         for(int r = 0 ; r < rows ; r++)
             for(int c = 0 ; c < cols ; c++)
                 if(!visited[r][c] && grid[r][c])
-                    dfs(grid, r, c, visited);
+                    perimeter = dfs(grid, r, c, visited);
         
         return perimeter;
         
     }
     
-    void dfs(vector<vector<int>>& grid, int r, int c, vector<vector<bool>>& visited)
+    int dfs(vector<vector<int>>& grid, int r, int c, vector<vector<bool>>& visited)
     {
-        perimeter += 4;
+        int perimeter{};
+        
+        if(!isValid(r, c, grid) || !grid[r][c])
+            return 1;
+        
+        if(visited[r][c])
+            return 0;
+        
         visited[r][c] = true;
         
         for(int d = 0 ; d < 4 ; d++)
         {
             int nr = r + dr[d] , nc = c + dc[d];
-            if(isValid(nr, nc, grid) && grid[nr][nc])
-            {
-                perimeter--;
-                if(!visited[nr][nc])
-                    dfs(grid, nr, nc, visited);
-                    
-            }
+            perimeter += dfs(grid, nr, nc, visited);   
         }
+        
+        return perimeter;
     }
     
     // return true if this position INSIDE the 2D matrix
