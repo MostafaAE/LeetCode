@@ -1,3 +1,4 @@
+typedef unordered_map<int, vector<int>> GRAPH;
 class Solution {
 public:
     /* 
@@ -11,43 +12,37 @@ public:
     */
     vector<int> restoreArray(vector<vector<int>>& adjacentPairs) 
     {
-        unordered_map<int, int> count;
-        unordered_map<int, unordered_set<int>> graph;
-        unordered_set<int> visited;
+        GRAPH graph;
         vector<int> result;
         
         // building the graph
-        for(auto p: adjacentPairs)
-        {
+        for(auto &p: adjacentPairs)
             addUndirectedEdge(graph, p[0], p[1]);
-            count[p[0]]++;
-            count[p[1]]++;
-        }
         
         // finding the first node (appear once in adjacentPairs) to perfrom DFS on
-        int start{};
-        for(auto p : count)
-            if(p.second == 1)
-                start = p.first;
-        
-        dfs(graph, start, visited, result);
-        
+        for(auto &p : graph)
+        {
+            if(p.second.size() == 1)
+            {
+                dfs(graph, p.first, result, p.first);
+                break;
+            }
+        }
         return result; 
     }
     
-    void dfs(unordered_map<int, unordered_set<int>> &graph, int node, unordered_set<int>& visited, vector<int>& traversal)
+    void dfs(unordered_map<int, vector<int>> &graph, int node, vector<int>& traversal, int par)
     {
-        visited.insert(node);
         traversal.push_back(node);
 
-        for(int e : graph[node])
-            if(!visited.count(e))
-                dfs(graph, e, visited, traversal);
+        for(int neighbour : graph[node])
+            if(neighbour != par)
+                dfs(graph, neighbour, traversal, node);
     }
     
-    void addUndirectedEdge(unordered_map<int, unordered_set<int>> &graph, int from, int to)
+    void addUndirectedEdge(unordered_map<int, vector<int>> &graph, int from, int to)
     {
-        graph[from].insert(to);
-        graph[to].insert(from);
+        graph[from].push_back(to);
+        graph[to].push_back(from);
     }
 };
