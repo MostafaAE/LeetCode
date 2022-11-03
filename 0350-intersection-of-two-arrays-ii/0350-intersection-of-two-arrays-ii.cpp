@@ -19,23 +19,14 @@ public:
             
         unordered_map<int, int> ump;
         vector<int> result;
+        
         for(int i = 0 ; i < (int)nums1.size() ; i++)
-        {
-            if(ump.count(nums1[i]))
-                ump[nums1[i]]++;
-            else
-                ump[nums1[i]]= 1;
-        }
+            ump[nums1[i]]++;
         
         for(int i = 0 ; i < (int)nums2.size() ; i++)
-        {
             if(ump.count(nums2[i]) && ump[nums2[i]] > 0)
-            {
-                ump[nums2[i]]--;
-                result.push_back(nums2[i]);
-            }
-        }
-        return result;
+                ump[nums2[i]]--,result.push_back(nums2[i]);
         
+        return result;
     }
 };
