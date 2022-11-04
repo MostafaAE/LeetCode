@@ -1,4 +1,4 @@
-typedef unordered_map<int, unordered_set<int>> GRAPH;
+typedef unordered_map<int, int> GRAPH;
 class Solution {
 public:
     /* 
@@ -13,22 +13,20 @@ public:
     int longestConsecutive(vector<int>& nums) 
     {
         unordered_set<int> s(nums.begin(), nums.end());
-        unordered_set<int> visited;
         int maxLength{};
         GRAPH graph;
         
         // build the graph
-        for(int elem : nums)
+        for(int elem : s)
             if(s.count(elem+1))
-                addUndirectedEdge(graph, elem, elem+1);
+                addDirectedEdge(graph, elem, elem+1);
         
         // get the length of each connected component
-        for(int elem : nums)
+        for(int elem : s)
         {
-            if(!visited.count(elem))
+            if(!s.count(elem-1))
             {
-                int length{};
-                dfs(graph, elem, visited, length);
+                int length = dfs(graph, elem);
                 maxLength = max(maxLength, length);
             }
         }
@@ -36,19 +34,17 @@ public:
         return maxLength;
     }
     
-    void dfs(GRAPH &graph, int node, unordered_set<int>& visited, int& length)
+    int dfs(GRAPH &graph, int node)
     {
-        length++;
-        visited.insert(node);
+        int length{1};
+        while(graph.count(node))
+            node = graph[node], length++;
         
-        for(int neighbour : graph[node])
-            if(!visited.count(neighbour))
-                dfs(graph, neighbour, visited, length);
+        return length;
     }
 
-    void addUndirectedEdge(GRAPH &graph, int from, int to)
+    void addDirectedEdge(GRAPH &graph, int from, int to)
     {
-        graph[from].insert(to);
-        graph[to].insert(from);
+        graph[from] = to;
     }
 };
