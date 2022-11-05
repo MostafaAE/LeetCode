@@ -11,6 +11,10 @@ public:
     * Consider the grid as a graph, where adjacent cells have an edge with cost
     * of the difference between the cells, then apply binary search to find the
     * minimum possible value (k) to go from (0, 0) to (n-1, m-1) using only edges of ≤ k cost
+    *
+    * Complexity:
+    * Time Complexity : O(m*n) => O(log(10^6)m*n) ~ O(m*n)
+    * Space Complexity : O(m*n)
     */
     int minimumEffortPath(vector<vector<int>>& heights) 
     {
