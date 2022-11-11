@@ -1,12 +1,10 @@
 class WordDictionary {
 private:
-    static const int MAX_CHAR = 26;
-    WordDictionary *child[MAX_CHAR];
+    map<int, WordDictionary*> child;
     bool isLeaf{};
 public:
     WordDictionary() 
     {
-        memset(child, 0, sizeof(child));
     }
     
     void addWord(string word) 
@@ -15,29 +13,29 @@ public:
         for(int i = 0 ; i < (int)word.size() ; i++)
         {
             int idx = word[i] - 'a';
-            if(!cur->child[idx])
+            if(!cur->child.count(idx))
                 cur->child[idx] = new WordDictionary();
             cur = cur->child[idx];
         }
         cur->isLeaf = true;
     }
     
-    bool search(string word) 
+    bool search(string word, int start = 0) 
     {
         WordDictionary *cur = this;
-        for(int i = 0 ; i < (int)word.size() ; i++)
+        for(int i = start ; i < (int)word.size() ; i++)
         {
             if(word[i] == '.')
             {
-                for(int j = 0 ; j < MAX_CHAR ; j++)
-                    if(cur->child[j] && cur->child[j]->search(word.substr(i+1)))
+                for(auto &[idx, ch] : cur->child)
+                    if(ch->search(word, i+1))
                         return true;
                 return false;
             }
             else
             {
                 int idx = word[i] - 'a';
-                if(!cur->child[idx])
+                if(!cur->child.count(idx))
                     return false;
                 cur = cur->child[idx];
             }
