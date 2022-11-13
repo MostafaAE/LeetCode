@@ -17,23 +17,11 @@ public:
         for(int i = 0 ; i < (int)nums.size()-2 ; i++)
         {
             int a = nums[i], b = nums[i+1], c = nums[i+2];
-            // since the values are sorted, one check is enough
-            // otherwise we will have to use the below function
+
             if(a < b + c)
                 return a + b + c;
         }
         
         return 0;
     }
-    
-    // function to check if three sides form a triangle or not
-    // bool checkValidity(int a, int b, int c)
-    // {
-    //     // check condition
-    //     if (a + b <= c || a + c <= b || b + c <= a)
-    //         return false;
-    //     else
-    //         return true;
-    // }
-    
 };
