@@ -1,21 +1,31 @@
 class Solution {
 public:
+    /* 
+    * Approach:
+    * floyd's hare and tortoise algorithm
+    * 
+    * Complexity:
+    * Time Complexity : O(logn)
+    * Space Complexity : O(1)
+    */
     bool isHappy(int n) 
     {
-        while(n > 9)
-        {
-            int digitsSum{};
-            while(n)
-            {
-                int d = n%10;
-                digitsSum += d*d;
-                n/=10;
-            }
-            n = digitsSum;
-        }
+        int slow = n, fast = getNext(n);
+        while(fast != 1 && slow != fast)
+            slow = getNext(slow), fast = getNext(getNext(fast));
         
-        if(n == 7 || n == 1)
-            return true;
-        return false;
+        return fast == 1;
+    }
+    
+    int getNext(int n)
+    {
+        int digitsSum{};
+        while(n)
+        {
+            int d = n % 10;
+            digitsSum += d*d;
+            n/=10;
+        }
+        return digitsSum;
     }
 };
