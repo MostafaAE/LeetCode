@@ -1,7 +1,10 @@
+const int OO = 1e9;
+const int RED = 0;
+const int BLUE = 1;
 struct Edge
 {
     int to;
-    int color; // 1 for red, 2 for blue
+    int color; // 0 for red, 1 for blue
 };
 
 typedef vector<vector<Edge>> GRAPH;
@@ -18,27 +21,28 @@ public:
     */
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) 
     {
-        vector<int> result(n, -1);
+        vector<int> answer(n, -1);
         GRAPH graph(n);
         
+        // building the graph
         for(auto &p : redEdges)
-            addDirectedEdge(graph, p[0], p[1], 1);
-        
+            addDirectedEdge(graph, p[0], p[1], RED);
         for(auto &p : blueEdges)
-            addDirectedEdge(graph, p[0], p[1], 2);
+            addDirectedEdge(graph, p[0], p[1], BLUE);
         
-        bfs(graph, result);
+        bfs(graph, answer);
         
-        return result;
+        return answer;
     }
     
-    void bfs(GRAPH& graph, vector<int>& length)
+    void bfs(GRAPH& graph, vector<int>& answer)
     {
         queue<Edge> q;
-        vector<pair<bool,bool>> visited((int)graph.size());
+        vector<vector<int>> len((int)graph.size(), vector<int>(2, OO));
         
-        q.push({0, 0});
-        length[0] = 0;
+        q.push({0, RED});
+        q.push({0, BLUE});
+        answer[0] = 0;
         int level{};
         
         while(!q.empty())
@@ -52,20 +56,14 @@ public:
                 
                 for(Edge e : graph[node])
                 {
-                    if(e.color == 1 && visited[e.to].first || e.color == 2 && visited[e.to].second)
-                        continue;
-                    
-                    if(e.color != color)
+                    if(e.color != color && len[e.to][e.color] == OO)
                     {
                         q.push(e);
+
+                        len[e.to][e.color] = level + 1;
                         
-                        if(length[e.to] == -1)
-                            length[e.to] = level + 1;
-                        
-                        if(e.color == 1)
-                            visited[e.to].first = 1;
-                        else
-                            visited[e.to].second = 1;
+                        if(answer[e.to] == -1)
+                            answer[e.to] = level + 1;
                     }
                 }
             }
