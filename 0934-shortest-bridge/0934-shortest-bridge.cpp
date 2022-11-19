@@ -3,27 +3,30 @@ private:
     int dr[4]{-1, 1, 0, 0};
     int dc[4]{0, 0, -1 , 1};
 public:
+    /* 
+    * Approach:
+    * Breadth first search
+    * 
+    * Complexity:
+    * Time Complexity : O(n^2)
+    * Space Complexity : O(n^2)
+    */
     int shortestBridge(vector<vector<int>>& grid) 
     {
         int n = (int)grid.size();
-        queue<pair<int, int>> q;
+        queue<pair<int, int>> q; // this queue will contain the starting points for the BFS
         vector<vector<bool>> visited(n, vector<bool>(n));
         
-        for(int i = 0 ; i < n ; i++)
-        {
+        // get the starting points
+        for(int i = 0 ; i < n && q.empty() ; i++)
             for(int j = 0 ; j < n ; j++)
-            {
                 if(grid[i][j])
                 {
                     getConnectedIsland(grid, i, j, q, visited);
                     break;
                 }
-            }
-            if(!q.empty())
-                break;
-        }
         
-        
+        // get the shortest bridge
         int level{};
         while(!q.empty())
         {
@@ -57,6 +60,8 @@ public:
         
     }
     
+    // this function takes a starting point from one island and gets all the connected cells from 
+    // the same island (connected component)
     void getConnectedIsland(vector<vector<int>>& grid, int r, int c, queue<pair<int, int>>& island, vector<vector<bool>>& visited)
     {
         queue<pair<int, int>> q;
