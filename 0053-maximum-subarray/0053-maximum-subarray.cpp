@@ -1,21 +1,28 @@
 class Solution {
 public:
-    
-    // Time Complexity: O(n)
-    // Space Complexity: O(1)
+    /* 
+    * Approach:
+    * Kadane's Algorithm
+    * 
+    * Complexity:
+    * Time Complexity : O(n)
+    * Space Complexity : O(1)
+    */
     int maxSubArray(vector<int>& nums) 
     {
-        int maxSum = nums[0], curSum = nums[0];
-        for(int i = 1 ; i < (int)nums.size() ; i++)
+        int maxSoFar{INT_MIN}, maxEndingHere{0};
+        
+        for(int i = 0 ; i < (int)nums.size() ; i++)
         {
-            if(curSum < 0)
-                curSum = 0;
+            maxEndingHere += nums[i];
             
-            curSum += nums[i];
+            if(maxSoFar < maxEndingHere)
+                maxSoFar = maxEndingHere;
             
-            if(curSum > maxSum)
-                maxSum = curSum;
+            if(maxEndingHere < 0)
+                maxEndingHere = 0;
         }
-        return maxSum;
+        
+        return maxSoFar;
     }
 };
