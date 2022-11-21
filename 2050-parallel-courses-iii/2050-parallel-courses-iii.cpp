@@ -12,7 +12,7 @@ public:
     {
         vector<vector<int>> graph(n);
         vector<int> indegree(n);
-        vector<int> startTime(n);
+        vector<int> completionTime(n);
         
         for(auto &p : relations)
         {
@@ -32,24 +32,19 @@ public:
             {
                 int cur = ready.front();
                 ready.pop();
+                completionTime[cur] += time[cur];
                 
                 for(int neighbour : graph[cur])
                 {
-                    if(startTime[neighbour] < startTime[cur] + time[cur])
-                        startTime[neighbour] = startTime[cur] + time[cur];
-                    
                     if(--indegree[neighbour] == 0)
                         ready.push(neighbour);
+                    
+                    completionTime[neighbour] = max(completionTime[neighbour], completionTime[cur]);
                 }
             }
         }
-        
-        int minTime{};
-        for(int i = 0 ; i < n ; i++)
-            if(startTime[i]+time[i] > minTime)
-                minTime = startTime[i] + time[i];
-        
-        return minTime;
+
+        return *max_element(completionTime.begin(), completionTime.end());
     }
     
     void addDirectedEdge(vector<vector<int>> &graph, int from, int to)
