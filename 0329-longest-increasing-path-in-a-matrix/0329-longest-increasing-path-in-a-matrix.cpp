@@ -14,23 +14,23 @@ public:
     int longestIncreasingPath(vector<vector<int>>& matrix) 
     {
         int m{(int)matrix.size()}, n{(int)matrix[0].size()};
-        
         vector<vector<int>> indegree(m, vector<int>(n));
+        queue<pair<int, int>> ready;
         
         for(int i = 0 ; i < m ; i++)
+        {
             for(int j = 0 ; j < n ; j++)
+            {
                 for(int d = 0 ; d < 4 ; d++)
                 {
                     int nr = i + dr[d], nc = j + dc[d];
                     if(isValid(nr, nc, matrix) && matrix[nr][nc] < matrix[i][j])
                         indegree[i][j]++;
                 }
-        
-        queue<pair<int, int>> ready;
-        for(int i = 0 ; i < m ; i++)
-            for(int j = 0 ; j < n ; j++)
                 if(!indegree[i][j])
                     ready.push({i, j});
+            }
+        }  
         
         int level{};
         while(!ready.empty())
