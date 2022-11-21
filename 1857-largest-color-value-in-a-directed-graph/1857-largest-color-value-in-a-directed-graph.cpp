@@ -14,6 +14,7 @@ public:
         vector<vector<int>> graph(n);
         vector<int> indegree(n);
         vector<vector<int>> dp(n, vector<int>(26,0));
+        int answer{};
         
         for(auto &p : edges)
         {
@@ -31,10 +32,13 @@ public:
             int sz = ready.size();
             while(sz--)
             {
-                int cur = ready.front();
+                int cur = ready.front(), color = colors[cur] - 'a';
                 ready.pop();
-                dp[cur][colors[cur]-'a']++;
+                
+                dp[cur][color]++;
                 visited++;
+                answer = max(answer, dp[cur][color]);
+                
                 for(int neighbour : graph[cur])
                 {
                     if(--indegree[neighbour] == 0)
@@ -46,15 +50,10 @@ public:
             }
         }
         
-        if(visited < n)
+        if(visited != n)
             return -1;
         
-        int largestVal{0};
-        for(int i = 0 ; i < n ; i++)
-            for(int j = 0 ; j < 26 ; j++)
-                largestVal = max(largestVal, dp[i][j]);
-        
-        return largestVal;
+        return answer;
     }
     
     void addDirectedEdge(vector<vector<int>> &graph, int from, int to)
