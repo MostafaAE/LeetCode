@@ -1,23 +1,22 @@
 class NumArray {
 public:
     
-    vector<int> NumArr;
+    vector<int> cumSum;
     
     // O(n)
-    NumArray(vector<int>& nums) 
+    NumArray(vector<int>& nums): cumSum(nums)
     {
-        NumArr = nums;
-        for(int i = 1 ; i < (int)nums.size() ; i++)
-            NumArr[i] += NumArr[i-1];
+        for(int i = 1 ; i < (int)cumSum.size() ; i++)
+            cumSum[i] += cumSum[i-1];
     }
     
     // O(1)
     int sumRange(int left, int right) 
     {
         if(left == 0)
-            return NumArr[right];
+            return cumSum[right];
         else
-            return NumArr[right] - NumArr[left-1];
+            return cumSum[right] - cumSum[left-1];
     }
 };
 
