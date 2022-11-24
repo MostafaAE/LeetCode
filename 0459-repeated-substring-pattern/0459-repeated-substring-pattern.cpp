@@ -2,24 +2,20 @@ class Solution {
 public:
     bool repeatedSubstringPattern(string s) 
     {
-        string rep{};
         int n{(int)s.size()};
-        for(int i = 0 ; i < n/2 ; i++)
+        
+        for(int i = n/2 ; i >= 1 ; i--)
         {
-            rep += s[i];
-            
-            if((n % (i+1) == 0))
+            // i is expressing the size of the substring forming
+            // if length of the substring(i.e, i) divides n equally then we can say the substring can be/may be a possible solution
+            // so we check further,else we skip.
+            if((n % i == 0)) 
             {
-                string constructed{};
-                int repeats = n / (i+1);
-                
-                for(int j = 0 ; j < repeats ; j++)
-                    constructed += rep;
-                
-                if(constructed == s)
+                //rotation approach-->if two substrings from first and last match then we can say they can repeatedly form the string.
+                if(s.substr(0, n-i) == s.substr(i)) 
                     return 1;
             }
-       }
+        }
         return 0;
     }
 };
