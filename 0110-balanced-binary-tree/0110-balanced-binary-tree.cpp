@@ -11,10 +11,9 @@
  */
 class Solution {
 public:
-    
     /* 
     * Approach: 
-    * traverse the tree in postorder traversal making sure every subtree is height-balanced
+    * traverse the tree in dfs making sure every subtree is height-balanced
     * by checking the height difference of the left and right children of each node
     * if the abs(left-right) <= 1, then this subtree is balanced
     *
@@ -23,20 +22,19 @@ public:
     * Space Complexity : O(h) => auxiliary space for stack
     * h could be (n) or (logn) depending on the shape of the tree
     */
-    
-    int treeHeight(TreeNode *node, bool &balanced)
+    int treeHeight(TreeNode* root, bool& balanced)
     {
-        if(!node)
+        if(!root)
             return -1;
         
-        int leftHeight{-1}, rightHeight{-1};
+        int leftHeight, rightHeight;
         
-        leftHeight = treeHeight(node->left, balanced);
+        leftHeight = treeHeight(root->left, balanced);
         
         if(balanced)
-            rightHeight = treeHeight(node->right, balanced);
+            rightHeight = treeHeight(root->right, balanced);
         
-        if(balanced && abs(leftHeight-rightHeight) > 1)
+        if(balanced && abs(leftHeight - rightHeight) > 1)
             balanced = false;
         
         return 1 + max(leftHeight, rightHeight);
@@ -44,10 +42,7 @@ public:
     
     bool isBalanced(TreeNode* root) 
     {
-        if(!root)
-            return true;
-        
-        bool balanced = true;
+        bool balanced{1};
         treeHeight(root, balanced);
         return balanced;
     }
