@@ -21,7 +21,6 @@
  */
 class Solution {
 public:
-    
     /* 
     * Approach:
     * Iterate over the tree using DFS checking if all the elements in the linked list starting from the head
@@ -32,17 +31,6 @@ public:
     * Space Complexity: O(h) => auxiliary space for stack
     * h could be (n) or (logn) depending on the shape of the tree
     */
-    bool dfs(ListNode* head, TreeNode* root)
-    {
-        if(!head)
-            return 1;
-
-        if(!root)
-            return 0;
-        
-        return (head->val == root->val) && (dfs(head->next, root->left) || dfs(head->next, root->right));
-    }
-    
     bool isSubPath(ListNode* head, TreeNode* root) 
     {
         if(!head)
@@ -50,6 +38,16 @@ public:
         if(!root)
             return 0;
         
-        return dfs(head, root) || isSubPath(head, root->left) || isSubPath(head, root->right);
+        return dfs(head, root) || isSubPath(head, root->left) || isSubPath(head,root->right);
+    }
+    
+    bool dfs(ListNode* head, TreeNode* root)
+    {
+        if(!head)
+            return 1;
+        if(!root)
+            return 0;
+
+        return root->val == head->val && (dfs(head->next, root->left) || dfs(head->next, root->right));
     }
 };
