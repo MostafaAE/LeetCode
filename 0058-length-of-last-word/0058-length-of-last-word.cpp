@@ -2,21 +2,19 @@ class Solution {
 public:
     /* 
     * Complexity:
-    * Time Complexity : O(L)
+    * Time Complexity : O(n)
     * Space Complexity : O(1)
     */
     int lengthOfLastWord(string s) 
     {
-        int cnt{};
+        int cnt{},size{(int)s.size()};
         
-        for(int i = 0 ; i < (int)s.size() ; i++)
+        for(int i = size-1 ; i >= 0 ; i--)
         {
-            if(isalpha(s[i]))
-            {
-                if(i > 0 && s[i-1] == ' ')
-                    cnt = 0;
+            if(s[i] != ' ')
                 cnt++;
-            }         
+            else if(i < size-1 && s[i+1] != ' ')
+                break;
         }
         
         return cnt;
