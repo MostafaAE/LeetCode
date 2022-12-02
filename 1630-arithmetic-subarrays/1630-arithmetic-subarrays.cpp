@@ -15,13 +15,13 @@ public:
         
         for(int i = 0 ; i < m ; i++)
         {
-            vector<int> cpy(nums);
+            vector<int> cpy(nums.begin()+l[i], nums.begin()+r[i]+1);
             
             // O(nlogn)
-            sort(cpy.begin()+l[i], cpy.begin()+r[i]+1);
+            sort(cpy.begin(), cpy.end());
             
-            int diff = cpy[l[i]+1] - cpy[l[i]];
-            for(int j = l[i]+2 ; j <= r[i] ; j++)
+            int diff = cpy[1] - cpy[0];
+            for(int j = 2 ; j < (int)cpy.size() ; j++)
             {
                 if(cpy[j]-cpy[j-1] != diff)
                 {
