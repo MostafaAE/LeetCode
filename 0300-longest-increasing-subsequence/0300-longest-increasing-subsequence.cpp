@@ -1,38 +1,39 @@
 class Solution {
 private:
 const static int MAX = 2500 + 1;
-int memory[MAX][MAX];
+int memory[MAX];
     
 public:
     /*
      * Approach:
-     * Dynamic Programming Memoization
+     * Dynamic Programming Memoization (pick next mask one approach)
      *
      * Complexity:
      * Time Complexity : O(N^2)
-     * Space Complexity : O(N^2) where N is the max index
+     * Space Complexity : O(N) where N is the max index
      */
     int lengthOfLIS(vector<int>& nums) 
     {
         memset(memory, -1, sizeof(memory));
-        return LIS(nums, 0, nums.size());
+        nums.insert(nums.begin(), INT_MIN);
+        return LIS(nums, 0) - 1;
     } 
     
-    int LIS(vector<int>& nums, int idx, int prevIdx)
+    int LIS(vector<int>& nums, int idx)
     {
         if (idx == nums.size())
             return 0;
         
-        auto &ret = memory[idx][prevIdx];
+        auto &ret = memory[idx];
         if (ret != -1)
-            return memory[idx][prevIdx];
-
-        int pick{}, leave{};
-        if (prevIdx == nums.size() || nums[idx] > nums[prevIdx])
-            pick = 1 + LIS(nums, idx + 1, idx);
-
-        leave = LIS(nums, idx + 1, prevIdx);
+            return memory[idx];
         
-        return ret = max(pick, leave);
+        ret = 0 ;
+        for(int j = idx + 1 ; j < (int)nums.size() ; j++)
+            if(nums[idx] < nums[j])
+                ret = max(ret, LIS(nums, j));
+        
+        ret++;
+        return ret;
     }
 };
