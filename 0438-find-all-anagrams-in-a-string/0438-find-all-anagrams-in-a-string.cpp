@@ -2,8 +2,8 @@ class Solution {
 public:
     /* 
     * Complexity:
-    * Time Complexity : O(m*n) where m is "s.length", and n is "p.length"
-    * Space Complexity : O(n) => neglecting the output space
+    * Time Complexity : O(n) where n is "s.length"
+    * Space Complexity : O(1) => neglecting the output space
     */
     vector<int> findAnagrams(string s, string p)
     {
@@ -12,25 +12,26 @@ public:
         
         vector<int> result;
         int slen{(int)s.size()}, plen{(int)p.size()};
-        int pFreq[26]{};
+        int pFreq[26]{}, windowFreq[26]{};
+        
+        // O(m)
+        for(int i = 0 ; i < plen ; i++)
+        {
+            pFreq[p[i] - 'a']++;
+            windowFreq[s[i] - 'a']++;
+        }
+        if(isAnagram(pFreq, windowFreq))
+            result.push_back(0);
         
         // O(n)
-        for(int i = 0 ; i < plen ; i++)
-            pFreq[p[i] - 'a']++;
-        
-        for (int i = 0; i <= slen - plen; i++)
+        for (int i = plen; i < slen; i++)
         {
-            int subFreq[26]{};
-            string sub = s.substr(i, plen);
-            
-            // sub length will always be equal to p length
-            //O(m)
-            for(int j = 0 ; j < plen ; j++)
-                subFreq[sub[j] - 'a']++;
+            windowFreq[s[i] - 'a']++;
+            windowFreq[s[i-plen] - 'a']--;
             
             //O(1)
-            if(isAnagram(pFreq, subFreq))
-                result.push_back(i);
+            if(isAnagram(pFreq, windowFreq))
+                result.push_back(i-plen+1);
         }
         
         return result;
