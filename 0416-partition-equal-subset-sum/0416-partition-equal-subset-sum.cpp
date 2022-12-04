@@ -1,7 +1,8 @@
 class Solution {
 private:
-const static int MAX_IDX = 200, MAX_SUM = 10000 + 1;
+const static int MAX_IDX = 200, MAX_SUM = 100*200 + 1;
 int memory[MAX_IDX][MAX_SUM];
+    
 public:
     /*
      * Approach:
