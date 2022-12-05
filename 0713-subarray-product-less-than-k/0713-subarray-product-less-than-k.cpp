@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Sliding Windows
+    * Sliding window
     * 
     * Complexity:
     * Time Complexity : O(n)
