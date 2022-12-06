@@ -1,11 +1,17 @@
 class Solution {
 public:
-    
-    // Time Complexity: O(m+n)
-    // Space Complexity: O(1)
+    /* 
+    * Approach:
+    * Two pointers
+    * 
+    * Complexity:
+    * Time Complexity : O(m+n)
+    * Space Complexity : O(1)
+    */
     void merge(vector<int> &nums1, int m, vector<int> &nums2, int n)
     {
         int last{m + n - 1};
+        
         // start at the end of nums1 and sort in reverse order
         while (m > 0 && n > 0)
         {
