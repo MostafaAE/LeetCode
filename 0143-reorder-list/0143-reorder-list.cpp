@@ -22,23 +22,23 @@ public:
     void reorderList(ListNode* head) 
     {
         // get the middle of the linkedlist
-        ListNode *slow = head, *fast = head;
+        ListNode *slow = head, *fast = head->next;
         while(fast && fast->next)
             slow = slow->next, fast = fast->next->next;
         
         // slow is the middle of the linked list
-        // let's reverse from the middle to the end
-        ListNode* right = reverse(slow);
+        ListNode* secondHalf = slow->next;
+        slow->next = nullptr;
         
-        // reorder the nodes
+        // let's reverse from the middle to the end
+        ListNode* right = reverse(secondHalf);
+        
+        // reorder the nodes (merge the two lists)
         ListNode* left = head;
         while(right)
         {
             ListNode* leftNext = left->next;
             ListNode* rightNext = right->next;
-            
-            if(!rightNext)
-                leftNext = nullptr;
             
             left->next = right;
             right->next = leftNext;
