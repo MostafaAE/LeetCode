@@ -26,9 +26,6 @@ public:
     */
     Node* copyRandomList(Node* head) 
     {
-        if(!head)
-            return nullptr;
-        
         unordered_map<Node*, Node*> oldToCopy{{nullptr, nullptr}};
         
         // map each old node to the new copy node
