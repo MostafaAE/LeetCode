@@ -18,8 +18,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Iterate over the linkedlist while deep copying each node without the random pointer and mapping each old node
-    * to the new copy, then iterate again to copy the random pointers using the hash map
+    * Iterate over the linkedlist mapping each old node to the new copy node, then iterate again to copy the pointers
     * 
     * Complexity:
     * Time Complexity : O(n)
@@ -30,35 +29,27 @@ public:
         if(!head)
             return nullptr;
         
-        unordered_map<Node*, Node*> oldToNew;
-        Node* newHead = new Node(head->val);
-        Node* cpy = newHead;
-        Node* cur = head->next;
-        oldToNew.insert({head, newHead});
+        unordered_map<Node*, Node*> oldToCopy{{nullptr, nullptr}};
         
-        // deep copy the nodes without the random pointers
-        // and map each old node to the new node
+        // map each old node to the new copy node
+        Node* cur = head;
         while(cur)
         {
-            Node* node = new Node(cur->val);
-            cpy->next = node;
-            oldToNew.insert({cur, node});
+            Node* copy = new Node(cur->val);
+            oldToCopy.insert({cur, copy});
             cur = cur->next;
-            cpy = cpy->next;
         }
         
-        // copy random pointers
+        // deep copy the pointers
         cur = head;
-        cpy = newHead;
-        while(cpy)
+        while(cur)
         {
-            if(cur->random)
-                cpy->random = oldToNew[cur->random];
-            
+            Node* copy = oldToCopy[cur];
+            copy->next = oldToCopy[cur->next];
+            copy->random = oldToCopy[cur->random];
             cur = cur->next;
-            cpy = cpy->next;
         }
         
-        return newHead;
+        return oldToCopy[head];
     }
 };
