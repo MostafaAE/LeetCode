@@ -12,32 +12,52 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Store the reverse of the linked list in a stack then reorder the nodes
+    * Get the middle of the linkedlist, then reverse the linkedlist from the middle 
+    * to the end ,and finally reorder the nodes
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
     void reorderList(ListNode* head) 
     {
-        stack<ListNode*> st;
-        ListNode* cur = head;
+        // get the middle of the linkedlist
+        ListNode *slow = head, *fast = head;
+        while(fast && fast->next)
+            slow = slow->next, fast = fast->next->next;
         
+        // slow is the middle of the linked list
+        // let's reverse from the middle to the end
+        ListNode* right = reverse(slow);
+        
+        // reorder the nodes
+        ListNode* left = head;
+        while(right)
+        {
+            ListNode* leftNext = left->next;
+            ListNode* rightNext = right->next;
+            
+            if(!rightNext)
+                leftNext = nullptr;
+            
+            left->next = right;
+            right->next = leftNext;
+            
+            left = leftNext;
+            right = rightNext;
+        }
+    }
+    
+    ListNode* reverse(ListNode* node)
+    {
+        ListNode* cur = node, *prev = nullptr;
         while(cur)
-            st.push(cur), cur = cur->next;
-        
-        int n = (int)st.size()/2;
-        cur = head;
-        while(n--)
         {
             ListNode* next = cur->next;
-            
-            cur->next = st.top();
-            st.pop();
-            
-            cur->next->next = next;
-            cur = cur->next->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
         }
-        cur->next = nullptr;
+        return prev;
     }
 };
