@@ -9,38 +9,41 @@
  * };
  */
 class Solution {
-private:
-    stack<ListNode*> st;
 public:
     /* 
     * Approach:
-    * Store the linkedlist in a stack (reversed), calculate the rotation steps (k % size), and finally rotate the list
+    * Get the size of the linkedlist, calculate the rotation steps (k % size), and finally rotate the list at the pivot
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
     ListNode* rotateRight(ListNode* head, int k) 
     {
-        if(k == 0 || !head)
+        if(!k|| !head)
             return head;
         
-        ListNode* cur = head;
-        while(cur)
-            st.push(cur), cur = cur->next;
+        // get the size and tail of the linkedlist
+        int size{1};
+        ListNode* tail = head;
+        while(tail->next)
+            size++, tail = tail->next;
         
-        int steps = k % (int)st.size();
+        // get the rotation steps
+        k %= size;
+        if(!k)
+            return head;
         
-        while(steps--)
-        {
-            cur = st.top();
-            st.pop();
-            
-            st.top()->next = nullptr;
-            cur->next = head;
-            head = cur;
-        }
+        // get the pivot point
+        ListNode* pivot = head;
+        for(int i = 0 ; i < size - k - 1 ; i++)
+            pivot = pivot->next;
         
-        return head;      
+        // reconnect the list
+        ListNode* newHead = pivot->next;
+        pivot->next = nullptr;
+        tail->next = head;
+        
+        return newHead;      
     }
 };
