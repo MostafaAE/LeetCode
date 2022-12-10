@@ -18,30 +18,34 @@
 
 class NestedIterator {
 private:
-    int itr{};
-    vector<int> traversal;
+    queue<int> q;
 public:
     NestedIterator(vector<NestedInteger> &nestedList) 
     {
         dfs(nestedList);
     }
     
+    // O(1)
     int next() 
     {
-        return traversal[itr++];
+        int nextVal = q.front();
+        q.pop();
+        return nextVal;
     }
     
+    // O(1)
     bool hasNext() 
     {
-        return itr < (int)traversal.size();
+        return !q.empty();
     }
     
+    // O(N) where N is the total number of integers
     void dfs(vector<NestedInteger> &nestedList)
     {
         for(NestedInteger ni : nestedList)
         {
             if(ni.isInteger())
-                traversal.push_back(ni.getInteger());
+                q.push(ni.getInteger());
             else
                 dfs(ni.getList());
         }
