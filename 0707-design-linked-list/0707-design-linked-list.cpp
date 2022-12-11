@@ -18,6 +18,7 @@ public:
         size = 0;
     }
     
+    // O(N)
     int get(int index) 
     {
         if(index >= size)
@@ -30,6 +31,7 @@ public:
         return cur->val;
     }
     
+    // O(1)
     void addAtHead(int val) 
     {
         Node* newNode = new Node(val);
@@ -44,6 +46,7 @@ public:
         head = newNode;
     }
     
+    // O(1)
     void addAtTail(int val) 
     {
         Node* newNode = new Node(val);
@@ -58,6 +61,7 @@ public:
         tail = newNode;
     }
     
+    // O(N)
     void addAtIndex(int index, int val) 
     {
         if(index == size)
@@ -70,7 +74,7 @@ public:
             addAtHead(val);
             return;
         }
-        else if(index > size)
+        if(index > size)
             return;
         
         Node* prev = nullptr, *cur = head;
@@ -83,6 +87,7 @@ public:
         size++;
     }
     
+    // O(N)
     void deleteAtIndex(int index) 
     {
         if(index >= size)
@@ -110,6 +115,19 @@ public:
             prev->next = cur->next;
         
         delete cur;
+    }
+    
+    // Destructor
+    ~MyLinkedList()
+    {
+        Node *p = head;
+        // Delete node at head while head is not null
+        while (head != nullptr)
+        {
+            head= head->next;
+            delete p;
+            p = head;
+        }
     }
 };
 
