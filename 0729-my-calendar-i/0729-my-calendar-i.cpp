@@ -1,7 +1,7 @@
 class MyCalendar {
 private:
-    // set to store the intervals
-    set<pair<int, int>> calender;
+    // map to store the intervals
+    map<int, int> calender;
 public:
     MyCalendar() {
         
@@ -10,21 +10,13 @@ public:
     // O(logn)
     bool book(int start, int end) 
     {
-        // check if the end conflict with the next interval
-        auto nextInt = calender.lower_bound({start, end});
-        if(nextInt != calender.end() && nextInt->first < end)
-            return false;
-        
-        // check if the start conflict with the previous interval
-        if(nextInt != calender.begin())
+        auto itr = calender.upper_bound(start);
+        if(itr == calender.end() || end <= itr->second)
         {
-            auto prevInt = prev(nextInt);
-            if(start < prevInt->second)
-                return false;
+            calender[end] = start;
+            return true;
         }
-        
-        calender.insert({start, end});
-        return true;     
+        return false;
     }
 };
 
