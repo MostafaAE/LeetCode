@@ -20,9 +20,12 @@ public:
         memset(memory, -1, sizeof(memory));
         str = s;
         
+        // Try all ranges and pick the longest
+		// Think in any recursive call as O(1)
+		// So this 2 nested are O(n^2)
        for(int left = 0 ; left < n ; left++)
        {
-           for(int right = n-1 ; right >= left ; right--)
+           for(int right = left ; right < n ; right++)
                if(isPalindrome(left, right) && right - left + 1 > length)
                    idx = left, length = right - left + 1;
        }
