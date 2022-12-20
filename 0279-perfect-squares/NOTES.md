@@ -2,5 +2,5 @@
 Dynamic Programming Memoization
 ​
 ### Complexity:
-**Time Complexity: `O(NlogN)`**\
-**Space Complexity: `O(N)`**
+**Time Complexity: `O(n*sqrtn)`**\
+**Space Complexity: `O(n)`**
