@@ -18,10 +18,10 @@ public:
         shelfWidth = _shelfWidth;
         memset(memory, -1, sizeof(memory));
         
-        return bestSplit(0);
+        return arrange(0);
     }
     
-    int bestSplit(int idx)
+    int arrange(int idx)
     {
         if(idx >= (int)books.size())
             return 0;
@@ -35,10 +35,12 @@ public:
         for(int i = idx ; i < (int)books.size() ; i++)
         {
             widthSum += books[i][0];
+            maxHeight = max(maxHeight, books[i][1]);
+            
             if(widthSum > shelfWidth)
                 break;
-            maxHeight = max(maxHeight, books[i][1]);
-            int totalHeight = maxHeight + bestSplit(i+1);
+            
+            int totalHeight = maxHeight + arrange(i+1);
             ret = min(ret, totalHeight);
         }
         
