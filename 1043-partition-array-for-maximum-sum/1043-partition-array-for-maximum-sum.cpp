@@ -37,10 +37,11 @@ public:
         
         ret = 0;
         int maxVal{};
-        for(int i = 0 ; i < k && idx+i <(int)arr.size() ; i++)
+        for(int endIdx = idx ; endIdx < idx + k && endIdx <(int)arr.size() ; endIdx++)
         {
-            maxVal = max(maxVal, arr[idx+i]);
-            int sum = maxVal * (i+1) + partition(idx+i+1);
+            maxVal = max(maxVal, arr[endIdx]);
+            int len = endIdx - idx + 1;
+            int sum = maxVal * len + partition(idx+len);
             ret = max(ret, sum);
         }
         return ret;
