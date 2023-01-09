@@ -1,7 +1,7 @@
 class MyStack {
 private:
-    queue<int> q1, q2;
-    int topVal;
+    // Follow-up: Can you implement the stack using only one queue?
+    queue<int> q;
     
 public:
     MyStack() {
@@ -11,33 +11,29 @@ public:
     // O(n)
     void push(int x) 
     {
-        while(!q1.empty())
-            q2.push(q1.front()), q1.pop();
-        
-        q1.push(x);
-        
-        while(!q2.empty())
-            q1.push(q2.front()), q2.pop();
+        q.push(x);
+        for(int i = 0 ; i < (int)q.size() - 1 ; i++)
+            q.push(q.front()), q.pop();
     }
     
     // O(1)
     int pop() 
     {
-        int val = q1.front();
-        q1.pop();
+        int val = q.front();
+        q.pop();
         return val;
     }
     
     // O(1)
     int top() 
     {
-        return q1.front();
+        return q.front();
     }
     
     // O(1)
     bool empty() 
     {
-        return q1.empty();
+        return q.empty();
     }
 };
 
