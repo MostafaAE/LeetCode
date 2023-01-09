@@ -1,40 +1,37 @@
 class MyStack {
 private:
-
     queue<int> q1, q2;
     int topVal;
+    
 public:
     MyStack() {
         
     }
     
-    // O(1)
+    // O(n)
     void push(int x) 
     {
+        while(!q1.empty())
+            q2.push(q1.front()), q1.pop();
+        
         q1.push(x);
-        topVal = x;
+        
+        while(!q2.empty())
+            q1.push(q2.front()), q2.pop();
     }
     
-    // O(n)
+    // O(1)
     int pop() 
     {
-        int val = topVal;
-        while(q1.size() > 1)
-        {
-            topVal = q1.front();
-            q1.pop();
-            q2.push(topVal);
-        }
+        int val = q1.front();
         q1.pop();
-        swap(q1, q2);
-       
         return val;
     }
     
     // O(1)
     int top() 
     {
-        return topVal;
+        return q1.front();
     }
     
     // O(1)
