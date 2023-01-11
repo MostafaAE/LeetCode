@@ -12,7 +12,7 @@ public:
      * Counting DP
      *
      * Complexity:
-     * Time Complexity : O(MN^2)
+     * Time Complexity : O(MN)
      * Space Complexity : O(MN)
      */
     int change(int amount, vector<int>& _coins) 
@@ -24,19 +24,23 @@ public:
     
     int coinChange(int idx, int remaining)
     {
+        if(remaining < 0)
+            return 0;
+        
         if(remaining == 0)
             return 1;
+        
+        if(idx == (int)coins.size())
+            return 0;
         
         int &ret = memory[idx][remaining];
         if(ret != -1)
             return ret;
         
-        ret = 0;
-        for(int i = idx ; i < (int)coins.size() ; i++)
-            if(remaining - coins[i] >= 0)
-                ret += coinChange(i, remaining-coins[i]);
+        int leave = coinChange(idx+1, remaining);
+        int pick = coinChange(idx, remaining-coins[idx]);
         
-        return ret;
+        return ret = pick + leave;
     }
     
 };
