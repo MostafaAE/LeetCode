@@ -26,7 +26,7 @@ public:
     int countUniquePaths(int row, int col)
     {
         // out of boundaries or an obstacle
-        if(!isValid(row, col) || grid[row][col])
+        if(row >= (int)grid.size() || col >= (int)grid[0].size()  || grid[row][col])
             return 0;
         
         // valid path
@@ -37,18 +37,9 @@ public:
         if(ret != -1)
             return ret;
         
-        int takeRight = countUniquePaths(row, col + 1);
-        int takeDown = countUniquePaths(row + 1, col);
+        int goRight = countUniquePaths(row, col + 1);
+        int goDown = countUniquePaths(row + 1, col);
         
-        return ret = takeRight + takeDown;
-    }
-    
-    
-    bool isValid(int nr, int nc)
-    {
-        if(0 > nr || nr >= (int)grid.size() || 0 > nc || nc >= (int)grid[0].size())
-            return false;
-        
-        return true;
+        return ret = goRight + goDown;
     }
 };
