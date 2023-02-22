@@ -1,6 +1,6 @@
 ### Approach:
-Dynamic Programming Memoization (pick next mask one approach)
+Dynamic Programming Tabulation.
 ​
 ### Complexity:
-**Time Complexity: O(n^2)**\
-**Space Complexity: O(n)** *where n is the max index*
+**Time Complexity: `O(N^2)`**\
+**Space Complexity: `O(N)`**
