@@ -6,7 +6,7 @@ int memory[MAX];
 public:
     /*
      * Approach:
-     * Dynamic Programming Memoization (pick next mask one approach)
+     * Dynamic Programming Tabulation
      *
      * Complexity:
      * Time Complexity : O(N^2)
@@ -15,25 +15,25 @@ public:
     int lengthOfLIS(vector<int>& nums) 
     {
         memset(memory, -1, sizeof(memory));
-        nums.insert(nums.begin(), INT_MIN);
-        return LIS(nums, 0) - 1;
+        return LIS(nums);
     } 
     
-    int LIS(vector<int>& nums, int idx)
+    int LIS(vector<int>& nums)
     {
-        if (idx == nums.size())
-            return 0;
-        
-        auto &ret = memory[idx];
-        if (ret != -1)
-            return memory[idx];
-        
-        ret = 0 ;
-        for(int j = idx + 1 ; j < (int)nums.size() ; j++)
-            if(nums[idx] < nums[j])
-                ret = max(ret, LIS(nums, j));
-        
-        ret++;
-        return ret;
+        nums.push_back(INT_MAX);
+
+        // base case
+        memory[0] = 1;
+
+        for (int i = 1; i < (int)nums.size(); i++)
+        {
+            int &ret = memory[i];
+            ret = 1;
+            for (int j = i - 1; j >= 0; j--)
+                if (nums[j] < nums[i])
+                    ret = max(ret, 1 + memory[j]);
+        }
+
+        return memory[nums.size() - 1] - 1;
     }
 };
