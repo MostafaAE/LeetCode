@@ -1,6 +1,6 @@
 class Solution {
 private:
-    static const int MAX = 100 + 1 + 2; // 2 for two extra values we add
+    static const int MAX = 100 + 3; // 2 for two extra values we add
     int memory[MAX][MAX];
     vector<int> cuts;
 public:
@@ -8,7 +8,7 @@ public:
      * Approach:
      * Dynamic Programming Memoization
      * 
-     * Range pattern
+     * Nested range pattern
      *
      * Complexity:
      * Time Complexity : O(N^3)
@@ -31,7 +31,7 @@ public:
     {
         // 2 Consecutive points. Nothing in between
         // No cuts
-        if(startIdx+1 == endIdx)
+        if(endIdx - startIdx == 1)
             return 0;
         
         int &ret = memory[startIdx][endIdx];
