@@ -1,6 +1,6 @@
 ### Approach:
 Dynamic Programming Memoization.\
-Range pattern.
+Nested range pattern.
 ​
 ### Complexity:
 **Time Complexity: `O(N^3)`**\
