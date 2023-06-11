@@ -1,8 +1,7 @@
+const int MAX_LEN = 200 + 1, MAX_SUM = 100 * 100 + 1;
+int memory[MAX_LEN][MAX_SUM];
+vector<int> nums;
 class Solution {
-private:
-const static int MAX_IDX = 200, MAX_SUM = 100*200 + 1;
-int memory[MAX_IDX][MAX_SUM];
-    
 public:
     /*
      * Approach:
@@ -12,40 +11,40 @@ public:
      * Time Complexity : O(NM)
      * Space Complexity : O(NM) where N is the max index and M is the max sum
      */
-    bool canPartition(vector<int>& nums) 
+    bool canPartition(vector<int>& nums_) 
     {
-        int totalSum = accumulate(nums.begin(), nums.end(), 0);
-        memset(memory, -1, sizeof(memory));
+        int sum = accumulate(nums_.begin(), nums_.end(), 0);
         
-        // if the sum is odd then we can't partition
-        if(totalSum&1)
+        if(sum&1)
             return false;
         
-        // return if we can partition
-        return subsetSum(nums, 0, totalSum/2);
+        memset(memory, -1, sizeof(memory));
+        nums = nums_;
+        return isSubsetSum(0, sum/2);
     }
     
-    bool subsetSum(vector<int>& values, int idx, int remainingSum)
+    bool isSubsetSum(int idx, int rem)
     {
-        if (remainingSum < 0)
-            return false;
-
-        if (remainingSum == 0)
+        if(!rem)
             return true;
-
+        
         // can't find a combination
-        if (idx == values.size())
+        if(idx >= (int)nums.size())
             return false;
-
-        auto &ret = memory[idx][remainingSum];
-        if (ret != -1)
+        
+        int &ret = memory[idx][rem];
+        if(ret != -1)
             return ret;
-
-        // leave this value
-        if (subsetSum(values, idx + 1, remainingSum))
-            return ret = true;
-
-        // pick this value
-        return ret = subsetSum(values, idx + 1, remainingSum - values[idx]);
+        
+        // pick
+        bool pick{};
+        if(nums[idx] <= rem)
+            pick = isSubsetSum(idx + 1, rem - nums[idx]);
+        
+        // leave
+        bool leave = isSubsetSum(idx + 1, rem);
+        
+        return ret = pick || leave;
+        
     }
 };
