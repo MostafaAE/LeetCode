@@ -1,39 +1,40 @@
+const int MAX = 2500 + 1;
+int memory[MAX][MAX];
+vector<int> nums;
 class Solution {
-private:
-const static int MAX = 2500 + 1;
-int memory[MAX];
-    
 public:
     /*
      * Approach:
-     * Dynamic Programming Tabulation
+     * Dynamic Programming Memoization
      *
      * Complexity:
      * Time Complexity : O(N^2)
-     * Space Complexity : O(N) where N is the max index
+     * Space Complexity : O(N^2) where N is the max index
      */
-    int lengthOfLIS(vector<int>& nums) 
+    int lengthOfLIS(vector<int>& nums_) 
     {
+        nums = nums_;
         memset(memory, -1, sizeof(memory));
-        return LIS(nums);
-    } 
+        return LIS(0, (int)nums.size());
+    }
     
-    int LIS(vector<int>& nums)
+    int LIS(int idx, int prev)
     {
-        nums.push_back(INT_MAX);
-
-        // base case
-        memory[0] = 1;
-
-        for (int i = 1; i < (int)nums.size(); i++)
-        {
-            int &ret = memory[i];
-            ret = 1;
-            for (int j = i - 1; j >= 0; j--)
-                if (nums[j] < nums[i])
-                    ret = max(ret, 1 + memory[j]);
-        }
-
-        return memory[nums.size() - 1] - 1;
+        if(idx >= (int)nums.size())
+            return 0;
+        
+        int &ret = memory[idx][prev];
+        if(ret != -1)
+            return ret;
+        
+        // leave
+        int leave = LIS(idx + 1, prev);
+        
+        // pick
+        int pick{};
+        if(prev >= (int)nums.size() || nums[prev] < nums[idx])
+            pick = 1 + LIS(idx + 1, idx);
+        
+        return ret = max(leave, pick);
     }
 };
