@@ -22,19 +22,12 @@ public:
     */
     bool isValidBST(TreeNode* root, long long mn = LONG_LONG_MIN , long long mx = LONG_LONG_MAX) 
     {
-        bool status = mn < root->val && root->val < mx;
-        
-        if(!status)
+        if(!root)
+            return true;
+
+        if(mn >= root->val || root->val >= mx)
             return false;
-        
-        bool validLeft{1}, validRight{1};
-        
-        if(root->left)
-            validLeft = isValidBST(root->left, mn, root->val);
-        
-        if(root->right)
-            validRight = isValidBST(root->right, root->val, mx);
-        
-        return validLeft && validRight;
+
+        return isValidBST(root->left, mn, root->val) && isValidBST(root->right, root->val, mx);
     }
 };
