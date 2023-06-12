@@ -1,8 +1,7 @@
+const int MAX = 100 + 1;
+int memory[MAX];
+vector<int> numsg;
 class Solution {
-private:
-    const static int MAX_IDX = 100 + 1;
-    int memory[MAX_IDX];
-    vector<int> nums;
 public:
     /* 
     * Approach:
@@ -12,25 +11,26 @@ public:
     * Time Complexity : O(N)
     * Space Complexity : O(N)
     */
-    int rob(vector<int>& _nums) 
+    int rob(vector<int>& nums) 
     {
-        nums = _nums;
+        numsg = nums;
         memset(memory, -1, sizeof(memory));
-        return robber(0);
+        return robHouses(0);
     }
     
-    int robber(int idx)
+    int robHouses(int idx)
     {
-        if(idx >= nums.size())
+        // reached the end
+        if(idx >= (int)numsg.size())
             return 0;
         
         int &ret = memory[idx];
         if(ret != -1)
             return ret;
         
-        int rob = nums[idx] + robber(idx+2);
-        int skip = robber(idx+1);
+        int rob = numsg[idx] + robHouses(idx + 2);
+        int leave = robHouses(idx + 1);
         
-        return ret = max(rob, skip);
+        return ret = max(rob, leave);
     }
 };
