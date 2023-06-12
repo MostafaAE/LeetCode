@@ -1,9 +1,7 @@
+const int MAX = 5000 + 1;
+int memory[MAX][2];
+vector<int> pricesg;
 class Solution {
-private:
-    const static int MAX = 5000 + 1;
-    int memory[MAX][2];
-    vector<int> prices;
-    
 public:
     /* 
     * Approach:
@@ -13,35 +11,34 @@ public:
     * Time Complexity : O(N)
     * Space Complexity : O(N)
     */
-    int maxProfit(vector<int>& _prices) 
+    int maxProfit(vector<int>& prices) 
     {
-        prices = _prices;
+        pricesg = prices;
         memset(memory, -1, sizeof(memory));
         return profit(0, 0);
     }
     
     int profit(int idx, int haveStock)
     {
-        if(idx >= (int)prices.size())
+        if(idx >= (int)pricesg.size())
             return 0;
         
         int &ret = memory[idx][haveStock];
         if(ret != -1)
             return ret;
         
-        int sellChoice{}, buyChoice{}, leaveChoice{};
+        int choice1{};
         
-        // sell the last bought stock
+        // sell the last stock
         if(haveStock)
-            sellChoice = prices[idx] + profit(idx + 2, 0);
-        
-        // buy this stock
+            choice1 = pricesg[idx] + profit(idx + 2, 0);
+        // buy the stock
         else
-            buyChoice = -prices[idx] + profit(idx + 1, 1);
+            choice1 = -pricesg[idx] + profit(idx + 1, 1);
         
-        // leave this stock
-        leaveChoice = profit(idx + 1, haveStock);
+        // leave the stock
+        int choice2 = profit(idx + 1, haveStock);
         
-        return ret = max(sellChoice, max(buyChoice, leaveChoice));
+        return ret = max(choice1, choice2);
     }
 };
