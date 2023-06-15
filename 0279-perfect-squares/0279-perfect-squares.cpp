@@ -1,8 +1,7 @@
+const int MAX = 10000 + 1;
+int memory[MAX];
+
 class Solution {
-private:
-    const static int MAX = 10000 + 1;
-    int memory[MAX];
-    
 public:
     /*
      * Approach:
@@ -15,22 +14,22 @@ public:
     int numSquares(int n) 
     {
         memset(memory, -1, sizeof(memory));
-        return perfectSquares(n);
+        return minSquares(n);
     }
     
-    int perfectSquares(int n)
+    int minSquares(int n)
     {
-        if(n <= 0)
-            return 0;
+        if(n <= 1)
+            return n;
         
         int &ret = memory[n];
         if(ret != -1)
             return ret;
-        
+
         ret = n;
-        for(int i = 1 ; i*i <= n ; i++)
-                ret = min(ret, 1 + perfectSquares(n-i*i));
-        
+        for(int i = 1 ; i * i <= n ; i++)
+            ret = min(ret, 1 + minSquares(n - i*i));
+
         return ret;
     }
 };
