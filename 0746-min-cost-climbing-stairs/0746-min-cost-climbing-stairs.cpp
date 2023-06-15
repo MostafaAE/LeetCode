@@ -1,7 +1,7 @@
+const int MAX = 1000 + 1;
+int memory[MAX];
+vector<int> costg;
 class Solution {
-    const static int MAX = 1000 + 1;
-    int memory[MAX];
-    vector<int> cost;
 public:
     /*
      * Approach:
@@ -11,25 +11,26 @@ public:
      * Time Complexity : O(N)
      * Space Complexity : O(N)
      */
-    int minCostClimbingStairs(vector<int>& _cost) 
+    int minCostClimbingStairs(vector<int>& cost) 
     {
-        cost = _cost;
         memset(memory, -1, sizeof(memory));
+        costg = cost;
         return min(minCost(0), minCost(1));
     }
     
     int minCost(int idx)
     {
-        if(idx >= (int)cost.size())
+        if(idx >= (int)costg.size())
             return 0;
         
         int &ret = memory[idx];
         if(ret != -1)
             return ret;
         
-        int jump1 = minCost(idx+1);
-        int jump2 = minCost(idx+2);
+        int oneStep = minCost(idx + 1);
+        int twoSteps = minCost(idx + 2);
         
-        return ret = cost[idx] + min(jump1, jump2);
+        return ret = costg[idx] + min(oneStep, twoSteps);
     }
+    
 };
