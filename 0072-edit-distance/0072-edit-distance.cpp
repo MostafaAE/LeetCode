@@ -1,8 +1,7 @@
+const int MAX = 500 + 1;
+int memory[MAX][MAX];
+string text1, text2;
 class Solution {
-private:
-    const static int MAX = 500 + 1;
-    int memory[MAX][MAX];
-    string word1, word2;
 public:
     /* 
     * Approach:
@@ -12,39 +11,32 @@ public:
     * Time Complexity : O(NM)
     * Space Complexity : O(NM) where N is text1.length, and M is text2.length
     */
-    int minDistance(string _word1, string _word2) 
+    int minDistance(string word1, string word2) 
     {
-        word1 = _word1;
-        word2 = _word2;
         memset(memory, -1, sizeof(memory));
-        
-        return editDistance(0, 0);
+        text1 = word1;
+        text2 = word2;
+        return minDist(0, 0);
     }
     
-    int editDistance(int idx1, int idx2)
+    int minDist(int idx1, int idx2)
     {
         // if one of the strings is empty, then delete or insert the remaining of the other
-        if(idx1 == (int)word1.size() || idx2 == (int)word2.size())
-            return ((int)word1.size()-idx1 + (int)word2.size()-idx2);
+        if(idx1 >= (int)text1.size() || idx2 >= (int)text2.size())
+            return (int)text1.size() - idx1 + (int)text2.size() - idx2;
         
         int &ret = memory[idx1][idx2];
         if(ret != -1)
             return ret;
         
         // no operation (same letter)
-        if(word1[idx1] == word2[idx2])
-            return editDistance(idx1+1, idx2+1);
+        if(text1[idx1] == text2[idx2])
+            return ret = minDist(idx1 + 1, idx2 + 1);
         
-        // deletion
-        int deleteOp = 1 + editDistance(idx1+1, idx2);
+        int insertOp = minDist(idx1, idx2 + 1);
+        int deleteOp = minDist(idx1 + 1, idx2);
+        int replaceOp = minDist(idx1 + 1, idx2 + 1);
         
-        // insertion
-        int insertOp = 1 + editDistance(idx1, idx2+1);
-        
-        // change
-        int changeOp = 1 + editDistance(idx1+1, idx2+1);
-        
-        return ret = min(deleteOp, min(insertOp, changeOp));
-
+        return ret = 1 + min(insertOp, min(deleteOp, replaceOp));
     }
 };
