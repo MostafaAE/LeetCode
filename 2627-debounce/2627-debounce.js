@@ -4,14 +4,9 @@
  * @return {Function}
  */
 var debounce = function(fn, t) {
-    let start = 0;
     let timer;
     return function(...args) {
-        const now = Date.now();
-        if(now - start <= t)
-            clearTimeout(timer);
-        
-        start = now;
+        clearTimeout(timer);
         timer = setTimeout(()=>fn(...args), t);
     }
 };
