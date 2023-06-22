@@ -3,6 +3,9 @@
  * @return {boolean}
  */
 var isEmpty = function(obj) {
-    return JSON.stringify(obj).length === 2;
+    
+    for(const el in obj)
+        return false;
+    return true;
     
 };
