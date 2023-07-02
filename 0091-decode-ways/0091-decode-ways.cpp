@@ -1,8 +1,8 @@
+const int MAX = 100 + 1;
+int memory[MAX];
+string str;
+
 class Solution {
-private:
-    static const int MAX = 100 + 1;
-    int memory[MAX];
-    string str;
 public:
     /*
      * Approach:
