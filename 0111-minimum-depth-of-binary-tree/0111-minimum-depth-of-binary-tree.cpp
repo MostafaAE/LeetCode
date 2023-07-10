@@ -11,18 +11,24 @@
  */
 class Solution {
 public:
+    /* 
+    * Complexity:
+    * Time Complexity : O(n)
+    * Space Complexity : O(h) => auxiliary space for stack
+    * h could be (n) or (logn) depending on the shape of the tree
+    */
     int minDepth(TreeNode* root) {
         
         if(!root)
             return 0;
         
-        int l_depth = 1 + minDepth(root->left);
-        int r_depth = 1 + minDepth(root->right);
+        int l_depth = minDepth(root->left);
+        int r_depth = minDepth(root->right);
         
-        if(l_depth == 1 || r_depth == 1)
-            return max(l_depth , r_depth);
+        if(!l_depth || !r_depth)
+            return 1 + max(l_depth , r_depth);
         else
-            return min(l_depth , r_depth);
+            return 1 + min(l_depth , r_depth);
         
     }
 };
