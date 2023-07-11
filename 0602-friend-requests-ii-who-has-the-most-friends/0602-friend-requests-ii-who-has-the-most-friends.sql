@@ -1,24 +1,20 @@
 WITH friendscount AS (
     SELECT
-        requester_id as id,
-        COUNT(*) as num
+        requester_id as id
     FROM
         requestaccepted
-    GROUP BY requester_id
 
     UNION ALL
 
     SELECT
-        accepter_id as id,
-        COUNT(*) as num
+        accepter_id as id
     FROM
         requestaccepted
-    GROUP BY accepter_id
 )
 
 SELECT
     id,
-    SUM(num) as num
+    COUNT(*) as num
 FROM
     friendscount
 GROUP BY
