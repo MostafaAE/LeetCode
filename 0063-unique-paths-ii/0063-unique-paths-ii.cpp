@@ -1,8 +1,7 @@
+const int MAX = 100 + 1;
+int memory[MAX][MAX];
+vector<vector<int>> grid;
 class Solution {
-private:
-    static const int MAX = 100 + 1;
-    int memory[MAX][MAX];
-    vector<vector<int>> grid;
 public:
     /*
      * Approach:
@@ -16,30 +15,28 @@ public:
      */
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) 
     {
-        memset(memory, -1, sizeof(memory));
         grid = obstacleGrid;
-        
-        return countUniquePaths(0, 0);
+        memset(memory, -1, sizeof(memory));
+        return cntPaths(0, 0);
     }
     
-    
-    int countUniquePaths(int row, int col)
+    int cntPaths(int r, int c)
     {
-        // out of boundaries or an obstacle
-        if(row >= (int)grid.size() || col >= (int)grid[0].size()  || grid[row][col])
+        // invalid path
+        if(r >= (int)grid.size() || c >= (int)grid[0].size() || grid[r][c])
             return 0;
         
-        // valid path
-        if(row == (int)grid.size()-1 && col == (int)grid[0].size()-1)
+        // reached the end (bottom-right corner)
+        if(r == (int)grid.size() - 1 && c == (int)grid[0].size() - 1)
             return 1;
         
-        int &ret = memory[row][col];
+        int &ret = memory[r][c];
         if(ret != -1)
             return ret;
         
-        int goRight = countUniquePaths(row, col + 1);
-        int goDown = countUniquePaths(row + 1, col);
+        int moveRight = cntPaths(r, c + 1);
+        int moveDown = cntPaths(r + 1, c);
         
-        return ret = goRight + goDown;
+        return ret = moveRight + moveDown;
     }
 };
