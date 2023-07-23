@@ -1,6 +1,7 @@
 const int MAX_IDX = 300 + 1, MAX_AMOUNT = 5000 + 1;
 int memory[MAX_IDX][MAX_AMOUNT];
 vector<int> coinsg;
+
 class Solution {      
 public:
     /*
@@ -20,24 +21,22 @@ public:
         return coinChange(0, amount);
     }
     
-    int coinChange(int idx, int remaining)
+    int coinChange(int idx, int amount)
     {
-        if(remaining < 0)
-            return 0;
-        
-        if(remaining == 0)
+        if(amount == 0)
             return 1;
         
-        if(idx == (int)coinsg.size())
+        if(idx >= (int)coinsg.size() || amount < 0)
             return 0;
         
-        int &ret = memory[idx][remaining];
+        int &ret = memory[idx][amount];
         if(ret != -1)
             return ret;
         
-        int leave = coinChange(idx+1, remaining);
-        int pick = coinChange(idx, remaining-coinsg[idx]);
-        
+        int pick = coinChange(idx, amount - coinsg[idx]);
+        int leave = coinChange(idx + 1, amount);
+
         return ret = pick + leave;
     }
+   
 };
