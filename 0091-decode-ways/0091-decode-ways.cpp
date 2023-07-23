@@ -1,7 +1,6 @@
 const int MAX = 100 + 1;
 int memory[MAX];
 string str;
-
 class Solution {
 public:
     /*
@@ -16,18 +15,18 @@ public:
      */
     int numDecodings(string s) 
     {
-        str = s;
         memset(memory, -1, sizeof(memory));
-        return decode(0);
+        str = s;
+        return decodeWays(0);
     }
-    
-    int decode(int idx)
+
+    int decodeWays(int idx) 
     {
-        // one valid way
+        // valid way
         if(idx >= (int)str.size())
             return 1;
         
-        // invalid (no ways)
+        // invalid way
         if(str[idx] == '0')
             return 0;
         
@@ -35,11 +34,10 @@ public:
         if(ret != -1)
             return ret;
         
-        // 2 cases: 1 digit or 2 digits
-        ret = decode(idx + 1);
-        if(idx < (int)str.size() - 1 && (str[idx] == '1' || str[idx] == '2' && str[idx+1] <= '6'))
-            ret += decode(idx + 2);
-        
+        ret = decodeWays(idx + 1);
+        if(idx < (int)str.size() - 1 && (str[idx] == '1' || (str[idx] == '2' && str[idx + 1] <= '6') ))
+            ret += decodeWays(idx + 2);
+
         return ret;
     }
 };
