@@ -1,10 +1,9 @@
+const int MAX = 50 + 1, MOD = 1e9 + 7;
+int memory[MAX][MAX][MAX];
+int m, n;
+int dr[4]{-1, 1, 0, 0};
+int dc[4]{0, 0, -1, 1};
 class Solution {
-private:
-    static const int MAX = 50 + 1;
-    int memory[MAX][MAX][MAX];
-    int m, n;
-    int dr[4]{-1, 1, 0, 0};
-    int dc[4]{0, 0, -1, 1};
 public:
     /*
      * Approach:
@@ -16,41 +15,35 @@ public:
      * Time Complexity : O(MNK) 
      * Space Complexity : O(MNK) where M is the rows, N is the cols, and K is the max moves
      */
-    int findPaths(int _m, int _n, int maxMove, int startRow, int startColumn) 
+    int findPaths(int m_, int n_, int maxMove, int startRow, int startColumn) 
     {
-        m = _m;
-        n = _n;
+        m = m_;
+        n = n_;
         memset(memory, -1, sizeof(memory));
-        return pathsCount(startRow, startColumn, maxMove);
+        
+        return numPaths(startRow, startColumn, maxMove);
     }
     
-    int pathsCount(int r, int c, int moves)
+    int numPaths(int row, int col, int remainingMoves)
     {
-        if(outOfBound(r, c))
+        // out of boundary
+        if(row >= m || row < 0 || col >=n || col < 0)
             return 1;
         
-        if(!moves)
+        if(remainingMoves == 0)
             return 0;
-        
-        int &ret = memory[r][c][moves];
+
+        int &ret = memory[row][col][remainingMoves];
         if(ret != -1)
             return ret;
         
         ret = 0;
         for(int d = 0 ; d < 4 ; d++)
         {
-            int nr = r + dr[d], nc = c + dc[d];
-            ret = (ret + pathsCount(nr, nc, moves - 1)) % int(1e9+7);
+            int nr = row + dr[d], nc = col + dc[d];
+            ret = (ret + numPaths(nr, nc, remainingMoves - 1)) % MOD;
         }
         
         return ret;
-    }
-    
-    bool outOfBound(int r, int c)
-    {
-        if(0 > r || r >= m || 0 > c || c >= n)
-            return true;
-        
-        return false;
     }
 };
