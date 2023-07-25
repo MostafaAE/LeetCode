@@ -1,8 +1,8 @@
+const int MAX = 1000 + 1;
+int memory[MAX], shelfWidth;
+vector<vector<int>> books;
+
 class Solution {
-private:
-    static const int MAX = 1000 + 1;
-    int memory[MAX], shelfWidth;
-    vector<vector<int>> books;
 public:
     /*
      * Approach:
@@ -20,36 +20,36 @@ public:
      * Time Complexity : O(N^2)
      * Space Complexity : O(N) where N is the max index
      */
-    int minHeightShelves(vector<vector<int>>& _books, int _shelfWidth) 
+    int minHeightShelves(vector<vector<int>>& books_, int shelfWidth_) 
     {
-        books = _books;
-        shelfWidth = _shelfWidth;
+        books = books_;
+        shelfWidth = shelfWidth_;
         memset(memory, -1, sizeof(memory));
         
-        return arrange(0);
+        return bestSplit(0);
     }
     
-    int arrange(int idx)
+    int bestSplit(int index)
     {
-        if(idx >= (int)books.size())
+        if(index >= (int)books.size())
             return 0;
         
-        int &ret = memory[idx];
+        int &ret = memory[index];
         if(ret != -1)
             return ret;
         
         ret = INT_MAX;
-        int widthSum{}, maxHeight{};
-        for(int i = idx ; i < (int)books.size() ; i++)
+        int booksHeight{}, booksThickness{};
+        for(int split = index ; split < (int)books.size() ; split++)
         {
-            widthSum += books[i][0];
-            maxHeight = max(maxHeight, books[i][1]);
+            booksThickness += books[split][0];
             
-            if(widthSum > shelfWidth)
+            if(booksThickness > shelfWidth)
                 break;
             
-            int totalHeight = maxHeight + arrange(i+1);
-            ret = min(ret, totalHeight);
+            booksHeight = max(booksHeight, books[split][1]);
+            
+            ret = min(ret, booksHeight + bestSplit(split+1));
         }
         
         return ret;
