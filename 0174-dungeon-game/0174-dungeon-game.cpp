@@ -1,8 +1,8 @@
+const int MAX = 200 + 1;
+int memory[MAX][MAX];
+vector<vector<int>> grid;
+
 class Solution {
-private:
-    static const int MAX = 200 + 1;
-    int memory[MAX][MAX];
-    vector<vector<int>> dungeon;
 public:
     /*
      * Approach:
@@ -14,38 +14,30 @@ public:
      * Time Complexity : O(MN) 
      * Space Complexity : O(MN) where M is the rows, N is the cols
      */
-    int calculateMinimumHP(vector<vector<int>>& _dungeon) 
+    int calculateMinimumHP(vector<vector<int>>& dungeon) 
     {
-        int result = 1;
-        dungeon = _dungeon;
+        grid = dungeon;
         memset(memory, -1, sizeof(memory));
         
-        int minHealth = minHP(0, 0);
-        
-        if(minHealth < 0)
-            result += abs(minHealth);
-        
-        return result;
+        return 1 + abs(minHP(0, 0));
     }
     
     int minHP(int r, int c)
     {
+        if(r >= (int)grid.size() || c >= (int)grid[0].size())
+            return INT_MIN;
+        
         // reached the end
-        if(r == (int)dungeon.size()-1 && c == (int)dungeon[0].size()-1)
-            return dungeon[r][c];
+        if(r == (int)grid.size()-1 && c == (int)grid[0].size()-1)
+            return min(grid[r][c], 0);
         
         int &ret = memory[r][c];
         if(ret != -1)
             return ret;
         
-        int rightward{INT_MIN};
-        if(c < (int)dungeon[0].size()-1)
-            rightward = minHP(r, c+1);
+        int rightward = minHP(r, c+1);
+        int downward = minHP(r+1, c);
         
-        int downward{INT_MIN};
-        if(r < (int)dungeon.size()-1)
-            downward = minHP(r+1, c);
-        
-        return ret = dungeon[r][c] + min(0, max(rightward, downward));
+        return ret = min(grid[r][c]+max(rightward, downward), 0);
     }
 };
