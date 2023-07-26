@@ -1,8 +1,7 @@
+const int MAX = 500 + 1;
+int memory[MAX], maxLength;
+vector<int> arr;
 class Solution {
-private:
-    static const int MAX = 500 + 1;
-    int memory[MAX], k;
-    vector<int> arr;
 public:
     /*
      * Approach:
@@ -18,32 +17,35 @@ public:
      * Time Complexity : O(N^2)
      * Space Complexity : O(N) where N is the max index
      */
-    int maxSumAfterPartitioning(vector<int>& _arr, int _k) 
+    int maxSumAfterPartitioning(vector<int>& arr_, int k) 
     {
-        arr = _arr;
-        k = _k;
+        maxLength = k;
+        arr = arr_;
         memset(memory, -1, sizeof(memory));
-        return partition(0);
+        
+        return maxSum(0);
     }
     
-    int partition(int idx)
+    int maxSum(int index)
     {
-        if(idx >= (int)arr.size())
+        if(index >= (int)arr.size())
             return 0;
         
-        int &ret = memory[idx];
+        int &ret = memory[index];
         if(ret != -1)
             return ret;
         
-        ret = 0;
-        int maxVal{};
-        for(int endIdx = idx ; endIdx < idx + k && endIdx <(int)arr.size() ; endIdx++)
+        ret = INT_MIN;
+        int maxVal{INT_MIN}, len{};
+        for(int split = index ; len < maxLength && split < (int)arr.size() ; split++)
         {
-            maxVal = max(maxVal, arr[endIdx]);
-            int len = endIdx - idx + 1;
-            int sum = maxVal * len + partition(idx+len);
-            ret = max(ret, sum);
+            len++;
+            maxVal = max(maxVal, arr[split]);
+            
+            int blockSum = len * maxVal;
+            ret = max(ret, blockSum + maxSum(split + 1));
         }
+        
         return ret;
     }
 };
