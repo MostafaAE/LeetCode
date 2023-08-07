@@ -29,20 +29,21 @@ public:
     
     bool tryPartition(int partitionIdx, int numberIdx, int curPartitionSum, vector<bool> &selected)
     {
+        // We are done with all the numbers
         if(numberIdx >= (int)nums.size())
         {
+            // Successfully partitioned to K equal sum subsets
             if(curPartitionSum == target && partitionIdx == k - 1)
                 return true;
             
             return false;
         }
         
+        // We are done with this partition
         if(curPartitionSum == target)
-        {
             return tryPartition(partitionIdx + 1, 0, 0, selected);
-        }
         
-        // pick
+        // Pick this element
         if(!selected[numberIdx] && nums[numberIdx] + curPartitionSum <= target)
         {
             selected[numberIdx] = true;
@@ -51,7 +52,7 @@ public:
             selected[numberIdx] = false;
         }
         
-        // leave
+        // Leave this element
         return tryPartition(partitionIdx, numberIdx + 1, curPartitionSum, selected);
         
     }
