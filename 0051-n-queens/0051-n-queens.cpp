@@ -1,71 +1,57 @@
+vector<bool> columns, normDiagonal, antiDiagonal;
+vector<string> grid;
+
+int n;
 class Solution {
 public:
-    vector<vector<string>> solveNQueens(int n) 
+    /* 
+    * Approach:
+    * Backtracking
+    * 
+    * Complexity:
+    * Time Complexity : O(N!)
+    * Space Complexity : O(N^2)
+    */
+    vector<vector<string>> solveNQueens(int n_) 
     {
-        vector<string> grid(n, string(n, '.'));
+        n = n_;
+        columns = vector<bool>(n);
+        normDiagonal = vector<bool>(2 * n - 1);
+        antiDiagonal = vector<bool>(2 * n - 1);
+        grid = vector<string>(n, string(n, '.'));
         vector<vector<string>> output;
         
-        solve(0, output, grid, n);
+        solve(0, output);
         
         return output;
     }
     
-    void solve(int r, vector<vector<string>> &output, vector<string> &grid, int n)
+    void solve(int r, vector<vector<string>> &output)
     {
+        // each row has a queen
         if(r == n)
         {
             output.push_back(grid);
             return;
         }
         
+        // try to put a queen in each possible column
         for(int c = 0 ; c < n ; c++)
         {
-            if(!valid(r, c, grid))
+            int x = r + c;
+		    int y = n - 1 + r - c;	// n-1 to convert [0, 2n-1]
+            
+            if(columns[c] || normDiagonal[y] || antiDiagonal[x])
                 continue;
 
             grid[r][c] = 'Q';
+            columns[c] = normDiagonal[y] = antiDiagonal[x] = 1;
+            
+            solve(r + 1, output);
 
-            solve(r + 1, output, grid, n);
-
+            columns[c] = normDiagonal[y] = antiDiagonal[x] = 0;
             grid[r][c] = '.';
         }
         
-    }
-    
-    bool valid(int r, int c, vector<string> &grid)
-    {
-        int n{(int)grid.size()};
-        
-        // Check up-left diagonal
-        for(int i = r - 1, j = c - 1 ; i >= 0 && j >= 0 ; i--, j--)
-            if(grid[i][j] == 'Q')
-                return false;
-        
-        // Check down-right diagonal
-        for(int i = r + 1, j = c + 1 ; i < n && j < n ; i++, j++)
-            if(grid[i][j] == 'Q')
-                return false;
-        
-        // Check up-right diagonal
-        for(int i = r - 1, j = c + 1 ; i >= 0 && j < n ; i--, j++)
-            if(grid[i][j] == 'Q')
-                return false;
-        
-        // Check down-left diagonal
-        for(int i = r + 1, j = c - 1 ; i < n && j >= 0 ; i++, j--)
-            if(grid[i][j] == 'Q')
-                return false;
-        
-        // Check up
-        for(int i = r - 1 ; i >= 0 ; i--)
-            if(grid[i][c] == 'Q')
-                return false;
-        
-        // Check down
-        for(int i = r + 1 ; i < n; i++)
-            if(grid[i][c] == 'Q')
-                return false;
-        
-        return true;
     }
 };
