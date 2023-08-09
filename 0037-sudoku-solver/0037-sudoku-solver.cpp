@@ -1,15 +1,26 @@
 const int N = 9;
+bool row[N][N]{}, col[N][N]{}, box[3][3][N]{};
 class Solution {
 public:
     void solveSudoku(vector<vector<char>>& board) 
     {
+        memset(row, 0, sizeof(row));
+		memset(col, 0, sizeof(col));
+		memset(box, 0, sizeof(box));
+        
+        // mark initial reserved values
+		for (int r = 0; r < 9; r++)
+			for (int c = 0; c < 9; c++)
+				if (board[r][c] != '.')
+					set(board[r][c] - '1', r, c, 1);
+        
         solve(0, board);
     }
     
     bool solve(int cell, vector<vector<char>> &board)
     {
         // finished the board
-        if(cell == N*N)
+        if(cell >= N*N)
             return true;
         
         int r = cell / N;
@@ -18,53 +29,27 @@ public:
         if(board[r][c] != '.')
             return solve(cell + 1, board);
         
-        for(char d = '1' ; d <= '9' ; d++)
+        for(char d = 0 ; d < N ; d++)
         {
-            if(!valid(r,c, d,board))
+            if(row[r][d] || col[c][d] || box[r/3][c/3][d])
                 continue;
+            // if(!valid(r,c, d,board))
+            //     continue;
 
-            board[r][c] = d;
+            set(d, r, c, 1);
+            board[r][c] = d + '1';
             if(solve(cell + 1, board))
                 return true;
             board[r][c] = '.';
+            set(d, r, c, 0);
         }
         
         return false;
     }
     
-    /* 
-    * Approach:
-    * validate row , col and sub-box does not have this digit
-    * 
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(1)
-    */
-    bool valid(int r, int c, char d, vector<vector<char>>& board) 
+
+    void set(int d, int r, int c, int value) 
     {
-        // validate row and column
-        for(int i = 0 ; i < N ; i++)
-        {
-            if(board[r][i] != '.' && board[r][i] == d)
-                return false;
-
-            if(board[i][c] != '.' && board[i][c] == d)
-                return false;
-        }
-        
-        
-        // validate sub-box
-        int i = r / 3, j = c / 3;
-        for(int r = 0 ; r < 3 ; r++)
-        {
-            for(int c = 0 ; c < 3 ; c++)
-            {
-                char cur = board[i*3+r][j*3+c];
-                if(cur != '.' && cur == d)
-                    return false;
-            }
-        }
-
-        return true;
+        row[r][d] = col[c][d] = box[r / 3][c / 3][d] = value;
     }
 };
