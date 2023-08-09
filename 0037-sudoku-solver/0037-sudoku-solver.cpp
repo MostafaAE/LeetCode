@@ -1,73 +1,66 @@
+const int N = 9;
 class Solution {
 public:
     void solveSudoku(vector<vector<char>>& board) 
     {
-        solve(0, 0, board);
+        solve(0, board);
     }
     
-    bool solve(int r, int c, vector<vector<char>> &board)
+    bool solve(int cell, vector<vector<char>> &board)
     {
-        
-        if(r == (int)board.size())
+        // finished the board
+        if(cell == N*N)
             return true;
         
-        int nextR = r + ((c + 1) / 9);
-        int nextC = (c + 1) % 9;
+        int r = cell / N;
+        int c = cell % N;
         
-
-        if(board[r][c] == '.')
+        if(board[r][c] != '.')
+            return solve(cell + 1, board);
+        
+        for(char d = '1' ; d <= '9' ; d++)
         {
-            for(char i = '1' ; i <= '9' ; i++)
-            {
-                board[r][c] = i;
-                
-                if(!valid(r,c, board))
-                    continue;
-                
-                if(solve(nextR, nextC, board))
-                    return true;
-            }
+            if(!valid(r,c, d,board))
+                continue;
+
+            board[r][c] = d;
+            if(solve(cell + 1, board))
+                return true;
             board[r][c] = '.';
         }
-        
-        else
-            return solve(nextR, nextC, board);
         
         return false;
     }
     
     /* 
     * Approach:
-    * use a hashmap to validate row , col and sub-box does not have any duplicates
+    * validate row , col and sub-box does not have this digit
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
-    bool valid(int r, int c, vector<vector<char>>& board) 
+    bool valid(int r, int c, char d, vector<vector<char>>& board) 
     {
         // validate row and column
-        unordered_set<char> row;
-        unordered_set<char> col;
-        for(int i = 0 ; i < 9 ; i++)
+        for(int i = 0 ; i < N ; i++)
         {
-            if(board[r][i] != '.' && !row.insert(board[r][i]).second)
+            if(board[r][i] != '.' && board[r][i] == d)
                 return false;
 
-            if(board[i][c] != '.' && !col.insert(board[i][c]).second)
+            if(board[i][c] != '.' && board[i][c] == d)
                 return false;
         }
         
         
         // validate sub-box
-        unordered_set<char> box;
         int i = r / 3, j = c / 3;
         for(int r = 0 ; r < 3 ; r++)
         {
             for(int c = 0 ; c < 3 ; c++)
             {
                 char cur = board[i*3+r][j*3+c];
-                if(cur != '.' && !box.insert(cur).second)
+                if(cur != '.' && cur == d)
                     return false;
             }
         }
