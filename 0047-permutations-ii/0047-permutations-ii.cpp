@@ -1,40 +1,40 @@
-
+vector<int> perm, nums;
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Backtracking
-    * 
-    * Complexity:
-    * Time Complexity : O(n.n!)
-    * Space Complexity : O(n)
-    */
-    vector<vector<int>> permuteUnique(vector<int>& nums) 
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums_) 
     {
         vector<vector<int>> output;
-        unordered_set<string> uniquePerm;
-        solve(0, nums, output, uniquePerm);
+        unordered_map<int, int> freqMp;
+        nums = nums_;
+        
+        for(int num : nums)
+            freqMp[num]++;
+        
+        solve(output, freqMp);
         return output;
     }
     
-    void solve(int idx, vector<int> &nums, vector<vector<int>> &output, unordered_set<string> &uniquePerm)
+    void solve(vector<vector<int>> &output, unordered_map<int, int> &freqMp)
     {
-        if(idx == (int)nums.size())
+        if((int)perm.size() == (int)nums.size())
         {
-            string str;
-            for(int num : nums)
-                str += to_string(num);
-            
-            if(uniquePerm.insert(str).second)
-                output.push_back(nums);
+            output.push_back(perm);
             return;
         }
         
-        for(int i = idx ; i < (int)nums.size() ; i++)
+        for(auto [num , freq] : freqMp)
         {
-            swap(nums[idx], nums[i]);
-            solve(idx + 1, nums, output, uniquePerm);
-            swap(nums[idx], nums[i]);     
+            if(freq)
+            {
+                freqMp[num]--;
+                perm.push_back(num);
+                
+                solve(output, freqMp);
+                
+                perm.pop_back();
+                freqMp[num]++;
+            }
         }
     }
 };
