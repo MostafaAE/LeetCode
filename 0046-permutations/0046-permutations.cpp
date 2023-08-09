@@ -1,35 +1,33 @@
-vector<bool> selected;
-vector<int> nums, perm;
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int>& nums_) 
+    /* 
+    * Approach:
+    * Backtracking
+    * 
+    * Complexity:
+    * Time Complexity : O(n.n!)
+    * Space Complexity : O(n) auxiliary space for stack
+    */
+    vector<vector<int>> permute(vector<int>& nums) 
     {
-        nums = nums_;
-        int n{(int)nums.size()};
-        selected = vector<bool>(n);
         vector<vector<int>> output;
-        solve(output);
+        solve(0, nums, output);
         return output;
     }
     
-    void solve(vector<vector<int>> &output)
+    void solve(int idx, vector<int> &nums, vector<vector<int>> &output)
     {
-        if((int)perm.size() == (int)nums.size())
+        if(idx == (int)nums.size())
         {
-            output.push_back(perm);
+            output.push_back(nums);
             return;
         }
         
-        for(int i = 0 ; i < (int)nums.size() ; i++)
+        for(int i = idx ; i < (int)nums.size() ; i++)
         {
-            if(!selected[i])
-            {
-                selected[i] = 1;
-                perm.push_back(nums[i]);
-                solve(output);
-                perm.pop_back();
-                selected[i] = 0;
-            }       
+            swap(nums[idx], nums[i]);
+            solve(idx + 1, nums, output);
+            swap(nums[idx], nums[i]);     
         }
     }
 };
