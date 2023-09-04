@@ -21,13 +21,13 @@ public:
         if(!n)
             return 1;
         
-        double p = pow(x, n / 2);
-        
+        double result = pow(x, n / 2);
+        result *= result;
+            
         // odd power
         if(n&1)
-            return x * p * p;
-        
-        // even power
-        return p * p;
+            result *= x;
+
+        return result;
     }
 };
