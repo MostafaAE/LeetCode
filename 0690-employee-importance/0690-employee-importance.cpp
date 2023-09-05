@@ -8,33 +8,37 @@ public:
 };
 */
 
+
 class Solution {
 private:
     unordered_map<int, Employee*> idToEmp;
+    
 public:
     /* 
     * Approach:
-    * depth first search
+    * Depth-first search
     * 
     * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Time Complexity : O(N)
+    * Space Complexity : O(N)
     */
     int getImportance(vector<Employee*> employees, int id) 
     {
-        for(Employee *emp : employees)
-            idToEmp[emp->id] = emp;
+        for(Employee* e : employees)
+            idToEmp[e->id] = e;
         
-        return dfs(id);
+        return getTotalImportance(id);
     }
     
-    int dfs(int id)
+    int getTotalImportance(int id)
     {
-        int result = idToEmp[id]->importance;
+        Employee* emp = idToEmp[id];
         
-        for(int neighbourId : idToEmp[id]->subordinates)
-            result += dfs(neighbourId);
+        int importance = emp->importance;
         
-        return result;
+        for(int sub : emp->subordinates)
+            importance += getTotalImportance(sub);
+        
+        return importance;
     }
 };
