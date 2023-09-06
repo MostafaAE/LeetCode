@@ -24,36 +24,31 @@ public:
             for(int c = 0 ; c < cols ; c++)
             {
                 if(!visited[r][c])
-                    dfs(grid, r, c, visited, r, c);
-                
-                if(isCycle)
-                    return true;
+                {
+                    dfs(grid, visited, r, c, r, c);
+                    if(isCycle)
+                        return true;
+                }
             }
         }
         return false;
     }
     
-    void dfs(vector<vector<char>>& grid, int r, int c, vector<vector<bool>>& visited, int prevRow, int prevCol)
+    void dfs(vector<vector<char>>& grid, vector<vector<bool>>& visited, int r, int c, int prevRow, int prevCol)
     {
-        if(!isValid(r, c, grid) || grid[r][c] != grid[prevRow][prevCol] || isCycle)
-            return;
+        visited[r][c] = true;
 
-        if(visited[r][c])
-        {
-            isCycle = true;
-            return;
-        }
-        
-        visited[r][c] = 1;
-        
         for(int d = 0 ; d < 4 ; d++)
         {
             int nr = r + dr[d], nc = c + dc[d];
-            
-            if(nr == prevRow && nc == prevCol)
-                continue;
-            
-            dfs(grid, nr, nc, visited, r, c);
+
+            if(isValid(nr, nc, grid) && (nr != prevRow || nc != prevCol) && grid[nr][nc] == grid[r][c])
+            {
+                if(visited[nr][nc])
+                    isCycle = true;
+                else 
+                    dfs(grid, visited, nr, nc, r, c);
+            }
         }
     }
     
