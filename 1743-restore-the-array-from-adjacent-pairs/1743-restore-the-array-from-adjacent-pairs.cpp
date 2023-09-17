@@ -1,4 +1,5 @@
 typedef unordered_map<int, vector<int>> GRAPH;
+
 class Solution {
 public:
     /* 
@@ -31,16 +32,16 @@ public:
         return result; 
     }
     
-    void dfs(unordered_map<int, vector<int>> &graph, int node, vector<int>& traversal, int par)
+    void dfs(GRAPH& graph, int node, vector<int>& traversal, int parent)
     {
         traversal.push_back(node);
 
         for(int neighbour : graph[node])
-            if(neighbour != par)
+            if(neighbour != parent)
                 dfs(graph, neighbour, traversal, node);
     }
     
-    void addUndirectedEdge(unordered_map<int, vector<int>> &graph, int from, int to)
+    void addUndirectedEdge(GRAPH& graph, int from, int to)
     {
         graph[from].push_back(to);
         graph[to].push_back(from);
