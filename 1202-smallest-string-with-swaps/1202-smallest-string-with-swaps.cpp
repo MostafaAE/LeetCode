@@ -9,47 +9,48 @@ public:
     */
     string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) 
     {
-        int nodes = s.size();
-        GRAPH graph(nodes);
-        vector<bool> visited(nodes, 0);
+        int n{(int)s.size()};
+        GRAPH graph(n);
+        vector<bool> visited(n);
+        string result = s;
         
-        // building the graph
-        for(auto &p: pairs)
+        for(auto& p : pairs)
             addUndirectedEdge(graph, p[0], p[1]);
         
-        for(int i = 0 ; i < s.size() ; i++)
+        for(int i = 0 ; i < n ; i++)
         {
             if(!visited[i])
             {
-                vector<int> ccNodes;
-                string ccChars;
-                dfs(graph, i, visited, ccNodes);
+                vector<int> cc;
+                string ccStr{};
                 
-                for(int idx : ccNodes)
-                    ccChars += s[idx];
+                dfs(graph, i, visited, cc);
                 
-                sort(ccChars.begin(), ccChars.end());
-                sort(ccNodes.begin(), ccNodes.end());
+                for(auto& node : cc)
+                    ccStr += s[node];
                 
-                for(int j = 0 ; j < (int)ccNodes.size() ; j++)
-                    s[ccNodes[j]] = ccChars[j];
-            }   
+                sort(cc.begin(), cc.end());
+                sort(ccStr.begin(), ccStr.end());
+                
+                for(int j = 0 ; j < (int)cc.size() ; j++)
+                    result[cc[j]] = ccStr[j];
+            }
         }
         
-        return s;
+        return result;
     }
     
-    void dfs(GRAPH &graph, int node, vector<bool>& visited, vector<int> &cc)
+    void dfs(GRAPH& graph, int node, vector<bool>& visited, vector<int>& cc)
     {
+        visited[node] = true;
         cc.push_back(node);
-        visited[node] = 1;
         
-        for(int neighbour : graph[node])
+        for(auto& neighbour : graph[node])
             if(!visited[neighbour])
                 dfs(graph, neighbour, visited, cc);
     }
     
-    void addUndirectedEdge(GRAPH &graph, int from, int to)
+    void addUndirectedEdge(GRAPH& graph, int from ,int to)
     {
         graph[from].push_back(to);
         graph[to].push_back(from);
