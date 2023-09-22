@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * breadth first search
+    * Breadth first search
     * 
     * Complexity:
     * Total number of states = O(D) = 4
