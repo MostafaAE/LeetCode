@@ -1,10 +1,8 @@
 class Solution {
-private:
-    int dx[2] = {1, -1};
 public:
     /* 
     * Approach:
-    * breadth first search
+    * Breadth first search
     * 
     * Complexity:
     * Time Complexity : O(n)
@@ -12,38 +10,36 @@ public:
     */
     bool canReach(vector<int>& arr, int start) 
     {
-        if(arr[start] == 0)
+        if(!arr[start])
             return true;
         
-        vector<bool> visited((int)arr.size(), 0);
+        int n{(int)arr.size()};
+        vector<bool> visited(n, 0);
         queue<int> q;
+        int ops[] = {-1, 1};
         
-        visited[start] = 1;
         q.push(start);
+        visited[start] = true;
         
         while(!q.empty())
         {
-            int sz = q.size();
+            int cur = q.front();
+            q.pop();
             
-            while(sz--)
+            for(int op : ops)
             {
-                int cur = q.front();
-                q.pop();
-                for(int d = 0 ; d < 2 ; d++)
+                int neighbour = cur + arr[cur]*op;
+                if(neighbour >= 0 && neighbour < n && !visited[neighbour])
                 {
-                    int newIdx = cur + dx[d]*arr[cur];
-                    if(newIdx >= 0 && newIdx < arr.size() && !visited[newIdx])
-                    {
-                        if(arr[newIdx] == 0)
-                            return true;
-                        visited[newIdx] = 1;
-                        q.push(newIdx);
-                    }
+                    if(!arr[neighbour])
+                        return true;
+                    q.push(neighbour);
+                    visited[neighbour] = true;
                 }
-                
             }
         }
         
         return false;
+        
     }
 };
