@@ -30,15 +30,10 @@ public:
                 
                 for(int i = 0 ; i < n ; i++)
                 {
-                    int results[] = {cur + nums[i], cur - nums[i], cur ^ nums[i]};
-
-                    for(int res : results)
-                    {
-                        if(res == goal)
-                            return level + 1;
-                        if(res >= 0 && res <= 1000 && !visited[res])
-                            visited[res] = true, q.push(res);
-                    }
+                    if(process(q, visited, cur + nums[i], goal) || 
+                       process(q, visited, cur - nums[i], goal) || 
+                       process(q, visited, cur ^ nums[i], goal))
+                        return level + 1;
                 }
             }
             
@@ -47,5 +42,14 @@ public:
         
         return -1;
         
+    }
+    
+    bool process(queue<int> &q, vector<bool> &visited, int num, int goal)
+    {
+        if(num == goal)
+            return true;
+        if(0 <= num && num <= 1000 && !visited[num])
+            visited[num] = true, q.push(num);
+        return false;
     }
 };
