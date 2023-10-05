@@ -1,3 +1,4 @@
+typedef vector<vector<int>> GRAPH;
 class Solution {
 public:
     /* 
@@ -10,15 +11,13 @@ public:
     */
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
     {
-        vector<vector<int>> graph(numCourses);
+        GRAPH graph(numCourses);
         vector<int> indegree(numCourses, 0);
         int finishedCount{};
         
         for(auto &p : prerequisites)
-        {
-            addDirectedEdge(graph, p[1], p[0]);
-            indegree[p[0]]++;
-        }
+            graph[p[1]].push_back(p[0]), indegree[p[0]]++;
+        
         
         queue<int> ready;
         
@@ -37,12 +36,5 @@ public:
         }
         
         return finishedCount == numCourses;
-    }
-    
-
-    
-    void addDirectedEdge(vector<vector<int>> &graph, int from, int to)
-    {
-        graph[from].push_back(to);
     }
 };
