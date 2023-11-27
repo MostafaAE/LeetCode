@@ -1,24 +1,34 @@
 class Solution {
 public:
+    /* 
+    * Approach:
+    * Use max heap to keep track of the sliding window maximum
+    * 
+    * Complexity:
+    * Time Complexity : O(nlogn)
+    * Space Complexity : O(n)
+    */
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        priority_queue<pair<int,int>> pq;
-        vector<int> answer;
         
-        pq.push(make_pair(nums[0], 0));
-        if(k == 1)
-            answer.push_back(nums[0]);
+        priority_queue<pair<int, int>> pq;
+        vector<int> output;
         
-        for(int i = 1 ; i < (int)nums.size() ; i++)
+        pq.push({nums[0], 0});
+        
+        for(int i = 1 ; i < k ; i++)
+            pq.push({nums[i], i});
+        
+        output.push_back(pq.top().first);
+        
+        for(int i = k ; i < (int)nums.size() ; i++)
         {
-            while(!pq.empty() && i-pq.top().second >= k)
+            pq.push({nums[i], i});
+            while(pq.top().second <= i - k)
                 pq.pop();
             
-            pq.push(make_pair(nums[i],i));
-            
-            if(i >= k-1)
-                answer.push_back(pq.top().first);
+            output.push_back(pq.top().first); 
         }
         
-        return answer;
-    }
+        return output;
+    }        
 };
