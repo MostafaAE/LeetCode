@@ -2,31 +2,29 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Use max heap to keep track of the sliding window maximum
+    * Use monotonic decreasing queue to track the sliding window maximum
     * 
     * Complexity:
-    * Time Complexity : O(nlogn)
+    * Time Complexity : O(n)
     * Space Complexity : O(n)
     */
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         
-        priority_queue<pair<int, int>> pq;
+        deque<int> dq;
         vector<int> output;
         
-        pq.push({nums[0], 0});
-        
-        for(int i = 1 ; i < k ; i++)
-            pq.push({nums[i], i});
-        
-        output.push_back(pq.top().first);
-        
-        for(int i = k ; i < (int)nums.size() ; i++)
+        for(int i = 0 ; i < (int)nums.size() ; i++)
         {
-            pq.push({nums[i], i});
-            while(pq.top().second <= i - k)
-                pq.pop();
+            while(!dq.empty() && nums[i] > nums[dq.back()])
+                dq.pop_back();
             
-            output.push_back(pq.top().first); 
+            
+            dq.push_back(i);
+            if(dq.front() <= i-k)
+                dq.pop_front();
+            
+            if(i - k >= -1)
+                output.push_back(nums[dq.front()]);
         }
         
         return output;
