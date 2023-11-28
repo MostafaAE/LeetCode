@@ -1,20 +1,24 @@
 class Solution {
 public:
     /* 
+    * Approach:
+    * Use a hashtable to mark visited values, so when we visit equal values we can check the condition of abs(i - j) <= k
+    * 
     * Complexity:
     * Time Complexity : O(n)
     * Space Complexity : O(n)
     */
-    bool containsNearbyDuplicate(vector<int>& nums, int k) 
-    {
-        unordered_map<int, int> um;
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        unordered_map<int, int> valToIdx;
         
-        for(int i =  0 ; i < (int)nums.size() ; i++)
+        for(int i = 0 ; i < (int)nums.size() ; i++)
         {
-            if(um.count(nums[i]) && i - um[nums[i]] <= k)
+            if(valToIdx.count(nums[i]) && i - valToIdx[nums[i]] <= k)
                 return true;
-            um[nums[i]] = i;
+            
+            valToIdx[nums[i]] = i;
         }
-        return false;
+        
+        return false; 
     }
 };
