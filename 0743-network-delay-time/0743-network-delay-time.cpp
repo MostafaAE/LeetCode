@@ -3,32 +3,73 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Bellman-Ford shortest path algorithm
+    * Dijkstra shortest path algorithm
     * 
     * Complexity:
-    * Time Complexity : O(V.E)
-    * Space Complexity : O(V)
+    * Time Complexity : O(E*logV)
+    * Space Complexity : O(E+V)
     */
-    int networkDelayTime(vector<vector<int>>& times, int n, int k) 
-    {
-        vector<int> dest(n, OO);
-        dest[k-1] = 0;
+    
+    struct edge{
+        int to, weight;
+        edge(int to, int w) : to(to), weight(w) {}
         
-        for(int i = 1 ; i < n ; i++)
+        bool operator <(const edge& e) const
         {
-            for(auto &e : times)
-            {
-                int u = e[0] -1, v = e[1]-1 , w = e[2];
-                
-                if(dest[u] + w < dest[v])
-                    dest[v] = dest[u] + w;
-            }
+            return weight > e.weight;
         }
         
-        int time = *max_element(dest.begin(), dest.end());
-        if(time == OO)
+    };
+    
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) 
+    {
+        vector<vector<edge>> adjList(n);
+        
+        for(const vector<int>& t : times)
+            adjList[t[0]-1].push_back({t[1]-1, t[2]});
+        
+        vector<int> dist = Dijkstra(adjList, n, k-1);
+        
+        int minTime = *max_element(dist.begin(), dist.end());
+        
+        if(minTime == OO)
             return -1;
         
-        return time;
+        return minTime;
+    }
+    
+    vector<int> Dijkstra(vector<vector<edge>>& adjList, int n, int src)
+    {
+        vector<bool> vis(n, false);
+        vector<int> dist(n, OO);
+        dist[src] = 0;
+        
+        priority_queue<edge> pq;
+        pq.push(edge(src, 0));
+        
+        while(!pq.empty())
+        {
+            edge mnEdge = pq.top();
+            int minIdx = mnEdge.to;
+            pq.pop();
+            
+            if(vis[minIdx])
+                continue;
+            
+            for(const edge& edge : adjList[minIdx])
+            {
+                int to = edge.to, weight = edge.weight;
+                
+                if(dist[to] > dist[minIdx] + weight)
+                {
+                    dist[to] = dist[minIdx] + weight;
+                    pq.push({to, dist[to]});
+                }
+            }
+                    
+            vis[minIdx] = true;
+        }
+        
+        return dist;
     }
 };
