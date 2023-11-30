@@ -10,14 +10,13 @@ public:
     */
     int maxSubArray(vector<int>& nums) 
     {
-        int maxSoFar{INT_MIN}, maxEndingHere{0};
+        int maxSoFar{INT_MIN}, maxEndingHere{};
         
-        for(int i = 0 ; i < (int)nums.size() ; i++)
+        for(int val : nums)
         {
-            maxEndingHere += nums[i];
+            maxEndingHere += val;
             
-            if(maxSoFar < maxEndingHere)
-                maxSoFar = maxEndingHere;
+            maxSoFar = max(maxSoFar, maxEndingHere);
             
             if(maxEndingHere < 0)
                 maxEndingHere = 0;
