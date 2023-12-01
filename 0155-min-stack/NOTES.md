@@ -1,5 +1,5 @@
 ### Approach:
-Make each node in the stack have a value and the previous minimum value.
+Use a data structure to maintain the prefix min values we encounter so we can return the min in O(1)
 ​
 ### Complexity:
 Time Complexity for each function: `O(1)`\
