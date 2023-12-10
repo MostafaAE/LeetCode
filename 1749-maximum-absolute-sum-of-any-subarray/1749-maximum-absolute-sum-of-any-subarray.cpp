@@ -15,7 +15,7 @@ public:
     
     int maxSum(vector<int>& nums)
     {
-        int maxSoFar{}, maxSum{};
+        int maxSoFar{}, maxSum{INT_MIN};
         
         for(int n : nums)
         {
@@ -30,7 +30,7 @@ public:
     
     int minSum(vector<int>& nums)
     {
-        int minSoFar{}, minSum{};
+        int minSoFar{}, minSum{INT_MAX};
         
         for(int n : nums)
         {
