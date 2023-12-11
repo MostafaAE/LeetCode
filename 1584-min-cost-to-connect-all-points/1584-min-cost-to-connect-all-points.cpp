@@ -5,7 +5,7 @@ public:
     
     /* 
     * Approach:
-    * Graph Prim's MST
+    * Graph Prim's MST (lazy building the adjacency list)
     * 
     * Complexity:
     * Time Complexity : O(ElogV)
@@ -24,27 +24,9 @@ public:
         }
     };
     
-    int minCostConnectPoints(vector<vector<int>>& points) {
-        
-        int n{(int)points.size()};
-        vector<vector<edge>> adjList(n);
-        
-        for(int i = 0 ; i < n ; i++)
-        {
-            for(int j = i ; j < n ; j++)
-            {
-                int distance = abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]);
-                adjList[i].push_back({j, distance});
-                adjList[j].push_back({i, distance});
-            }
-        }
-        
-        return MST(adjList, n);
-        
-    }
-    
-    int MST(const vector<vector<edge>> &adjList, int n, int src = 0)
+    int minCostConnectPoints(vector<vector<int>>& points) 
     {
+        int n{(int)points.size()}, src{};
         vector<int> dist(n, OO);
         vector<bool> vis(n, 0);
         dist[src] = 0;
@@ -65,7 +47,7 @@ public:
 
             mstCost += mnEdge.w;
 
-            for (const auto &edge : adjList[mnIdx])
+            for (const auto &edge : getEdges(points, mnIdx))
             { // relax
                 int to = edge.to, weight = edge.w;
 
@@ -79,5 +61,18 @@ public:
         }
         
         return mstCost;
+    }
+    
+    vector<edge> getEdges(vector<vector<int>>& points, int idx)
+    {
+        int n{(int)points.size()};
+        vector<edge> adjList;
+        for(int j = 0 ; j < n ; j++)
+        {
+            int distance = abs(points[idx][0] - points[j][0]) + abs(points[idx][1] - points[j][1]);
+            adjList.push_back({j, distance});
+        }
+        
+        return adjList;
     }
 };
