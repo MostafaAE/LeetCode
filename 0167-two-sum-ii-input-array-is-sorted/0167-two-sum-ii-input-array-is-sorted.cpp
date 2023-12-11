@@ -2,7 +2,8 @@ class Solution {
 public:
     /* 
     * Approach:
-    * iterate on the array using two pointers (start, end)
+    * Iterate on the array using two pointers (left, right) if the value greater than the target, shift right left
+    * if the value less than the target, shift left right
     * 
     * Complexity:
     * Time Complexity : O(n)
@@ -10,20 +11,20 @@ public:
     */
     vector<int> twoSum(vector<int>& numbers, int target) 
     {
-        int start{}, end{(int)numbers.size()-1};
+        int n{(int)numbers.size()};
+        int left{}, right{n-1};
         
-        while(start < end)
+        while(left < right)
         {
-            int sum =  numbers[start] + numbers[end];
-            
-            if (sum > target)
-                end--;
-            else if (sum < target)
-                start++; 
+            int sum = numbers[left] + numbers[right];
+            if(sum == target)
+                return {left+1, right+1};
+            else if(sum > target)
+                right--;
             else
-                break;
+                left++;
         }
-    
-        return {start+1, end+1};
+        
+        return {};
     }
 };
