@@ -2,19 +2,19 @@ class Solution {
 public:
     /* 
     * Approach:
-    * two pointers
+    * Two pointers technique
     * 
     * Complexity:
     * Time Complexity : O(n)
     * Space Complexity : O(1)
     */
-    int removeDuplicates(vector<int>& nums) 
-    {
-        int k{1}, lastVal = nums[0];
-        for(int i = 1 ; i < (int)nums.size() ; i++)
-            if(nums[i] != lastVal)
-                nums[k++] = nums[i], lastVal = nums[i];
-            
-        return k;
+    int removeDuplicates(vector<int>& nums) {
+        
+        int left{1};
+        for(int right = 1; right < (int)nums.size() ; right++)
+            if(nums[right] != nums[right-1])
+                nums[left++] = nums[right]; 
+
+        return left;
     }
 };
