@@ -2,36 +2,26 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Calculate the number of increasing values up to each element and decreasing values after each element, then get the longest mountain array.
+    * Calculate the number of ups and downs for each element.
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
     int longestMountain(vector<int>& arr) 
     {
-        int n{(int)arr.size()};
+        int n{(int)arr.size()}, longest{};
         
-        if(n < 3)
-            return 0;
-        
-        int longest{};
-        vector<int> increasingTo(n, 0);
-        vector<int> decreasingTo(n, 0);
-        
-        for(int left = 1, right = n-2 ; left < n ; left++, right--)
+        for(int i = 1, up = 0, down = 0 ; i < n ; i++)
         {
-            if(arr[left] > arr[left - 1])
-                increasingTo[left] = increasingTo[left-1] + 1;
-            if(arr[right] > arr[right + 1])
-                decreasingTo[right] = decreasingTo[right+1] + 1;
+            if(down && arr[i] > arr[i - 1] || arr[i] == arr[i - 1])
+                up = down = 0;
+            
+            up += arr[i] > arr[i - 1];
+            down += arr[i] < arr[i - 1];
+                
+            if(up && down)
+                longest = max(longest, up + down + 1);
         }
-        
-        for(int i = 1 ; i < n - 1 ; i++)
-        {
-            if(increasingTo[i] && decreasingTo[i])
-                longest = max(longest, increasingTo[i]+decreasingTo[i]+1);
-        }
-        
         return longest; 
     }
 };
