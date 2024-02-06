@@ -12,7 +12,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Iterate over the linkedlist using "Hare-And-Tortoise" pointers till the fast one reach the end
+    * Iterate over the linkedlist using "Hare-And-Tortoise" pointers till the fast one reaches the end
     * 
     * Complexity:
     * Time Complexity : O(n)
@@ -20,10 +20,13 @@ public:
     */
     ListNode* middleNode(ListNode* head) 
     {
-        ListNode* slow = head, *fast = head;
+        ListNode *slow = head, *fast = head;
         
         while(fast && fast->next)
-            slow = slow->next, fast = fast->next->next;
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
         
         return slow;
     }
