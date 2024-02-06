@@ -10,22 +10,23 @@ public:
     */
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) 
     {
-        priority_queue<pair<int, vector<int>>> mxHeap;
+        priority_queue<pair<int, int>> mxHeap;
         vector<vector<int>> result;
         
-        for(auto p : points)
+        for(int i = 0 ; i < (int)points.size() ; i++)
         {
+            auto p = points[i];
             int dist = distanceSq(p[0], p[1]);
             if(mxHeap.size() >= k && mxHeap.top().first > dist)
                 mxHeap.pop();
             
             if(mxHeap.size() < k)
-                mxHeap.push({dist, p});
+                mxHeap.push({dist, i});
         }
         
         while(!mxHeap.empty())
         {
-            result.push_back(mxHeap.top().second);
+            result.push_back(points[mxHeap.top().second]);
             mxHeap.pop();
         }
         
