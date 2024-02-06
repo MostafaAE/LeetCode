@@ -2,29 +2,38 @@ class Solution {
 public:
     /* 
     * Approach:
-    * use a priority queue to store the closest k points and return them
-    * 
+    * Utilize a priority queue as a max heap and use it to keep track of the k closest points to origin.
+    *
     * Complexity:
-    * Time Complexity : O(nlogn)
-    * Space Complexity : O(n)
+    * Time Complexity : O(nlogk)
+    * Space Complexity : O(k)
     */
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) 
     {
-        priority_queue<pair<int,int>> pq;
+        priority_queue<pair<int, vector<int>>> mxHeap;
         vector<vector<int>> result;
-        for(int i = 0 ; i < (int)points.size() ; i++)
+        
+        for(auto p : points)
         {
-            int val = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            int dist = distanceSq(p[0], p[1]);
+            if(mxHeap.size() >= k && mxHeap.top().first > dist)
+                mxHeap.pop();
             
-            // O(logn)
-            pq.push({val, i});
-            if(pq.size() > k)
-                pq.pop();
+            if(mxHeap.size() < k)
+                mxHeap.push({dist, p});
         }
-            
-        for(int i = 0 ; i < k ; i++)
-            result.push_back(points[pq.top().second]), pq.pop();
+        
+        while(!mxHeap.empty())
+        {
+            result.push_back(mxHeap.top().second);
+            mxHeap.pop();
+        }
         
         return result;
+    }
+    
+    int distanceSq(int x, int y)
+    {
+        return x*x + y*y;
     }
 };
