@@ -9,14 +9,11 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-    
     /* 
     * Approach: 
-    * traverse the tree in level-order traversal (bfs) 
-    * and keep the last node in each level
+    * Traverse the tree in level-order traversal (bfs) and keep the last node in each level
     *
     * Complexity:
     * Time Complexity : O(n)
@@ -24,23 +21,24 @@ public:
     */
     vector<int> rightSideView(TreeNode* root) 
     {
-        queue<TreeNode *> q;
-        vector<int> result;
+        if(!root)
+            return {};
         
-        if(root)
-            q.push(root);
+        queue<TreeNode*> q;
+        vector<int> result;
+        q.push(root);
         
         while(!q.empty())
         {
-            int sz = q.size();
+            int sz = (int)q.size();
             
             while(sz--)
             {
-                TreeNode *cur = q.front();
+                TreeNode* cur = q.front();
                 q.pop();
                 
                 // rightmost node in this level
-                if(sz == 0)
+                if(!sz)
                     result.push_back(cur->val);
                 
                 if(cur->left)
