@@ -13,40 +13,32 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * Traverse the tree in level-order traversal (bfs) and keep the last node in each level
+    * Depth-First search (pick the rightmost node at each level)
     *
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(n) 
     */
-    vector<int> rightSideView(TreeNode* root) 
-    {
-        if(!root)
-            return {};
+    vector<int> rightSideView(TreeNode* root) {
         
-        queue<TreeNode*> q;
         vector<int> result;
-        q.push(root);
         
-        while(!q.empty())
-        {
-            int sz = (int)q.size();
-            
-            while(sz--)
-            {
-                TreeNode* cur = q.front();
-                q.pop();
-                
-                // rightmost node in this level
-                if(!sz)
-                    result.push_back(cur->val);
-                
-                if(cur->left)
-                    q.push(cur->left);
-                if(cur->right)
-                    q.push(cur->right);
-            }
-        }
+        dfs(root, result, 0);
+        
         return result;
+    }
+    
+    void dfs(TreeNode* node, vector<int> &result, int level)
+    {
+        if(!node)
+            return;
+        
+        if(result.size() <= level)
+            result.push_back(node->val);
+       
+        if(node->right)
+            dfs(node->right, result, level + 1);
+        if(node->left)
+            dfs(node->left, result, level + 1);
     }
 };
