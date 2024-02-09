@@ -32,8 +32,13 @@ public:
         while(steps--)
             cur = cur->next;
         
+        ListNode* toRemove = cur->next;
         cur->next = cur->next->next;
-        return dummy->next;
-            
+        delete toRemove;
+        
+        toRemove = dummy;
+        head = dummy->next;
+        delete toRemove;
+        return head;
     }
 };
