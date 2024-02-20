@@ -14,9 +14,7 @@ public:
         vector<int> answer(n, 0);
         stack<int> st;
         
-        st.push(0);
-        
-        for(int i = 1 ; i < n ; i++)
+        for(int i = 0 ; i < n ; i++)
         {
             while(!st.empty() && temperatures[st.top()] < temperatures[i])
                 answer[st.top()] = i - st.top(), st.pop();
