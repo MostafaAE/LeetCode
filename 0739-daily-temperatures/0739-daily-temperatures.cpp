@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Use stack to find the next greater element
+    * Use a monotonic decreasing stack for temperatures, when we find a warmer temperature than any in the stack, store the distance between them.
     * 
     * Complexity:
     * Time Complexity : O(n) => iterating on elements ~twice only
@@ -12,16 +12,18 @@ public:
     {
         int n{(int)temperatures.size()};
         vector<int> answer(n, 0);
-        stack<int> temps;
+        stack<int> st;
         
-        for(int i = 0 ; i < n ; i++)
+        st.push(0);
+        
+        for(int i = 1 ; i < n ; i++)
         {
-            while(!temps.empty() && temperatures[i] > temperatures[temps.top()])
-                answer[temps.top()] = i - temps.top(), temps.pop();
+            while(!st.empty() && temperatures[st.top()] < temperatures[i])
+                answer[st.top()] = i - st.top(), st.pop();
             
-            temps.push(i);
+            st.push(i);
         }
-
-        return answer;        
+        
+        return answer;
     }
 };
