@@ -6,7 +6,7 @@ public:
     *
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n) 
+    * Space Complexity : O(1) 
     */
     bool isIsomorphic(string s, string t) {
         unordered_map<char, char> hashMap1, hashMap2;
