@@ -2,65 +2,43 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Keep Y values in a vector, Keep a hashmap that map each Y value to a set of different X values (sorted), Iterate using two loops keeping track of the minimum area.
+    * Utilize a hashmap that map each X value to a hashset of different Y values, Iterate on each two points calculating the area if all four points of (x1,y1), (x1, y2), (x2, y1), (x2, y2) exists.
     * 
     * Complexity:
-    * Time Complexity : O(n^3)
+    * Time Complexity : O(n^2)
     * Space Complexity : O(n)
     */
     int minAreaRect(vector<vector<int>>& points) 
     {        
-        vector<int> yValues;
-        unordered_map<int, set<int>> yToX;
-        int minArea{INT_MAX};
-        bool foundArea{};
+        unordered_map<int, unordered_set<int>> xToYs;
+        int minArea{INT_MAX}, n{(int)points.size()};
         
         for(auto &p : points)
-        {
-            int x = p[0], y = p[1];
-            if(yToX.count(y))
-                yToX[y].insert(x);
-            else
-            {
-                set<int> xValues;
-                xValues.insert(x);
-                yToX.insert({y, xValues});
-                yValues.push_back(y);
-            }
-        }
+            xToYs[p[0]].insert(p[1]);
         
-        for(int i = 0 ; i < (int)yValues.size() ; i++)
+        for(int i = 0 ; i < n ; i++)
         {
-            for(int j = i + 1 ; j < (int)yValues.size() ; j++)
-            {
-                int y1 = yValues[i], y2 = yValues[j], prev = -1;
+            int x1 = points[i][0], y1 = points[i][1];
             
-                auto itr1 = yToX[y1].begin();
-                auto itr2 = yToX[y2].begin();
-
-                while(itr1 != yToX[y1].end() && itr2 != yToX[y2].end())
-                {
-                    if(*itr1 == *itr2)
-                    {
-                        if(prev != -1)
-                        {
-                            minArea = min(minArea, abs(y1 - y2) * abs(*itr1 - prev));
-                            foundArea = true;
-                        }
-                        prev = *itr1;
-                        itr1++;
-                        itr2++;
-                    }
-                    else if (*itr1 < *itr2)
-                        itr1++;
-                    else
-                        itr2++;
-                }
+            for(int j = i + 1 ; j < n ; j++)
+            {
+                int x2 = points[j][0], y2 = points[j][1];
+            
+                if(x1 == x2 || y1 == y2)
+                    continue;
+                // we have (x1, y1) and (x2, y2)
+                // check if (x1, y2) and (x2, y1) exist
+                // so we can calculate the area of the rectangle consisting of the four points
+                if(!xToYs[x1].count(y2) || !xToYs[x2].count(y1))
+                    continue;
+                
+                int area = abs(x2-x1) * abs(y2-y1);
+                minArea = min(minArea, area);
             }
         }
         
-        if(!foundArea)
-            return 0;
+        if(minArea == INT_MAX)
+            minArea = 0;
         
         return minArea;
     }
