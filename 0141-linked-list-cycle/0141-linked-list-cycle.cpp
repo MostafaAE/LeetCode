@@ -12,7 +12,7 @@ public:
     * Approach: 
     * Robert W. Floyd's tortoise and hare algorithm: 
     * move two pointers at different speeds through the sequence of values, if they met at some point
-    * then there is a cycle. otherwise, fast will reach the end on the list (null)
+    * then there is a cycle. otherwise, the fast pointer will reach the end of the list (null)
     *
     * Complexity:
     * Time Complexity : O(n)
@@ -20,13 +20,8 @@ public:
     */
     bool hasCycle(ListNode *head) 
     {
-        if(!head)
-            return false;
+        ListNode *slow{head}, *fast{head};
         
-        ListNode *slow = head;
-        ListNode *fast = head->next;
-        
-        // O(n)
         while(fast && fast->next)
         {
             slow = slow->next;
@@ -36,6 +31,7 @@ public:
             if(slow == fast)
                 return true;
         }
-        return false;
+        
+        return false;   
     }
 };
