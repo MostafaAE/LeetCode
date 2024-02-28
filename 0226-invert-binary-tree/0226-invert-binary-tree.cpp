@@ -13,7 +13,7 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * traverse the tree in dfs while swapping each left and right nodes together
+    * Traverse the tree in dfs while swapping each left and right nodes together.
     *
     * Complexity:
     * Time Complexity : O(n)
@@ -25,10 +25,11 @@ public:
         if(!root)
             return nullptr;
         
-        invertTree(root->left);
-        invertTree(root->right);
+        TreeNode* left = invertTree(root->left);
+        TreeNode* right = invertTree(root->right);
         
-        swap(root->left, root->right);
+        root->left = right;
+        root->right = left;
         
         return root;
     }
