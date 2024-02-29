@@ -1,27 +1,34 @@
 class Solution {
 public:
+    /* 
+    * Approach: 
+    * Use a hashmap to map each alien character to its index, then compare every two consequetive strings to check if they are sorted lexicographically.
+    *
+    * Complexity:
+    * Time Complexity : O(N*L)
+    * Space Complexity : O(1)
+    */
     bool isAlienSorted(vector<string>& words, string order) 
     {
-        unordered_map<char, int> chToIdx;
-        for(int i = 0 ; i < 26 ; i++)
-            chToIdx[order[i]] = i;
+        unordered_map<char, int> charToIdx;
         
-        for(int i = 0 ; i < (int)words.size()-1 ; i++)
+        for(int i = 0 ; i < (int)order.size() ; i++)
+            charToIdx[order[i]] = i;
+        
+        for(int i = 1 ; i < (int)words.size() ; i++)
         {
-            int size1{(int)words[i].size()}, size2{(int)words[i+1].size()};
-            int minSize = min(size1, size2);
-            int equalLetters{};
+            int s1 = words[i-1].size(), s2 = words[i].size(), equals{};
             
-            for(int j = 0 ; j < minSize ; j++)
+            for(int j = 0 ; j < min(s1, s2) ; j++)
             {
-                if(chToIdx[words[i][j]] > chToIdx[words[i+1][j]])
-                    return false;
-                else if (chToIdx[words[i][j]] < chToIdx[words[i+1][j]])
+                if(charToIdx[words[i-1][j]] < charToIdx[words[i][j]])
                     break;
+                else if(charToIdx[words[i-1][j]] > charToIdx[words[i][j]])
+                    return false;
                 else
-                    equalLetters++;
+                    equals++;
             }
-            if(equalLetters == minSize && size1 > size2)
+            if(equals == s2 && s1 > s2)
                 return false;
         }
         
