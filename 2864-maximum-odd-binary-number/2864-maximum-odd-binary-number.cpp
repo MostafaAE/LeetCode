@@ -6,19 +6,18 @@ public:
     *
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(1) => ignoring output space
+    * Space Complexity : O(1)
     */
     string maximumOddBinaryNumber(string s) 
     {
-        int n{(int)s.size()};
-        string result = string(n, '0');
-        result[n-1] = '1';
+        int n{(int)s.size()}, left{-1};
         
-        int idx1 = s.find("1") + 1, idx2{};
-        while(idx1 < n)
-            if(s[idx1++] == '1')
-                result[idx2++] = '1';
+        for(int i = 0 ; i < n ; i++)
+            if(s[i] == '1')
+                swap(s[i], s[++left]);
         
-        return result;
+        swap(s[left], s[n-1]);
+        
+        return s;
     }
 };
