@@ -2,38 +2,26 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * Get the idx of the first positive number while squaring all the values
-    * all the values before this idx will be sorted in decreasing order and all the values after it will be sorted in increasing order.
-    * use two pointers to merge these two paritions of the array in O(n).
+    * When we square the array it will be partitioned into two sorted arrays (non-increasing from left) and (non-increasing from right), so we can use two pointers to merge these two arrays in O(n).
+    Two pointers technique
     *
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1) => ignoring the output space
     */
     vector<int> sortedSquares(vector<int>& nums) 
     {
-        int n{(int)nums.size()}, pos{n}, neg{};
+        int n{(int)nums.size()}, right{n-1}, left{}, i{n-1};
         vector<int> result(n);
         
-        for(int i = 0 ; i < n ; i++)
+        while(left <= right)
         {
-            if(pos == n && nums[i] >= 0)
-                pos = i;
-            
-            nums[i] = nums[i] * nums[i];
-        }
-        
-        neg = pos - 1;
-        for(int i = 0 ; i < n ; i++)
-        {
-            if(neg <= -1)
-                result[i] = nums[pos++];
-            else if(pos >= n)
-                result[i] = nums[neg--];
-            else if (nums[pos] <= nums[neg])
-                result[i] = nums[pos++];
+            if(abs(nums[right]) >= abs(nums[left]))
+                result[i] = nums[right]*nums[right--];
             else
-                result[i] = nums[neg--];
+                result[i] = nums[left]*nums[left++];
+            
+            i--;
         }
         
         return result;
