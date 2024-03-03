@@ -2,7 +2,10 @@ class Solution {
 public:
     /*
      * Approach:
-     * Use a hash table to check if a number is repeated.
+     * This is a variant of Linked List Cycle II Problem
+     * Use a slow and fast pointer to find the intersection point (where they meet), then move the head and the intersection 1 step until they meet.
+     *
+     * Another solution: Use a hash table to check if a number is repeated O(n) memory.
      *
      * Complexity:
      * Time Complexity : O(n)
@@ -10,13 +13,32 @@ public:
      */
     int findDuplicate(vector<int>& nums) 
     {
-        unordered_set<int> hashSet;
+        int intersection = getIntersection(nums);
         
-        for(int i = 0 ; i < (int)nums.size() ; i++)
-            if(!hashSet.insert(nums[i]).second)
-                return nums[i];
+        int head{0};
         
-        return 0;
+        while(head != intersection)
+        {
+            head = nums[head];
+            intersection = nums[intersection];
+        }
         
+        return intersection;
+    }
+    
+    int getIntersection(vector<int>& nums)
+    {
+        int slow{0}, fast{0};
+        
+        while(true)
+        {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            
+            if(nums[slow] == nums[fast])
+                return slow;
+        }
+        
+        return -1;
     }
 };
