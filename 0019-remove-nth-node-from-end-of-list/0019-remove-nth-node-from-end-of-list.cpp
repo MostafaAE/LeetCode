@@ -12,7 +12,9 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * Get the size on the linkedlist, then remove the nth node from the end.
+    * Use two pointers (left, right), where one of them ahead of the other by n nodes (right), then move both till the advancing pointer reaches the end (right), now we have the node preceding the node to be deleted (left).
+    *
+    * We can also solve it by getting the size on the linkedlist, then remove the nth node from the end.
     * We can also solve it in one pass by storing all the nodes in a vector then remove the target node but will be O(n) memory.
     *
     * Complexity:
@@ -21,24 +23,22 @@ public:
     */
     ListNode* removeNthFromEnd(ListNode* head, int n) 
     {
-        ListNode* dummy = new ListNode(0, head), *cur = head;
-        int size{1};
+        ListNode* dummy = new ListNode(0, head), *right{dummy}, *left{dummy};
         
-        while(cur)
-            size++, cur = cur->next;
         
-        int steps = size - n - 1;
-        cur = dummy;
-        while(steps--)
-            cur = cur->next;
+        for(int i = 0 ; i < n ; i++)
+            right = right->next;
         
-        ListNode* toRemove = cur->next;
-        cur->next = cur->next->next;
-        delete toRemove;
+        while(right && right->next)
+            right = right->next, left = left->next;
         
-        toRemove = dummy;
+        ListNode *temp = left->next;
+        left->next = left->next->next;
+        delete temp;
+        
         head = dummy->next;
-        delete toRemove;
+        delete dummy;
+        
         return head;
     }
 };
