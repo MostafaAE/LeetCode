@@ -1,25 +1,32 @@
-const int MAX = 2*10000 + 1;
-int memory[MAX];
-vector<int> numsg;
 class Solution {
+private:
+    static const int MAX = 2*10000 + 1;
+    int memory[MAX];
+    vector<int> numsg;
+    unordered_map<int, int> freq;
 public:
     
     /* 
     * Approach:
-    * Dynamic Programming Memoization (Pick next bit mask approach)
+    * Dynamic Programming Memoization (Pick or leave approach)
     * 
     * Complexity:
-    * Time Complexity : O(N^2)
-    * Space Complexity : O(N)
+    * Time Complexity : O(nlogn)
+    * Space Complexity : O(n)
     */
     int deleteAndEarn(vector<int>& nums) 
     {
         memset(memory, -1, sizeof(memory));
-        sort(nums.begin(), nums.end());
-        numsg = nums;
-        numsg.insert(numsg.begin(), 2*MAX);
         
-        return deleteEarn(0) - 2*MAX;
+        // Count the frequency of each value
+        for(auto val : nums)
+            freq[val]++;
+        
+        // Remove duplicates and sort the array
+        set<int> s( nums.begin(), nums.end() );
+        numsg.assign( s.begin(), s.end() );
+        
+        return deleteEarn(0);
     }
     
     int deleteEarn(int idx)
@@ -31,16 +38,14 @@ public:
         if(ret != -1)
             return ret;
         
-        ret = 0;
-        for(int j = idx + 1 ; j < (int)numsg.size() ; j++)
-        {
-            // delete this value
-            if(numsg[j] != numsg[idx] + 1)
-                ret = max(ret, deleteEarn(j));
-        }
+        int pick = numsg[idx] * freq[numsg[idx]];
+        if(idx < (int)numsg.size() - 1 && numsg[idx + 1] != numsg[idx] + 1)
+            pick += deleteEarn(idx  + 1);
+        else
+            pick += deleteEarn(idx + 2);
         
-        ret += numsg[idx];
+        int leave = deleteEarn(idx + 1);
 
-        return ret;
+        return ret = max(pick, leave);
     }
 };
