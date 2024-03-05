@@ -12,22 +12,15 @@ public:
     {
         int n{(int)s.size()}, left{}, right{n - 1};
         
-        while(left < right)
+        while(left < right && s[left] == s[right])
         {
-            if(s[left] != s[right])
-                return right - left + 1;
-            else
-            {
-                while(left < right - 1 && s[left] == s[left + 1])
-                    left++;
-                while(right > left + 1 && s[right] == s[right - 1])
-                    right--;
-                
+            char c = s[left];
+            while(left <= right && s[left] == c)
                 left++;
+            while(right >= left && s[right] == c)
                 right--;
-            }
         }
         
-        return left == right;
+        return right - left + 1;
     }
 };
