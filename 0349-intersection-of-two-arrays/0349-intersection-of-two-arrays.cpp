@@ -1,28 +1,23 @@
 class Solution {
 public:
-    /* Approach: 
-     * use unordered_set to store the values of each array (remove duplicates)
-     * iterate on one unordered_set and check each element if it exists in the other unordered_set
+    /*
+     * Approach:
+     * Utilize a hash set to store the first array, then iterate on the second array checking each value if it exists in the hast set, then add it to the output.
      *
      * Complexity:
-     * Time Complexity : O(n+m)
-     * Space Complexity : O(n+m)
+     * Time Complexity : O(n + m)
+     * Space Complexity : O(n)
      */
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) 
     {
-        unordered_set<int> s1, s2;
-        vector<int> result;
+        // O(n)
+        unordered_set<int> hashSet(nums1.begin(), nums1.end()), res;
         
-        for(int i = 0 ; i < (int)nums1.size() ; i++)
-            s1.insert(nums1[i]);
+        // O(m)
+        for(int val : nums2)
+            if(hashSet.count(val))
+                res.insert(val);
         
-        for(int i = 0 ; i < (int)nums2.size() ; i++)
-            s2.insert(nums2[i]);
-        
-        for(int elem : s2)
-            if(!s1.insert(elem).second)
-                result.push_back(elem);
-        
-        return result;
+        return vector<int>(res.begin(), res.end());
     }
 };
