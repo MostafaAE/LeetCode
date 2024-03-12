@@ -1,5 +1,5 @@
 ### Approach:
-Build a directed graph, validate rule 1,2, and 3.
+Compute the indegree and outdegree of each node, return the node with outdegree = 0 and indegree = n-1.
 ​
 ### Complexity:
 **Time Complexity: O(V + E)**\
