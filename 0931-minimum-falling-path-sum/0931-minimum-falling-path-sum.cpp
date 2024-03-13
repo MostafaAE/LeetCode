@@ -11,7 +11,7 @@ public:
      * DP on Grid
      *
      * Complexity:
-     * Time Complexity : O(N^3) 
+     * Time Complexity : O(N^2) 
      * Space Complexity : O(N^2)
      */
     int minFallingPathSum(vector<vector<int>>& matrix) 
