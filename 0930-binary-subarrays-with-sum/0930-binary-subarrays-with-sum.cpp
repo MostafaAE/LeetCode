@@ -2,30 +2,35 @@ class Solution {
 public:
     /*
      * Approach:
-     * Prefix sum with hashmap
+     * Sliding window technique.
      *
      * Complexity:
      * Time Complexity : O(n)
-     * Space Complexity : O(n)
+     * Space Complexity : O(1)
      */
     int numSubarraysWithSum(vector<int>& nums, int goal) 
     {
-        int n{(int)nums.size()}, count{}, curSum{}, result{};
-        unordered_map<int, int> freq;
+        int n{(int)nums.size()}, zerosCount{}, result{}, curSum{};
         
-        for(int num : nums)
+        
+        for(int right = 0, left = 0 ; right < n ; right++)
         {
-            curSum += num;
+            curSum += nums[right];
+            
+            // Count the prefix zeros and reduce the sum if it exceeds the goal
+            while(left < right && (curSum > goal || nums[left] == 0))
+            {
+                if(nums[left])
+                    zerosCount = 0;
+                else
+                    zerosCount++;
+                
+                curSum -= nums[left++];
+            }
             
             if(curSum == goal)
-                result++;
-            
-            if(freq.count(curSum-goal))
-                result += freq[curSum-goal];
-            
-            freq[curSum]++;
+                result += 1 + zerosCount;
         }
-        
         return result;
     }
 };
