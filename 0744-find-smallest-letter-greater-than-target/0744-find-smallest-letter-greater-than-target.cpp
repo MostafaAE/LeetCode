@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * find upper bound of the target letter
+    * Find the upper bound of the target letter (binary search).
     * 
     * Complexity:
     * Time Complexity : O(logn)
@@ -10,22 +10,18 @@ public:
     */
     char nextGreatestLetter(vector<char>& letters, char target) 
     {
-        int start{0}, end{(int)letters.size()-1};
-    
+        int start{}, end{(int)letters.size()-1}, result{letters[0]};
+
         while(start <= end)
         {
-            int mid = start + (end-start)/2;
-            
-            if(target < letters[mid])
-                end = mid - 1;
-            
+            int mid = start + (end - start) / 2;
+
+            if(letters[mid] > target)
+                result = letters[mid], end = mid - 1;
             else
                 start = mid + 1;
         }
-        
-        if(start < (int)letters.size())
-            return letters[start];
-        
-        return letters[0];
+
+        return result;
     }
 };
