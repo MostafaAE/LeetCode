@@ -1,6 +1,5 @@
 class Solution {
 public:
-    
     /* 
     * Approach:
     * Use a count variable that is incremented by 1 every 1 encountered and decremented by 1 every 0 encountered
@@ -11,20 +10,20 @@ public:
     * Time Complexity : O(n)
     * Space Complexity : O(n)
     */
-    int findMaxLength(vector<int>& nums) {
-        int maxLen{}, prefixSum{};
+    int findMaxLength(vector<int>& nums) 
+    {
         unordered_map<int, int> prefixToIdx;
-        prefixToIdx[0] = -1;
+        int maxLen{}, curSum{};
         
+        prefixToIdx.insert({0, -1});
         for(int i = 0 ; i < (int)nums.size() ; i++)
         {
-            prefixSum += nums[i] ? 1 : -1;
-            
-            if(prefixSum == 0 || prefixToIdx.count(prefixSum))
-                maxLen = max(maxLen, i - prefixToIdx[prefixSum]);
-            
-            if(!prefixToIdx.count(prefixSum))
-                prefixToIdx[prefixSum] = i;
+            curSum += nums[i] ? 1 : -1;
+
+            if(prefixToIdx.count(curSum))
+                maxLen = max(maxLen, i - prefixToIdx[curSum]);
+            else
+                prefixToIdx[curSum] = i;
         }
         
         return maxLen;
