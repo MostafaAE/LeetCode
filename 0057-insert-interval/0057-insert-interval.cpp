@@ -2,12 +2,10 @@ class Solution {
 public:
     /*
      * Approach:
-     * Iterate over the intervals array
-     * if the current interval comes before the new interval, then insert it in results
-     * if the current interval comes after the new interval, then insert the new interval and rest of intervals
-     * if the current inerval end overlap with the new interval, then stretch the start of the new interval
-     * if the current interval start overlap with the new interval, then stretch the end of the new interval
-     * if the current interval completely overlap the new interval, then make the new interval = cur interval
+     * Iterate over the intervals array, we have 3 cases
+     * Case 1: no overlapping before the new interval
+     * Case 2: overlapping intervals
+     * Case 3: no overlapping after the new interval
      *
      * Complexity:
      * Time Complexity : O(n)
@@ -15,38 +13,31 @@ public:
      */
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) 
     {
-        int n{(int)intervals.size()};
-        bool isInserted{};
+        int n{(int)intervals.size()}, idx{};
         vector<vector<int>> result;
-        for(int i = 0 ; i < n ; i++)
+        
+        // Case 1: no overlapping before the new interval
+        // interval comes before the new interval
+        while(idx < n && intervals[idx][1] < newInterval[0])
+            result.push_back(intervals[idx]), idx++;
+        
+        // Case 2: overlapping case
+        // interval end overlap with the new interval
+        // interval start overlap with the new interval
+        // cur interval completely overlap new interval
+        while(idx < n && intervals[idx][0] <= newInterval[1])
         {
-            vector<int> curInterval = intervals[i];
-            
-            // interval come before the new interval
-            if(curInterval[1] < newInterval[0])
-                result.push_back(curInterval);
-            // interval comes after the new interval
-            else if(curInterval[0] > newInterval[1])
-            {
-                result.push_back(newInterval);
-                result.insert(result.end(), intervals.begin()+i, intervals.end());
-                isInserted = true;
-                break;
-            }
-            // interval end overlap with the new interval
-            else if(curInterval[1] >= newInterval[0] && curInterval[1] <= newInterval[1])
-                newInterval[0] = min(newInterval[0], curInterval[0]);
-            // interval start overlap with the new interval
-            else if(curInterval[0] >= newInterval[0] && curInterval[0] <= newInterval[1])
-                newInterval[1] = max(newInterval[1], curInterval[1]);
-            // cur interval completely overlap new interval
-            else if(curInterval[0] <= newInterval[0] && curInterval[1] >= newInterval[1])
-                newInterval = curInterval;
+            newInterval[0] = min(newInterval[0], intervals[idx][0]);
+            newInterval[1] = max(newInterval[1], intervals[idx][1]);
+            idx++;
         }
+        result.push_back(newInterval);
         
-        if(!isInserted)
-            result.push_back(newInterval);
-        
+        // Case 3: no overlapping after new interval
+        // current interval comes after the new interval
+        while(idx < n)
+            result.push_back(intervals[idx]), idx++;
+
         return result;
     }
 };
