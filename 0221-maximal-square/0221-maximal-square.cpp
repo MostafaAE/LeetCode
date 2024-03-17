@@ -19,9 +19,7 @@ public:
         
         mat = matrix;
         memset(memory, -1, sizeof(memory));
-        
-        maxSqSide(m-1, n-1);
-        
+                
         int maxSide{INT_MIN};
         for(int i = 0 ; i < m ; i++)
             for(int j = 0 ; j < n ; j++)
