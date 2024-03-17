@@ -1,106 +1,108 @@
-// Definition for doubly-linked list.
-struct DoublyListNode {
+// Definition for doubly-linked list node.
+struct Node {
     int key, val;
-    DoublyListNode *prev, *next;
-    DoublyListNode() : val(0), prev(nullptr), next(nullptr) {}
-    DoublyListNode(int key, int val) : key(key), val(val), prev(nullptr), next(nullptr) {}
-    DoublyListNode(int key, int val, DoublyListNode *prev, DoublyListNode *next) :key(key), val(val), prev(prev), next(next) {}
+    Node *prev, *next;
+    Node() : val(0), prev(nullptr), next(nullptr) {}
+    Node(int key, int val) : key(key), val(val), prev(nullptr), next(nullptr) {}
+};
+
+struct DoublyLinkedList
+{
+    Node *head = new Node(-1, -1);
+    Node *tail = new Node(-1, -1);
+    int size{};
     
+    DoublyLinkedList()
+    {
+        link(head, tail);
+    }
+
+    void link(Node* first, Node* second)
+    {
+        first->next = second;
+        second->prev = first;
+    }
+
+    Node* front()
+    {
+        return head->next;
+    }
+
+    Node* back()
+    {
+        return tail->prev;
+    }
     
+    void push_front(int key, int value)
+    {
+        Node* node = new Node(key, value);
+        link(node, head->next);
+        link(head, node);
+        size++;
+    }
+    
+    void erase(Node* node)
+    {
+        link(node->prev, node->next);
+        delete node;
+        size--;
+    }
 };
  
 class LRUCache {
 private:
-    DoublyListNode *head = new DoublyListNode(-1, -1), *tail = new DoublyListNode(-1, -1);
-    unordered_map<int, DoublyListNode*> hashMap;
+    unordered_map<int, Node*> hashMap;
+    DoublyLinkedList lru;
     int capacity;
-    
-    void addLast(DoublyListNode *node)
-    {
-        // insert the new node at the end of the linked list
-        tail->prev->next = node;
-        node->prev = tail->prev;
-        node->next = tail;
-        tail->prev = node;
-    }
-    
-    void unlink(DoublyListNode *node)
-    {
-        DoublyListNode* prev = node->prev;
-        DoublyListNode* next = node->next;
-        prev->next = next;
-        next->prev = prev;
-    }
-    
+
 public:
     
     /*
      * Approach:
      * Use a hash map where each key maps to a doubly linked list node
-     * When we get a key, unlink it and put it in the end of the linked list
-     * When we put a new key, if the hash map size is less than the capacity, then put it at the end of the linked list, else remove the least recently used node (first node in the linked list), and put the new node at the end.
-     * When we try to put the same key, update the node value, then put it at the end of the linked list
+     * When we get a key, put it at the front of the linked list
+     * When we put a new key, if the hash map size is less than the capacity, then put it at the front of the linked list, else remove the least recently used node (evict last node in the linked list), and put the new node at the front.
+     * When we try to put the same key, update the node value, then put it at the front of the linked list
+     *
      * Complexity:
      * Time Complexity : O(1) for both 'get' and 'put'
      */
     
     LRUCache(int capacity) : capacity(capacity) {
-        head->next = tail;
-        tail->prev = head;
+    }
+    
+    void updateLRU(int key, int value)
+    {
+        if(hashMap.count(key))
+            lru.erase(hashMap[key]);
+        
+        lru.push_front(key, value);
+        hashMap[key] = lru.front();
+    }
+
+    void evict()
+    {
+        hashMap.erase(lru.back()->key);
+        lru.erase(lru.back());
     }
     
     // O(1)
-    int get(int key) {
-        if(hashMap.count(key))
-        {
-            DoublyListNode* cur = hashMap[key];
-            
-            // unlink this node
-            unlink(cur);
-            
-            // insert the node at the end of the linked list
-            addLast(cur);
-            
-            return cur->val;
-        }
-        else
+    int get(int key) 
+    {
+        if(!hashMap.count(key))
             return -1;
+        
+        int value = hashMap[key]->val;
+        updateLRU(key, value);
+        return value;
     }
     
     // O(1)
     void put(int key, int value) 
     {
-        // key already exists
-        if(hashMap.count(key))
-        {
-            // update its value
-            DoublyListNode *node = hashMap[key];
-            node->val = value;
-            
-            // unlink this node
-            unlink(node);
-            // insert the node at the end of the linked list
-            addLast(node);
-            
-            return;
-        }
-        
-        DoublyListNode *node = new DoublyListNode(key, value);
-        
-        if(hashMap.size() >= capacity)
-        {
-            // unlink least recently used node
-            DoublyListNode* temp = head->next;
-            unlink(temp);
-            
-            hashMap.erase(temp->key);
-            delete temp;
-        }
-        
-        // insert the new node at the end of the linked list
-        addLast(node);
-        
-        hashMap.insert({key, node});
+        if(lru.size == capacity && !hashMap.count(key))
+            evict();
+        updateLRU(key, value);
     }
 };
 
