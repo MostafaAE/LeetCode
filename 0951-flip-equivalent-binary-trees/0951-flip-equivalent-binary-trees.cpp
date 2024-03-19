@@ -11,36 +11,36 @@
  */
 class Solution {
 public:
-    
-    string parenthesize_canonical(TreeNode *node)
+    /* 
+    * Approach:
+    * Get the parenthesize canonical representation of the two trees and compare them.
+    * 
+    * Complexity:
+    * Time Complexity : O(N1 + N2)
+    * Space Complexity : O(N1 + N2)
+    */
+    bool flipEquiv(TreeNode* root1, TreeNode* root2) 
     {
-        vector<string> v;
+        string repr1 = parenthesizeCanonical(root1);
+        string repr2 = parenthesizeCanonical(root2);
         
-        if(!node)
-            return "()";
-        
-        string repr = "(" + to_string(node->val);
-        
-        v.push_back(parenthesize_canonical(node->left));
-        v.push_back(parenthesize_canonical(node->right));
-        
-        sort(v.begin(), v.end());
-        
-        for(string s : v)
-            repr += s;
-        
-        repr+=")";
-        
-        return repr;
+        return repr1 == repr2; 
     }
     
-    
-    bool flipEquiv(TreeNode* root1, TreeNode* root2) {
+    string parenthesizeCanonical(TreeNode* node)
+    {
+        if(!node)
+            return "()";
+                
+        int left = node->left ? node->left->val : -1;
+        int right = node->right ? node->right->val : -1;
         
-        string tree1 = parenthesize_canonical(root1);
-        string tree2 = parenthesize_canonical(root2);
+        string leftRepr = parenthesizeCanonical(node->left);
+        string rightRepr = parenthesizeCanonical(node->right);
         
-        return tree1 == tree2;
+        if(left > right)
+            swap(leftRepr, rightRepr);
         
+        return "(" + to_string(node->val) + leftRepr + rightRepr + ")";
     }
 };
