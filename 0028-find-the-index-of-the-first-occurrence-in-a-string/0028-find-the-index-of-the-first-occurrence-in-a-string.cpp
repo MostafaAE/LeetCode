@@ -2,43 +2,55 @@ class Solution {
 public:
     /* 
     * Approach:
-    * string matching using two pointers
+    * Knuth–Morris–Pratt algorithm (KMP).
     * 
     * Complexity:
-    * Time Complexity : O(L) where L is haystack.length
-    * Space Complexity : O(1)
+    * Time Complexity : O(N + M)
+    * Space Complexity : O(M)
     */
     int strStr(string haystack, string needle) 
     {
-        if(needle.size() > haystack.size())
-            return -1;
+        int n{(int)haystack.size()}, m{(int)needle.size()}, i{}, j{};
+        vector<int> LPS = computeLPS(needle);
         
-        int firstOccurance{-1};
-        bool found{};
-        for(int i = 0, j = 0 ; i < (int)haystack.size() ; i++)
+        while(i < n)
         {
             if(haystack[i] == needle[j])
+                i++, j++;
+            else 
             {
-                if(!j)
-                    firstOccurance = i;
-                
-                if(j == needle.size()-1)
-                {
-                    found = 1; 
-                    break;
-                }
-                
-                j++;
+                if(j == 0)
+                    i++;
+                else
+                    j = LPS[j - 1];
             }
-            else if(j)
-            {
-                j = 0;
-                i = firstOccurance;
-            }
+            
+            if(j == m)
+                return i-m;
         }
         
-        if(found)
-            return firstOccurance;
         return -1;
+    }
+    
+    // 
+    // longest prefix suffix O(M)
+    vector<int> computeLPS(string needle)
+    {
+        int m{(int)needle.size()};
+        vector<int> LPS(m, 0);
+        
+        int i{1}, prevLPS{};
+        
+        while(i < m)
+        {
+            if(needle[i] == needle[prevLPS])
+                LPS[i] = prevLPS + 1, prevLPS++, i++;
+            else if(prevLPS == 0)
+                LPS[i] = 0, i++;
+            else
+                prevLPS = LPS[prevLPS - 1];
+        }
+        
+        return LPS;
     }
 };
