@@ -11,49 +11,40 @@
  */
 class Solution {
 public:
-    
-    string parenthesize(TreeNode *node, vector<pair<string,TreeNode *>> &allReps)
+    /* 
+    * Approach:
+    * Parenthesize each subtree, and utilize a hash map to find the duplicate subtrees.
+    * 
+    * Complexity:
+    * Time Complexity : O(n^2) => we visit every node O(n) and we will hash its representation O(n)
+    * Space Complexity : O(n^2)
+    */
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) 
     {
-        string repr;
+        vector<TreeNode*> result;
+        unordered_map<string, int> hashMap;
         
-        if (!node)
-            return "()";
-        
-        repr += "(" + to_string(node->val);
-        
-        repr += parenthesize(node->right, allReps);
-        repr += parenthesize(node->left, allReps);
-        
-        repr +=")";
-        
-        allReps.push_back(make_pair(repr, node));
-        
-        return repr;
-    }
-    
-    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
-        
-        vector<TreeNode *> result;
-        vector<pair<string, TreeNode *>> allReps;
-        
-        parenthesize(root, allReps);
-        
-        sort(allReps.begin(), allReps.end());
-
-        for(int i = 0 ; i < (int)allReps.size();)
-        {
-            int j = i+1;
-            
-            while(j<(int)allReps.size() && allReps[i].first == allReps[j].first)
-                j++;
-            
-            if(j > i+1)
-                result.push_back(allReps[i].second);
-            
-            i=j;
-        }
+        parenthesize(root, hashMap, result);
         
         return result;
+    }
+    
+    string parenthesize(TreeNode* node, unordered_map<string, int>& hashMap, vector<TreeNode*>& result)
+    {
+        if(!node)
+            return "()";
         
+        
+        string left = parenthesize(node->left, hashMap, result);
+        string right = parenthesize(node->right, hashMap, result);
+        string repr = "(" + to_string(node->val) + left + right + ")";
+        
+        hashMap[repr]++;
+        
+        // duplicate subtree
+        if(hashMap[repr] == 2)
+            result.push_back(node);
+        
+        return repr;
     }
 };
