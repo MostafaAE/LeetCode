@@ -12,7 +12,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Iterate on the linkedlist, and connect each node's next with the previous
+    * Iterate on the linkedlist, and connect each node's next with the previous.
     * 
     * Complexity:
     * Time Complexity : O(n)
