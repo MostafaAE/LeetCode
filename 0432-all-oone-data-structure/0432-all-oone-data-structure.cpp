@@ -1,70 +1,144 @@
-class AllOne {
-    /* 
-    * Approach: 
-    * We can solve it using a hashtable that map each key to its frequency and another BBST
-    * that maps each frequency to its key, using this approach we can implement inc()
-    * and dec() in O(logn), and getMaxKey() and getMinKey() in O(1)
+/* 
+* Approach:
+* 1. We can solve it by using a hashtable and a doubly linked list of hashtable of strings,
+* each entry in the hashtable will map a key to its node in the linkedlist 
+* so we can inc() and dec() in O(1) and also getMaxKey() and getMinKey() in O(1).
+*
+* 
+* 2. We can also solve it using a hashtable that map each key to its frequency and another BBST
+* that maps each frequency to its key, using this approach we can implement 
+* inc() and dec() in O(logn), and getMaxKey() and getMinKey() in O(1)
+*
+*/
 
-    * We can also solve it in another approach by using a hashtable and a doubly linked list 
-    * of hashtable of strings, each entry in the hashtable will map a key to its node in the 
-    * linkedlist so we can inc() and dec() in O(1) and also getMaxKey() and getMinKey() in O(1).
-    *
-    */
+struct Node{
+    int count;
+    unordered_set<string> hashSet;
+    Node *prev{}, *next{};
+    Node(string key, int count) : count(count){
+        hashSet.insert(key);
+    }
+};
+
+struct DoublyLinkedList{
+    Node *head = new Node("", INT_MIN);
+    Node *tail = new Node("", INT_MAX);
     
+    DoublyLinkedList()
+    {
+        link(head, tail);
+    }
+    
+    Node* front()
+    {
+        return head->next;
+    }
+    
+    Node* back()
+    {
+        return tail->prev;
+    }
+    
+    void link(Node* node1, Node* node2)
+    {
+        node1->next = node2;
+        node2->prev = node1;
+    }
+    
+    void push_front(string key, int value)
+    {
+        Node* node = new Node(key, value);
+        link(node, head->next);
+        link(head, node);
+    }
+    
+    void erase(Node* node)
+    {
+        link(node->prev, node->next);
+    }
+};
+
+class AllOne {
 private:
-    unordered_map<string, int> strFreq;
-    set<pair<int, string>> freqStr;
+    unordered_map<string, Node*> stringToNode;
+    DoublyLinkedList dll;
 public:
     AllOne() {
         
     }
     
-    // O(logn)
     void inc(string key) {
-        
-        if(strFreq.count(key))
+        if(!stringToNode.count(key))
         {
-            int freq = strFreq[key];
-            strFreq[key] = freq + 1;
-            freqStr.erase({freq, key});
-            freqStr.insert({freq + 1 , key});
+            if(dll.front()->count == 1)
+                dll.front()->hashSet.insert(key);
+            else
+                dll.push_front(key, 1);
+            stringToNode[key] = dll.front();
         }
-        else
-        {
-            strFreq[key] = 1;
-            freqStr.insert({1, key});
+        else{
+            Node* node = stringToNode[key];
+            node->hashSet.erase(key);
+            
+            if(node->next->count == node->count + 1)
+            {
+                stringToNode[key] = node->next;
+                node->next->hashSet.insert(key);
+            }
+            else
+            {
+                Node* newNode = new Node(key, node->count + 1);
+                stringToNode[key] = newNode;
+                dll.link(newNode, node->next);
+                dll.link(node, newNode);
+            }
+            
+            if(node->hashSet.size() == 0)
+            {
+                dll.erase(node);
+                delete node;
+            }
         }
     }
     
-    // O(logn)
     void dec(string key) {
-
-        int freq = strFreq[key];
-        freqStr.erase({freq, key});
+        Node* node = stringToNode[key];
+        node->hashSet.erase(key);
         
-        if(freq > 1)
+        if(node->count == 1)
+            stringToNode.erase(key);
+        else if(node->prev->count == node->count - 1)
         {
-            strFreq[key] = freq - 1;
-            freqStr.insert({freq - 1 , key});
+            stringToNode[key] = node->prev;
+            node->prev->hashSet.insert(key);
         }
         else
-            strFreq.erase(key);
+        {
+            Node* newNode = new Node(key, node->count - 1);
+            stringToNode[key] = newNode;
+            dll.link(node->prev, newNode);
+            dll.link(newNode, node);
+        }
+        
+        if(node->hashSet.size() == 0)
+        {
+            dll.erase(node);
+            delete node;
+        }
     }
     
-    // O(1)
     string getMaxKey() {
-        if(freqStr.empty())
+        if(stringToNode.size() == 0)
             return "";
         
-        return freqStr.rbegin()->second;
+        return *dll.back()->hashSet.begin(); 
     }
     
-    // O(1)
     string getMinKey() {
-        if(freqStr.empty())
+        if(stringToNode.size() == 0)
             return "";
-
-        return freqStr.begin()->second;
+        
+        return *dll.front()->hashSet.begin();
     }
 };
 
