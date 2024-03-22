@@ -12,31 +12,48 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Iterate over the linkedlist and put all the nodes values in a stack, iterate again on the linked list
-    * and compare each node's value with the top of the stack
+    * 1. Find the middle: use the slow and fast pointer technique to find the middle of the linked list.
+    * 2. Reverse the second half: Once you find the middle, reverse the second half of the linked list. 
+    * 3. Compare the halves: compare each element of the first half with its corresponding element in the reversed second half. If at any point we find a mismatch, the list is not a palindrome
     * 
     * Complexity:
     * Time Complexity : O(n)
-    * Space Complexity : O(n)
+    * Space Complexity : O(1)
     */
     bool isPalindrome(ListNode* head) 
     {
-        stack<int> s;
+        ListNode *slow{head}, *fast{head->next};
         
-        ListNode *cur = head;
-        while(cur)
-            s.push(cur->val), cur = cur->next;
+        // find the middle of the linkedlist
+        while(fast && fast->next)
+            slow = slow->next, fast = fast->next->next;
         
-        cur = head;
-        while(!s.empty())
+        // reverse the 2nd half of the linked list
+        ListNode* head2 = reverse(slow->next);
+        slow->next = nullptr;
+        
+        // compare the two halves
+        while(head && head2)
         {
-            if(s.top() != cur->val)
+            if(head->val != head2->val)
                 return false;
-            
-            s.pop();
-            cur = cur->next;
+            head = head->next;
+            head2 = head2->next;
         }
         
         return true;
+    }
+    
+    ListNode* reverse(ListNode* head)
+    {
+        ListNode* prev{nullptr};
+        while(head)
+        {
+            ListNode *temp = head->next;
+            head->next = prev;
+            prev = head;
+            head = temp;
+        }
+        return prev;
     }
 };
