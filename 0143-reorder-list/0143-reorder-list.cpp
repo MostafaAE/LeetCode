@@ -12,8 +12,9 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Get the middle of the linkedlist, then reverse the linkedlist from the middle 
-    * to the end ,and finally reorder the nodes
+    * 1. Find the middle: use the slow and fast pointer technique to find the middle of the linked list.
+    * 2. Reverse the second half: once you find the middle, reverse the second half of the linked list. 
+    * 3. Reorder the nodes: merge the first half of the list with the reversed second half by alternating their nodes.
     * 
     * Complexity:
     * Time Complexity : O(n)
@@ -27,11 +28,9 @@ public:
             slow = slow->next, fast = fast->next->next;
         
         // slow is the middle of the linked list
-        ListNode* secondHalf = slow->next;
-        slow->next = nullptr;
-        
         // let's reverse from the middle to the end
-        ListNode* right = reverse(secondHalf);
+        ListNode* right = reverse(slow->next);
+        slow->next = nullptr;
         
         // reorder the nodes (merge the two lists)
         ListNode* left = head;
