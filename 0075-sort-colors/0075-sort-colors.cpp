@@ -10,25 +10,22 @@ public:
     */
     void sortColors(vector<int>& nums) 
     {
-        int left{}, right{}, cur{};
+        int left{}, right{(int)nums.size()-1}, cur{};
         
-        while(left < nums.size())
+        while(cur <= right)
         {
-            while(nums[right] != cur)
+            if(nums[cur] == 0)
             {
-                right++;
-                if(right == nums.size())
-                {
-                    cur++;
-                    right = left;
-                    continue;
-                }
+                swap(nums[cur], nums[left]);
+                left++;
             }
-            
-            swap(nums[left], nums[right]);
-            if(left == right)
-                right++;
-            left++;
+            else if(nums[cur] == 2)
+            {
+                swap(nums[cur], nums[right]);
+                right--;
+                cur--;
+            }
+           cur++;
         }
     }
 };
