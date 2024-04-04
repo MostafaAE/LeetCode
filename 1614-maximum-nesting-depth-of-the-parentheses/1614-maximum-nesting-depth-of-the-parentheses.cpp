@@ -2,24 +2,23 @@ class Solution {
 public:
     /*
      * Approach:
-     * Utilize a stack to keep track of the maximum nested depth
+     * Keep track of the number of opened brackets
      *
      * Complexity:
      * Time Complexity : O(n)
-     * Space Complexity : O(n)
+     * Space Complexity : O(1)
      */
     int maxDepth(string s) 
     {
-        int maxDepth{};
-        stack<int> st;
+        int maxDepth{}, openedBrackets{};
         for(char c : s)
         {
             if(c == '(')
-                st.push(0);
+                openedBrackets++;
             else if(c == ')')
             {
-                maxDepth = max(maxDepth, (int)st.size());
-                st.pop();
+                maxDepth = max(maxDepth, openedBrackets);
+                openedBrackets--;
             }
         }
         
