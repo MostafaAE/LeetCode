@@ -1,6 +1,6 @@
 ### Approach:
-- Utilize a stack to keep track of the maximum nested depth.
+- Keep track of the number of opened brackets.
 ​
 ### Complexity:
 - **Time Complexity: `O(n)`**
-- **Space Complexity: `O(n)`**
+- **Space Complexity: `O(1)`**
