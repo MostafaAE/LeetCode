@@ -9,8 +9,8 @@ public:
      * Dynamic Programming Memoization (pick next mask one approach).
      *
      * Complexity:
-     * Time Complexity : O(N^2)
-     * Space Complexity : O(N) where N is the max index
+     * Time Complexity : O(N)
+     * Space Complexity : O(N)
      */
     int mincostTickets(vector<int>& _days, vector<int>& _costs) 
     {
@@ -34,17 +34,11 @@ public:
         for(int i = 0 ; i < costs.size() ; i++)
         {
             int validTo = days[idx] + passes[i];
-            int cost = costs[i];
-            for(int j = idx + 1 ; j < days.size() ; j++)
-            {
-                if(days[j] >= validTo)
-                {
-                    cost += minCost(j);
-                    break;
-                }
-            }
+            int j = idx + 1;
+            while(j < days.size() && days[j] < validTo)
+                j++;
             
-            ret = min(ret, cost);
+            ret = min(ret, costs[i] + minCost(j));
         }
         
         return ret;
