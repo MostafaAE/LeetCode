@@ -11,36 +11,35 @@
  */
 class BSTIterator {
 private:
-stack<pair<TreeNode*, bool>> traversal;
+stack<TreeNode*> traversal;
 public:
+
     BSTIterator(TreeNode* root) 
     {
-        if(root)
-            traversal.push({root, false});
+        addLeftMostChain(root);
     }
     
+    void addLeftMostChain(TreeNode* node)
+    {
+        while(node)
+        {
+            traversal.push(node);
+            node = node->left;
+        }
+    }
+    
+    // average O(1)
     int next() 
     {
-        while(traversal.top().second == false)
-        {
-            TreeNode* cur = traversal.top().first;
-            traversal.pop();
-            
-            if(cur->right)
-                traversal.push({cur->right, false});
-            
-            traversal.push({cur, true});
-            
-            if(cur->left)
-                traversal.push({cur->left, false});
-        }
-        
-        TreeNode* cur = traversal.top().first;
+        TreeNode* cur = traversal.top();
         traversal.pop();
-        return cur->val;
         
+        addLeftMostChain(cur->right);
+        
+        return cur->val;
     }
     
+    // O(1)
     bool hasNext() 
     {
         return (int)traversal.size() != 0;
