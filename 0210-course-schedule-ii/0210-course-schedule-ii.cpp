@@ -2,7 +2,7 @@ class Solution {
 public:
     /* 
     * Approach:
-    * Topological sort
+    * Topological sort (Kahn's algorithm).
     * 
     * Complexity:
     * Time Complexity : O(E+V)
@@ -13,6 +13,7 @@ public:
         vector<vector<int>> graph(numCourses);
         vector<int> indegree(numCourses);
         vector<int> ordering;
+        
         for(auto &p : prerequisites)
         {
             addDirectedEdge(graph, p[1], p[0]);
