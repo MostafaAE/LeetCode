@@ -13,23 +13,22 @@ class Solution {
 public:
     /* 
     * Approach: 
-    * depth first search
+    * Depth-First search.
     *
     * Complexity:
     * Time Complexity : O(n)
     * Space Complexity : O(h) => auxiliary space for stack
     * h could be (n) or (logn) depending on the shape of the tree
     */
-    int sumOfLeftLeaves(TreeNode* node, bool left = 0) 
+    int sumOfLeftLeaves(TreeNode* node, bool isLeft = 0) 
     {
         if(!node)
             return 0;
         
         // left leaf node
-        if(!node->left && !node->right && left)
+        if(!node->left && !node->right && isLeft)
             return node->val;
 
-        
-        return sumOfLeftLeaves(node->left, 1) + sumOfLeftLeaves(node->right, 0);
+        return sumOfLeftLeaves(node->left, true) + sumOfLeftLeaves(node->right, false);
     }
 };
