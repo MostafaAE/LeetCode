@@ -2,6 +2,8 @@ class Solution {
 public:
     /* 
     * Approach:
+    * Split the string s into words and then map each character in the pattern to its corresponding word and vice versa using two hash maps.
+    *
     * Complexity:
     * Time Complexity : O(n+m)
     * Space Complexity : O(n+m)
@@ -10,8 +12,8 @@ public:
     {
         vector<string> words = split(s, ' ');
         
-        unordered_map<char, string> cs;
-        unordered_map<string, char> sc;
+        unordered_map<char, string> charToWord;
+        unordered_map<string, char> wordToChar;
         
         if(words.size() != pattern.size())
             return false;
@@ -21,15 +23,17 @@ public:
             char ch = pattern[i];
             string word = words[i];
             
-            if(cs.count(ch) && cs[ch] != word || sc.count(word) && sc[word] != ch)
+            if(charToWord.count(ch) && charToWord[ch] != word 
+               || wordToChar.count(word) && wordToChar[word] != ch)
                 return false;
             
-            cs[ch] = word;
-            sc[word] = ch;
+            charToWord[ch] = word;
+            wordToChar[word] = ch;
         }
         return true;
     }
     
+    // O(m)
     vector<string> split(const string &s, char delim)
     {
         vector<string> result;
@@ -37,7 +41,6 @@ public:
         string word;
         while(getline(ss, word, delim))
             result.push_back(word);
-        return result;
-            
+        return result;  
     }
 };
