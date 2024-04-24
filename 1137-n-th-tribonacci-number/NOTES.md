@@ -1,6 +1,6 @@
 ### Approach:
-DP Tabulation (Fibonacci style).
+- DP Tabulation (Fibonacci style).
 ​
 ### Complexity:
-**Time Complexity: O(n)**\
-**Space Complexity: O(1)**
+- **Time Complexity: `O(n)`**
+- **Space Complexity: `O(1)`**
