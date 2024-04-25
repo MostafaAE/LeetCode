@@ -1,7 +1,7 @@
 class Solution {
 private:
-    static const int MAX = 100000 + 1;
-    int memory[MAX][27];
+    static const int MAX_IDX = 100000 + 1, MAX_CHAR = 26 + 1;
+    int memory[MAX_IDX][MAX_CHAR];
     string str;
     int diff;
 public:
