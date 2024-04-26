@@ -2,29 +2,35 @@ class Solution {
 public:
     /*
      * Approach:
-     * Utilize a hashmap to count the frequency of each number in the array.
-     * Then, use a max heap to store the numbers along with their frequencies.
-     * Pop the top k elements from the heap and return them as the result.
+     * Count the frequency of each number using a hashmap.
+     * Create buckets to store numbers with the same frequency.
+     * Iterate through the buckets starting from the highest frequency, and add the numbers to the result vector until it reaches size k.
+     * Finally, return the result vector.
      *
      * Complexity:
-     * Time Complexity: O(n logn)
+     * Time Complexity: O(n)
      * Space Complexity: O(n)
      */
-    
     vector<int> topKFrequent(vector<int>& nums, int k) 
     {
+        int maxCount{INT_MIN};
         unordered_map<int, int> numToCount;
-        priority_queue<pair<int, int>> maxHeap;
         vector<int> result;
         
         for(auto num : nums)
+        {
             ++numToCount[num];
+            maxCount = max(maxCount, numToCount[num]);
+        }
         
+        vector<vector<int>> buckets(maxCount+1);
         for(auto [num, count] : numToCount)
-            maxHeap.push({count, num});
+            buckets[count].push_back(num);
         
-        while(k--)
-            result.push_back(maxHeap.top().second), maxHeap.pop();
+        
+        for(int i = maxCount ; result.size() < k && i >= 0 ; --i)
+            for(int j = 0 ; result.size() < k && j < buckets[i].size() ; j++)
+                result.push_back(buckets[i][j]);
         
         return result;
     }
