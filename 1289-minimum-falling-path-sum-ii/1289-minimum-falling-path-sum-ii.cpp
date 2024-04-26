@@ -1,54 +1,54 @@
 class Solution {
-private:
-    static const int MAX = 200 + 1;
-    int memory[MAX][MAX];
-    vector<vector<int>> grid;
 public:
-    /*
-     * Approach:
-     * Dynamic Programming Memoization
-     * 
-     * DP on Grid
-     *
-     * Complexity:
-     * Time Complexity : O(N^3) 
-     * Space Complexity : O(N^2)
-     */
-    int minFallingPathSum(vector<vector<int>>& _grid) 
+    /* 
+    * Approach: 
+    * - Dynamic Programming Tabulation
+    *
+    * Complexity:
+    * Time Complexity : O(N^2)
+    * Space Complexity : O(1)
+    */
+    int minFallingPathSum(vector<vector<int>>& grid) 
     {
-        int minPath{INT_MAX};
-        grid = _grid;
+        int n{(int)grid.size()};
+        vector<pair<int, int>> prevMins, curMins;
+
+        for(int c = 0 ; c < n ; ++c)
+            insertMin(prevMins, grid[n-1][c], c);
         
-        for(int i = 0 ; i < MAX ; i++)
-            for(int j = 0 ; j < MAX ; j++)
-                memory[i][j] = INT_MAX;
+        for(int r = n - 2; r >= 0 ; --r)
+        {
+            for(int c = 0 ; c < n ; ++c)
+            {
+                int minVal{INT_MAX};
+                for(int i = 0 ; i < 2 ; ++i)
+                    if(prevMins[i].second != c)
+                        minVal = min(minVal, grid[r][c] + prevMins[i].first);
+                
+                insertMin(curMins, minVal, c);
+            }
+            
+            swap(curMins, prevMins);
+            curMins.clear();
+        }
         
-        // In the first row: try all possible starts
-        for(int c = 0 ; c < (int)grid.size() ; c++)
-            minPath = min(minPath, minFallingPath(0, c));
-        
-        return minPath;
+        return prevMins[0].first;
     }
     
-    int minFallingPath(int r, int c)
+    // O(1) the vector will always have at most 2 elements
+    void insertMin(vector<pair<int, int>>& v, int val, int idx)
     {
-        // out of boundaries
-        if(r >= grid.size())
-            return 0;
-        
-        int &ret = memory[r][c];
-        if(ret != INT_MAX)
-            return ret;
-        
-        
-        for(int i = 0 ; i < grid.size() ; i++)
-            if(i != c)
-                ret = min(ret, minFallingPath(r + 1, i));
-        
-        if(ret == INT_MAX)
-            ret = 0;
-        
-        ret += grid[r][c];
-        return ret;
+        if (v.size() < 2) 
+        {
+            v.push_back({val, idx});
+            if (v.size() == 2 && v[0].first > v[1].first)
+                swap(v[0], v[1]);
+        } 
+        else if (val < v[1].first) 
+        {
+            v[1] = {val, idx};
+            if (v[0].first > v[1].first)
+                swap(v[0], v[1]);
+        }
     }
 };
