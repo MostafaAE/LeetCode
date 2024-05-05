@@ -8,6 +8,14 @@
  */
 class Solution {
 public:
+    /*
+    * Approach:
+    * - Copy the value of the next node to the current node and then delete the next node.
+    *
+    * Complexity:
+    * - Time Complexity: O(1)
+    * - Space Complexity: O(1)
+    */
     void deleteNode(ListNode* node) {
         
         // get the next node
