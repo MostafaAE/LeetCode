@@ -1,5 +1,4 @@
-class Trie
-{
+class Trie {
 private:
     static const int MAX_CHAR = 26;
     Trie *child[MAX_CHAR];
@@ -8,80 +7,85 @@ private:
 public:
     Trie()
     {
-        // set the child array pointers to nullptr
         memset(child, 0, sizeof(child));
     }
-
-    void insert(string str)
+    
+    // Insert a word in the trie
+    void insert(const string& str)
     {
         Trie *cur = this;
-        for (int i = 0; i < (int)str.size(); i++)
+        for(auto c : str)
         {
-            int ch = str[i] - 'a';
-
-            if (!cur->child[ch])
-                cur->child[ch] = new Trie();
-
-            cur = cur->child[ch];
+            int idx = c - 'a';
+            if(cur->child[idx] == nullptr)
+                cur->child[idx] = new Trie();
+            cur = cur->child[idx];
         }
         cur->isLeaf = true;
     }
-
-    string firstWordPrefix(const string &str)
+    
+    // Given a word return its shortest prefix in the trie, or the word if no matching exists
+    string findWordPrefix(const string& str)
     {
         Trie *cur = this;
-
-        for (int i = 0; i < (int)str.size(); i++)
+        for(int i = 0 ; i < str.size() ; ++i)
         {
-
-            int ch = str[i] - 'a';
-
-            if (!cur->child[ch])
+            int idx = str[i] - 'a';
+            if(cur->child[idx] == nullptr)
                 break;
-
-            cur = cur->child[ch];
-
-            if (cur->isLeaf)
-                return str.substr(0, i + 1);
+            
+            cur = cur->child[idx];
+            
+            if(cur->isLeaf)
+                return str.substr(0 , i + 1);
         }
+        
         return str;
     }
 };
 
 class Solution {
 public:
-    
-    //split string at certain delimeter
-    vector<string> split(const string &s, char delim)
+    /*
+    * Approach:
+    * - Construct a trie using the given dictionary of words.
+    * - Insert each word from the dictionary into the trie.
+    * - Split the input sentence into individual words.
+    * - For each word, find the shortest prefix in the trie that matches the word.
+    * - Join the processed words back into a single string.
+    *
+    * Complexity:
+    * - Time Complexity: O(d.w + s.w), where `d` is the dictionary length, `s` is the sentence length, and `w` is the average word length.
+    * - Space Complexity: O(d.w + s.w)
+    */
+    string replaceWords(vector<string>& dictionary, string sentence) 
     {
-        vector<string> result;
-        stringstream ss(s);
-        string item;
-
-        while (getline(ss, item, delim))
+        Trie *trie = new Trie();
+        string result{};
+        vector<string> sentenceWords = split(sentence, ' ');
+        
+        for(auto word : dictionary)
+            trie->insert(word);
+        
+        for(int i = 0 ; i < sentenceWords.size() ; ++i)
         {
-            result.push_back(item);
+            if(i > 0)
+                result += " ";
+            result += trie->findWordPrefix(sentenceWords[i]);
         }
-
+        
         return result;
     }
     
-    string replaceWords(vector<string>& dictionary, string sentence) 
+    vector<string> split(string& str, char delim)
     {
-        Trie trie;
-        vector<string> words = split(sentence, ' ');
-        string result = "";
-        for(string s : dictionary)
-            trie.insert(s);
+        vector<string> words;
+        stringstream ss(str);
         
-        for(int i = 0 ; i < (int)words.size() ; i++)
-        {
-            result += trie.firstWordPrefix(words[i]);
-            if(i < (int) words.size() - 1)
-                result += " ";
-        }
+        string word;
+        while(getline(ss, word, delim))
+            words.push_back(word);
         
-        return result;
-            
+        return words;
     }
 };
