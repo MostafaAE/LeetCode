@@ -10,7 +10,7 @@ public:
     * Complexity:
     * - Time Complexity: O(n log(n*d))
     *   - Sorting the positions takes O(n log n).
-    *   - Binary search runs in O(log d) iterations, where d is the difference between the smallest and largest position.
+    *   - Binary search runs in O(log d) iterations, where d is the difference between the smallest and largest position divided by m-1.
     *   - The isPossibleDistance check runs in O(n) for each iteration of binary search.
     * - Space Complexity: O(logn), for sorting.
     */
