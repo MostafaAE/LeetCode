@@ -1,30 +1,29 @@
 class KthLargest {
-public:
-    
-    priority_queue<int, vector<int> , greater<int>> pq;
+private:
+    priority_queue<int, vector<int>, greater<int>> minHeap;
     int k;
-    
-    KthLargest(int _k, vector<int>& nums) {
-        
+public:
+    KthLargest(int _k, vector<int>& nums) 
+    {
         k = _k;
-        
         for(int val : nums)
-            add(val);
-        
+            tryInsert(val);
     }
     
-    int add(int val) {
-        
-        if(pq.size() < k)
-            pq.push(val);
-        
-        else if (val > pq.top())
-        {
-            pq.pop();
-            pq.push(val);
-        }
-        
-        return pq.top();
+    int add(int val) 
+    {
+        tryInsert(val);
+        return minHeap.top();
+    }
+    
+private:
+    void tryInsert(int val)
+    {
+        if(minHeap.size() == k && val > minHeap.top())
+                minHeap.pop();
+
+        if(minHeap.size() < k)
+            minHeap.push(val);
     }
 };
 
