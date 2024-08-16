@@ -1,36 +1,29 @@
 class Solution {
 public:
+    /**
+     * Approach:
+     * - Initialize `minSoFar` and `maxSoFar` with the first array's minimum and maximum elements.
+     * - Iterate through the remaining arrays and calculate the maximum distance by comparing:
+     *   - The difference between the current `maxSoFar` and the first element of the current array.
+     *   - The difference between the last element of the current array and `minSoFar`.
+     * - Update `minSoFar` and `maxSoFar` accordingly.
+     * - The result will be the maximum distance found during the iteration.
+     *
+     * Complexity:
+     * - Time Complexity: O(n), where n is the number of arrays.
+     * - Space Complexity: O(1)
+     */
     int maxDistance(vector<vector<int>>& arrays) 
     {
-        map<int, unordered_set<int>> minValToIndecies;
-        map<int, unordered_set<int>> maxValToIndecies;
+        int minSoFar = arrays[0].front(), maxSoFar = arrays[0].back(), result = INT_MIN;
         
-        for(int i = 0 ; i < arrays.size() ; ++i)
+        for(int i = 1; i < arrays.size(); ++i)
         {
-            minValToIndecies[arrays[i].front()].insert(i);
-            maxValToIndecies[arrays[i].back()].insert(i);
-        }
-        
-        auto minItr = minValToIndecies.begin();
-        auto maxItr = maxValToIndecies.rbegin();
-        int result{INT_MIN};
-        for(int i = 0 ; i < 3 && minItr != minValToIndecies.end() && maxItr != maxValToIndecies.rend() ; ++i)
-        {
-            int minVal = minItr->first;
-            unordered_set<int> minIndecies = minItr->second;
+            // Calculate maximum distance for the current array
+            result = max(result, max(maxSoFar - arrays[i].front(), arrays[i].back() - minSoFar));
             
-            int maxVal = maxItr->first;
-            unordered_set<int> maxIndecies = maxItr->second;
-            
-            for(auto idx : minIndecies)
-                if(maxIndecies.size() > 1 || !maxIndecies.count(idx))
-                    result = max(result, abs(maxVal - minVal));
-            
-            if(i == 0)
-                maxItr++;
-            
-            if(i == 1)
-                minItr++, maxItr--;
+            minSoFar = min(minSoFar, arrays[i].front());
+            maxSoFar = max(maxSoFar, arrays[i].back());
         }
         
         return result;
