@@ -26,24 +26,16 @@ public:
     {
         unordered_set<int> hashSet(nums.begin(), nums.end());
         
-        ListNode *prev = nullptr, *cur = head, *newHead = head;
+        ListNode *cur = head, *dummy = new ListNode(), *prev = dummy;
+        dummy->next = head;
         
         while(cur)
         {
             if(hashSet.count(cur->val))
             {
-                if(prev == nullptr)
-                {
-                    newHead = cur->next;
-                    delete cur;
-                    cur = newHead;
-                }
-                else
-                {
-                    prev->next = cur->next;
-                    delete cur;
-                    cur = prev->next;
-                }
+                prev->next = cur->next;
+                delete cur;
+                cur = prev->next;
             }
             else
             {
@@ -52,6 +44,6 @@ public:
             }
         }
         
-        return newHead;
+        return dummy->next;
     }
 };
