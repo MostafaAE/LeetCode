@@ -4,19 +4,13 @@ public:
     {
         int n = nums.size(), dup;
 
-        vector<bool> visited(n);
-
         for(int i = 0 ; i < n ; ++i)
-        {
-            if(visited[nums[i]])
-                dup = nums[i];
-
-            visited[nums[i]] = 1;
-        }
+            while(nums[i] != nums[nums[i] - 1])
+                swap(nums[i], nums[nums[i] - 1]);
         
-        for(int i = 1 ; i <= n ; ++i)
-            if(!visited[i])
-                return {dup, i};
+        for(int i = 0 ; i < n ; ++i)
+            if(nums[i] != i+1)
+                return {nums[i], i+1};
 
         return {};
     }
