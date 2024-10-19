@@ -1,28 +1,26 @@
 class Solution {
 public:
-    char findKthBit(int n, int k) 
-    {
-        string nthStr = constructStr(n);
-    
-        return nthStr[k-1];
-    }
-    
-    string constructStr(int n)
-    {
-        if(n == 1)
-            return "0";
+    char findKthBit(int n, int k) {
+        // Base case: for S1, return '0'
+        if (n == 1) return '0';
+
+        // Calculate the length of Sn
+        int len = 1 << n;  // Equivalent to 2^n
+
+        // If k is in the first half of the string, recurse with n-1
+        if (k < len / 2) 
+            return findKthBit(n - 1, k);
         
-        string prev = constructStr(n - 1);
+        // If k is exactly in the middle, return '1'
+        else if (k == len / 2) 
+            return '1';
         
-        return prev + "1" + revInv(prev);
-    }
-    
-    string revInv(string str)
-    {
-        for(int i = 0 ; i < str.size() ; ++i)
-            str[i] = str[i] == '0' ? '1' : '0';
-        
-        reverse(str.begin(), str.end());
-        return str;
+        // If k is in the second half of the string
+        else 
+        {
+            // Find the corresponding bit in the first half and invert it
+            char correspondingBit = findKthBit(n - 1, len - k);
+            return (correspondingBit == '0') ? '1' : '0';
+        }
     }
 };
