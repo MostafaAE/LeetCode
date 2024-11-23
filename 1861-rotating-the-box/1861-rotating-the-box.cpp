@@ -1,5 +1,21 @@
 class Solution {
 public:
+    /**
+     * Approach:
+     * 1. **Simulate Gravity**:
+     *    - Iterate over each row in the `box` from right to left.
+     *    - Stones (`#`) fall to the lowest available position (tracked by `lowestColWithEmptyCell`).
+     *    - When an obstacle (`*`) is encountered, reset `lowestColWithEmptyCell` to just before the obstacle.
+     * 2. **Rotate the Box**:
+     *    - Create a new 2D vector `rotatedBox` with dimensions `cols x rows`.
+     *    - Map each cell in the `box` to its new position in `rotatedBox` such that the box is rotated 90° clockwise.
+     *
+     * Complexity:
+     * Time Complexity: O(m * n)
+     * - Simulating gravity for each cell takes O(m * n).
+     * - Rotating the box involves iterating through all cells, which is also O(m * n).
+     * Space Complexity: O(m * n)
+     */
     vector<vector<char>> rotateTheBox(vector<vector<char>>& box) 
     {
         int rows = box.size(), cols = box[0].size();
@@ -8,20 +24,18 @@ public:
         
         for(int r = 0 ; r < rows ; ++r)
         {
-            int right = cols - 1, left = right;
-            while(right >= 0 && left >= 0)
+            int lowestColWithEmptyCell = cols - 1;
+            for(int c = cols - 1 ; c >= 0 ; --c)
             {
-                while(right >= 0 && box[r][right] != '.')
-                    --right;
+                if(box[r][c] == '#')
+                {
+                    box[r][c] = '.';
+                    box[r][lowestColWithEmptyCell] = '#';
+                    --lowestColWithEmptyCell;
+                }
                 
-                left = min(right - 1, left);
-                while(left >= 0 && box[r][left] == '.')
-                    --left;
-                
-                if(left >= 0 && box[r][left] == '*')
-                    right = left - 1;
-                else if(left >= 0 && box[r][left] == '#')
-                    swap(box[r][left], box[r][right]);
+                if(box[r][c] == '*')
+                    lowestColWithEmptyCell = c - 1;
             }
         }
         
