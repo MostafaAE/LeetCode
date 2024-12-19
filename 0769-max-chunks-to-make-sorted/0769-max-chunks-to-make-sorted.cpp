@@ -2,30 +2,19 @@ class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) 
     {
-        int count{}, start{}, end{}, n = arr.size();
-        
-        while(end < n)
+        int n = arr.size();
+        int chunks = 0, prefixSum = 0, sortedPrefixSum = 0;
+
+        // Iterate over the array
+        for (int i = 0; i < n; i++) 
         {
-            unordered_set<int> hashSet;
-            for(int i = start ; i <= end ; ++i)
-                hashSet.insert(arr[i]);
+            prefixSum += arr[i];
             
-            bool validChunck{true};
-            for(int i = start ; i <= end ; ++i)
-            {
-                if(!hashSet.count(i))
-                {
-                    validChunck = false;
-                    break;
-                }
-            }
-            
-            ++end;
-            
-            if(validChunck)
-                ++count, start = end;
+            sortedPrefixSum += i;
+
+            if (prefixSum == sortedPrefixSum) 
+                chunks++;
         }
-        
-        return count;
+        return chunks;
     }
 };
