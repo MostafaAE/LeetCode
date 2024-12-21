@@ -11,20 +11,18 @@ public:
         }
         
         int result{n};
-        vector<bool> visited(n, 0);
-        dfs(adjList, 0, visited, values, k, result);
+        
+        dfs(adjList, 0, -1, values, k, result);
         
         return result;
     }
     
-    long long dfs(vector<vector<int>>& adjList, int node, vector<bool>& visited, vector<int>& values, int k, int& result)
+    int dfs(vector<vector<int>>& adjList, int node, int parent, vector<int>& values, int k, int& result)
     {
-        visited[node] = true;
-
-        long long sum{values[node]};
+        int sum{values[node]};
         for(int neighbour : adjList[node])
-            if(!visited[neighbour])
-                sum += dfs(adjList, neighbour, visited, values, k, result);
+            if(neighbour != parent)
+                sum += dfs(adjList, neighbour, node, values, k, result), sum %= k;
 
         if(sum % k == 0)
             return 0;
