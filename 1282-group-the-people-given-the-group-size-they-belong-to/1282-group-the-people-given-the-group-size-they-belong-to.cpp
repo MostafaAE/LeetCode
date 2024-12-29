@@ -3,24 +3,20 @@ public:
     vector<vector<int>> groupThePeople(vector<int>& groupSizes) 
     {
         int n = groupSizes.size();
-        unordered_map<int, vector<vector<int>>> groupSizeToGroups;
+        unordered_map<int, vector<int>> groupSizeToGroup;
         vector<vector<int>> result;
 
         for(int i = 0 ; i < n ; ++i)
         {
             int groupSize = groupSizes[i];
+            groupSizeToGroup[groupSize].push_back(i);
 
-            if(groupSizeToGroups.count(groupSize) && 
-               groupSizeToGroups[groupSize].back().size() < groupSize)
+            if(groupSizeToGroup[groupSize].size() == groupSize)
             {
-                groupSizeToGroups[groupSize].back().push_back(i);
+                result.push_back(groupSizeToGroup[groupSize]);
+                groupSizeToGroup[groupSize].clear();
             }
-            else
-                groupSizeToGroups[groupSize].push_back(vector<int>(1, i));
         }
-
-        for(auto [groupSize, groups] : groupSizeToGroups)
-            result.insert(result.end(), groups.begin(), groups.end());
 
         return result;
     }
