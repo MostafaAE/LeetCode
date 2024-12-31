@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> minOperations(string boxes) 
     {
-        int n = boxes.size(), curState{};
+        int n = boxes.size();
         vector<int> result(n, 0);
 
         int ballsToLeft{}, movesToLeft{};
