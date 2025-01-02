@@ -2,43 +2,21 @@ class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) 
     {
-        int travels = travel.size(), houses = garbage.size(), result{};
-        vector<int> travelPrefix(travels+1, 0);
+        int M = 0, P = 0, G = 0, result = garbage[0].size();
 
-        for(int i = 0 ; i < travels ; ++i)
-            travelPrefix[i+1] = travel[i] + travelPrefix[i];
-        
-        int metalIndex{}, paperIndex{}, glassIndex{};
-
-        for(int i = 0 ; i < houses ; ++i)
+        for (int i = garbage.size() - 1; i > 0; i--) 
         {
-            vector<int> garbageCount = countGarbage(garbage[i]);
-            result += garbageCount[0] + garbageCount[1] + garbageCount[2];
+            for (char ch : garbage[i]) 
+            {
+                if (ch == 'M') 
+                    M = 1;
+                else if (ch == 'P')
+                    P = 1;
+                else
+                    G = 1;
+            }
 
-            if(garbageCount[0]) // metal
-                result += travelPrefix[i] - travelPrefix[metalIndex++], metalIndex = i;
-            
-            if(garbageCount[1]) // paper
-                result += travelPrefix[i] - travelPrefix[paperIndex++], paperIndex = i;
-            
-            if(garbageCount[2]) // glass
-                result += travelPrefix[i] - travelPrefix[glassIndex], glassIndex = i;
-        }
-
-        return result;
-    }
-
-    vector<int> countGarbage(const string& garbage)
-    {
-        vector<int> result(3, 0);
-        for(char c :  garbage)
-        {
-            if(c == 'M')
-                ++result[0];
-            else if(c == 'P')
-                ++result[1];
-            else
-                ++result[2];
+            result += travel[i - 1] * (M + P + G) + garbage[i].size();
         }
 
         return result;
