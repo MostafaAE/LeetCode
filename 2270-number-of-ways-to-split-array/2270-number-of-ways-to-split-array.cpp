@@ -2,31 +2,35 @@ class Solution {
 public:
     /**
      * Approach:
-     * - Use prefix sums to calculate the sum of the left and right parts of the array efficiently.
-     * - For each split point `i`, calculate:
-     *     - Left sum: `prefix[i]`
-     *     - Right sum: `prefix[n-1] - prefix[i]`
-     * - If the left sum is greater than or equal to the right sum, increment the result.
+     * - Use two variables, `leftSum` and `rightSum`, to calculate the sums dynamically while iterating through the array.
+     * - Initialize `rightSum` with the total sum of the array using `accumulate`.
+     * - Iterate through the array, updating:
+     *     - `leftSum` by adding the current element.
+     *     - `rightSum` by subtracting the current element.
+     * - If `leftSum` is greater than or equal to `rightSum` at any split point, increment the result.
      *
      * Complexity:
      * Time Complexity: O(n)
-     * - Computing prefix sum: O(n), where `n` is the size of the array.
-     * - Iterating through the array to count valid splits: O(n).
-     * Space Complexity: O(n) for the prefix sum array.
+     * - Calculating the total sum with `accumulate` takes O(n).
+     * - Iterating through the array to count valid splits takes O(n).
+     * Space Complexity: O(1)
      */
-    int waysToSplitArray(vector<int>& nums) {
+    int waysToSplitArray(vector<int>& nums) 
+    {
         int n = nums.size(), result = 0;
-        vector<long long> prefix(n, 0);
 
-        // Compute the prefix sum array
-        prefix[0] = nums[0];
-        for (int i = 1; i < n; ++i)
-            prefix[i] = prefix[i - 1] + nums[i];
+        long long leftSum = 0;
+        long long rightSum = accumulate(nums.begin(), nums.end(), 0LL);
 
-        // Check valid splits
-        for (int i = 0; i < n - 1; ++i)
-            if (prefix[i] >= prefix[n - 1] - prefix[i])
+        // Iterate through the array to find valid splits
+        for (int i = 0; i < n - 1; ++i) 
+        {
+            leftSum += nums[i];
+            rightSum -= nums[i];
+
+            if (leftSum >= rightSum)
                 ++result;
+        }
 
         return result;
     }
