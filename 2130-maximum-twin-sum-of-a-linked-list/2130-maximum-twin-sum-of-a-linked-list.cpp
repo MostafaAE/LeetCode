@@ -10,32 +10,38 @@
  */
 class Solution {
 public:
+    /**
+     * Approach:
+     * - Find the middle of the linked list using the slow and fast pointer technique.
+     * - Reverse the second half of the linked list starting from the middle.
+     * - Traverse the first half and reversed second half simultaneously to calculate the maximum twin sum.
+     * 
+     * Complexity:
+     * Time Complexity: O(n)
+     * - Finding the middle: O(n).
+     * - Reversing the second half: O(n).
+     * - Calculating the maximum twin sum: O(n).
+     * Space Complexity: O(1)
+     * - In-place operations are used for reversing the linked list.
+     */
     int pairSum(ListNode* head) 
     {
-        ListNode *middle = findMiddle(head);
-        
-        ListNode *end = reverse(middle);
+        // Find the middle of the list
+        ListNode* middle = findMiddle(head);
 
+        // Reverse the second half of the list
+        ListNode* end = reverse(middle);
+
+        // Calculate the maximum twin sum
         return getMaxPairSum(head, end);
     }
 
-    int getMaxPairSum(ListNode* start, ListNode* end)
-    {
-        int result{};
-        while(start && end)
-        {
-            result = max(result, start->val + end->val);
-            start = start->next;
-            end = end->next;
-        }
-
-        return result;
-    }
-
-    ListNode* findMiddle(ListNode* node)
+private:
+    // Helper function to find the middle of the linked list
+    ListNode* findMiddle(ListNode* node) 
     {
         ListNode *slow = node, *fast = node;
-        while(fast)
+        while (fast && fast->next) 
         {
             slow = slow->next;
             fast = fast->next->next;
@@ -44,10 +50,11 @@ public:
         return slow;
     }
 
-    ListNode* reverse(ListNode* node)
+    // Helper function to reverse the linked list
+    ListNode* reverse(ListNode* node) 
     {
         ListNode *prev = nullptr, *cur = node;
-        while(cur)
+        while (cur) 
         {
             ListNode* temp = cur->next;
             cur->next = prev;
@@ -56,5 +63,19 @@ public:
         }
 
         return prev;
+    }
+
+    // Helper function to calculate the maximum twin sum
+    int getMaxPairSum(ListNode* start, ListNode* end) 
+    {
+        int result = 0;
+        while (end) // Iterate until the end of the reversed half
+        {  
+            result = max(result, start->val + end->val);
+            start = start->next;
+            end = end->next;
+        }
+        
+        return result;
     }
 };
