@@ -2,19 +2,19 @@ class Solution {
 public:
     string sortVowels(string s) 
     {
-        int len = s.size();
-        unordered_set<char> vowels{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
-        
+        int len = s.size();        
         unordered_map<char, int> vowelToCount;
         for(int i = 0 ; i < len ; ++i)
-            ++vowelToCount[s[i]];
-        
-
+        {
+            if(isVowel(s[i]))
+                ++vowelToCount[s[i]];
+        }
+            
         string result = s, sortedVowels = "AEIOUaeiou";
         int charIdx{};
         for(int i = 0 ; i < len ; ++i)
         {
-            if(vowels.count(result[i]))
+            if(isVowel(result[i]))
             {
                 while(vowelToCount[sortedVowels[charIdx]] == 0)
                     ++charIdx;
@@ -25,5 +25,10 @@ public:
         }
         
         return result;
+    }
+
+    bool isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'o'|| c == 'u'|| c == 'i' 
+            || c == 'A' || c == 'E' || c == 'O'|| c == 'U'|| c == 'I';
     }
 };
