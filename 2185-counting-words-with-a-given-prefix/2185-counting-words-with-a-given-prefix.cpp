@@ -10,7 +10,7 @@ public:
         return count;
     }
 
-    bool isPrefix(string pref, string word)
+    bool isPrefix(string& pref, string& word)
     {
         if(pref > word)
             return false;
