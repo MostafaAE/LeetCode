@@ -2,45 +2,68 @@ class Solution {
 public:
     bool canBeValid(string s, string locked) 
     {
-        int n = s.size();
+        int n = s.size(), openBrackets{}, unlockedCount{};
 
-        if (n&1) 
+        if(n&1)
             return false;
 
-        stack<int> openBrackets, unlocked;
-
-        // Iterate through the string to handle '(' and ')'
-        for (int i = 0; i < n; i++) 
+        for(int i = 0 ; i < n ; ++i)
         {
-            if (locked[i] == '0') 
-                unlocked.push(i);
-            
-            else if (s[i] == '(') 
-                openBrackets.push(i);
-            
-            else if (s[i] == ')') 
+            // If the parenthese is '(' or ')' but unlocked
+            if(locked[i] == '0')
             {
-                if (!openBrackets.empty()) 
-                    openBrackets.pop();
+                ++unlockedCount;
+            }
+            // If the parenthese is '(' and locked
+            else if(s[i] == '(')
+            {
+                ++openBrackets;
+            }
+            // If the parenthese is ')' and locked
+            // We have to find a match
+            else if(s[i] == ')')
+            {
                 
-                else if (!unlocked.empty()) 
-                    unlocked.pop();
-                
-                else 
+                if(openBrackets > 0)            // Consume from locked
+                    --openBrackets;
+                else if(unlockedCount > 0)      // Consume from unlocked
+                    --unlockedCount;
+                else
                     return false;
             }
         }
 
-        // Match remaining open brackets with unlocked characters
-        while (!openBrackets.empty() && !unlocked.empty() &&
-               openBrackets.top() < unlocked.top()) 
+        // Match remaining open brackets with unlocked characters.
+        int balance = 0;
+        for (int i = n - 1; i >= 0; --i) 
         {
-            openBrackets.pop();
-            unlocked.pop();
+            if (locked[i] == '0') 
+            {
+                balance--;
+                unlockedCount--;
+            } 
+            else if (s[i] == '(') 
+            {
+                balance++;
+                openBrackets--;
+            } 
+            else if (s[i] == ')') 
+            {
+                balance--;
+            }
+            if (balance > 0) 
+            {
+                return false;
+            }
+            if (unlockedCount == 0 and openBrackets == 0) 
+            {
+                break;
+            }
         }
 
-        if (!openBrackets.empty()) 
+        if (openBrackets > 0) {
             return false;
+        }
 
         return true;
     }
