@@ -1,5 +1,18 @@
 class Solution {
 public:
+    /**
+     * Approach:
+     * - Use two stacks: one to store the indices of open brackets (`openBrackets`) 
+     *   and another to store the indices of unlocked positions (`unlocked`).
+     * - Traverse the string:
+     *   - Push indices to the respective stacks for unlocked positions or open brackets.
+     *   - Match close brackets with either `openBrackets` or `unlocked` indices.
+     * - After traversal, match remaining open brackets with unlocked indices.
+     *
+     * Complexity:
+     * - Time: O(n), single traversal and stack operations.
+     * - Space: O(n), for storing indices in stacks.
+     */
     bool canBeValid(string s, string locked) 
     {
         int n = s.size();
