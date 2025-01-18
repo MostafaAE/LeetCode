@@ -1,78 +1,66 @@
 class Solution {
 private:
-    // Struct for representing a cell in the grid
-    struct cell {
-        int row;
-        int col;
-        int cost;
-
-        // Custom comparator for priority queue
-        bool operator<(const cell& other) const {
-            return cost > other.cost;
-        }
-    };
-
-    int dr[4] = {0, 0, 1, -1};
-    int dc[4] = {1, -1, 0, 0};
+    int dr[4] = {0, 0, 1, -1}; // Direction arrays for row movement
+    int dc[4] = {1, -1, 0, 0}; // Direction arrays for column movement
 
 public:
     /**
      * Approach:
-     * - Use Dijkstra's algorithm with a priority queue to find the minimum cost path from the top-left to the bottom-right corner.
-     * - Each cell in the grid points in one of four directions (1: right, 2: left, 3: down, 4: up). 
-     * - If we move in the intended direction, the cost remains the same. Otherwise, add 1 to the cost.
-     * - Update the minimum cost for each cell and explore neighboring cells until the target is reached.
+     * - Use a 0-1 BFS with a deque to find the minimum cost to reach the bottom-right corner of the grid.
+     * - The deque allows us to efficiently prioritize cells with no additional cost (cost = 0) by pushing them to the front, while cells with an additional cost (cost = 1) are pushed to the back.
+     * - Maintain a `minCost` array to track the minimum cost to reach each cell.
+     * - At each step, explore all four possible directions and update the cost if a better path is found.
      * 
      * Complexity:
-     * - Time: O((m * n) * log(m * n)), where m and n are the dimensions of the grid.
-     *   * Each cell is processed at most once, and heap operations take O(log(m * n)).
-     * - Space: O(m * n) for the min-cost array and priority queue.
+     * - Time: O(m * n), where m and n are the dimensions of the grid. Each cell is processed at most once.
+     * - Space: O(m * n) for the deque and the `minCost` array.
      */
     int minCost(vector<vector<int>>& grid) 
     {
         int m = grid.size(), n = grid[0].size();
 
-        // Min-cost array to store the cost to reach each cell
+        // Deque for 0-1 BFS
+        deque<pair<int, int>> dq;
+
         vector<vector<int>> minCost(m, vector<int>(n, INT_MAX));
 
-        // Priority queue (min-heap) for Dijkstra's algorithm
-        priority_queue<cell> heap;
-
-        heap.push({0, 0, 0});
+        dq.push_front({0, 0});
         minCost[0][0] = 0;
 
-        while (!heap.empty()) 
+        while (!dq.empty()) 
         {
-            auto [row, col, cost] = heap.top();
-            heap.pop();
+            auto [row, col] = dq.front();
+            dq.pop_front();
 
-            // Ignore outdated costs
-            if (minCost[row][col] != cost) 
-                continue;
-
-            // Explore all four directions
             for (int i = 0; i < 4; ++i) 
             {
                 int nr = row + dr[i];
                 int nc = col + dc[i];
 
-                // Skip invalid cells
-                if (nr < 0 || nr >= m || nc < 0 || nc >= n)
+                if (!isValid(nr, nc, grid))
                     continue;
 
-                // Calculate the cost to move to the next cell
-                int newCost = cost + (grid[row][col] == (i + 1) ? 0 : 1);
+                int cost = (grid[row][col] == (i + 1)) ? 0 : 1;
 
-                // Update if the new cost is better
-                if (minCost[nr][nc] > newCost) 
+                // Update if the new path is better
+                if (minCost[row][col] + cost < minCost[nr][nc]) 
                 {
-                    heap.push({nr, nc, newCost});
-                    minCost[nr][nc] = newCost;
+                    minCost[nr][nc] = minCost[row][col] + cost;
+
+                    if (cost == 1)
+                        dq.push_back({nr, nc});
+                    else
+                        dq.push_front({nr, nc});
                 }
             }
         }
 
-        // Return the minimum cost to reach the bottom-right corner
         return minCost[m - 1][n - 1];
+    }
+
+    // Check if a cell is within bounds
+    bool isValid(int r, int c, vector<vector<int>>& grid) 
+    {
+        return r >= 0 && r < grid.size() && c >= 0 && c < grid[0].size();
     }
 };
