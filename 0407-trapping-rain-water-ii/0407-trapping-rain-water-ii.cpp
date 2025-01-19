@@ -29,16 +29,14 @@ public:
         {
             pq.push({heightMap[0][c], 0, c});
             pq.push({heightMap[m - 1][c], m - 1, c});
-            heightMap[0][c] = -1;
-            heightMap[m - 1][c] = -1;
+            heightMap[0][c] = heightMap[m - 1][c] = -1;
         }
 
         for (int r = 0; r < m; ++r) 
         {
             pq.push({heightMap[r][0], r, 0});
             pq.push({heightMap[r][n - 1], r, n - 1});
-            heightMap[r][0] = -1;
-            heightMap[r][n - 1] = -1;
+            heightMap[r][0] = heightMap[r][n - 1] = -1;
         }
 
         int maxSoFar = 0, result = 0;
