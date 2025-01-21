@@ -18,7 +18,7 @@ public:
         int n = grid[0].size();
 
         // Initial prefix sum for the top row
-        long long topPrefix = accumulate(grid[0].begin(), grid[0].end(), 0);
+        long long topPrefix = accumulate(grid[0].begin(), grid[0].end(), 0LL);
         long long bottomPrefix = 0;
 
         long long result = LLONG_MAX;
