@@ -12,7 +12,8 @@ public:
      *   - The grid is traversed twice: once for counting servers and once for verifying communication.
      * - Space: O(m + n), for storing row and column counts.
      */
-    int countServers(vector<vector<int>>& grid) {
+    int countServers(vector<vector<int>>& grid) 
+    {
         int m = grid.size(), n = grid[0].size();
 
         vector<int> rowCount(m, 0), colCount(n, 0);
