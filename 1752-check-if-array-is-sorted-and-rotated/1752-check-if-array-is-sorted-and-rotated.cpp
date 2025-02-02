@@ -2,8 +2,9 @@ class Solution {
 public:
     /**
      * Approach:
-     * - Find the index where the order breaks (`nums[i] < nums[i-1]`).
-     * - Validate that the rest of the array is sorted circularly starting from the breakpoint.
+     * - Count the number of inversions (where nums[i] < nums[i-1]).
+     * - Check the last element against the first to account for circularity.
+     * - If there is at most one inversion, the array can be rotated to become sorted.
      *
      * Complexity:
      * - Time: O(n), where n is the size of the array.
@@ -11,32 +12,24 @@ public:
      */
     bool check(vector<int>& nums) 
     {
-        int startIdx = 0, n = nums.size();
+        int n = nums.size();
+        if (n <= 1) 
+            return true; // Single element or empty array is always sorted.
 
-        // Find the first "break" point
+        int inversionCount = 0;
+
+        // Count inversions in the array
         for (int i = 1; i < n; ++i) 
         {
             if (nums[i] < nums[i - 1]) 
-            {
-                startIdx = i;
-                break;
-            }
+                ++inversionCount;
         }
 
-        // If no break point is found, the array is already sorted
-        if (startIdx == 0)
-            return true;
+        // Check the last element against the first for circular rotation
+        if (nums[0] < nums[n - 1])
+            ++inversionCount;
 
-        // Validate that the array is sorted circularly starting from the break point
-        for (int i = 1; i < n; ++i) 
-        {
-            int cur = (startIdx + i) % n;
-            int prev = (startIdx + i - 1) % n;
-
-            if (nums[cur] < nums[prev]) 
-                return false;
-        }
-
-        return true;
+        // The array is valid if there is at most one inversion
+        return inversionCount <= 1;
     }
 };
