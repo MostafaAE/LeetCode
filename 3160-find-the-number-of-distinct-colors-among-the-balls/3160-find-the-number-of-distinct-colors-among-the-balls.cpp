@@ -1,19 +1,20 @@
 class Solution {
 public:
-    // Approach:
-    // 1. Use two hash maps, one to track the frequency of each color, and the other to map indices to their assigned colors.
-    // 2. For each query:
-    //    - Increment the frequency of the new color in `colorFrequency`.
-    //    - If the index already has a color, decrement the frequency of the old color.
-    //    - Remove the old color from `colorFrequency` if its frequency becomes 0.
-    //    - Update the mapping of the index to the new color.
-    // 3. Store the size of `colorFrequency` (the count of unique colors) in the result array.
-    // 4. Return the result array after processing all queries.
-
-    // Complexity:
-    // - Time Complexity: O(n), where n is the number of queries. Each operation on `unordered_map` is O(1) on average.
-    // - Space Complexity: O(n)
-
+    /**
+    * Approach:
+    * 1. Use two hash maps, one to track the frequency of each color, and the other to map indices to their assigned colors.
+    * 2. For each query:
+    *    - Increment the frequency of the new color in `colorFrequency`.
+    *    - If the index already has a color, decrement the frequency of the old color.
+    *    - Remove the old color from `colorFrequency` if its frequency becomes 0.
+    *    - Update the mapping of the index to the new color.
+    * 3. Store the size of `colorFrequency` (the count of unique colors) in the result array.
+    * 4. Return the result array after processing all queries.
+    *
+    * Complexity:
+    * - Time Complexity: O(n), where n is the number of queries. Each operation on `unordered_map` is O(1) on average.
+    * - Space Complexity: O(n)
+    **/
     vector<int> queryResults(int limit, vector<vector<int>>& queries) 
     {
         unordered_map<int, int> colorFrequency; // Tracks the frequency of each color.
