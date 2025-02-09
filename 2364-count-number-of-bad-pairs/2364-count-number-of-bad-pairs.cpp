@@ -29,14 +29,12 @@ public:
 
         for (int i = 0; i < n; ++i) 
         {
-            // Calculate the difference for the current index
             int diff = i - nums[i];
             
             // If this difference exists in the map, subtract its frequency from bad pairs
             if (diffToCount.count(diff))
                 badPairsCount -= diffToCount[diff];
 
-            // Increment the count of the current difference
             ++diffToCount[diff];
         }
 
