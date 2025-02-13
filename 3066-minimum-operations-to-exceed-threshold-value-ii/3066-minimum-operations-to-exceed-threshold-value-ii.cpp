@@ -35,9 +35,7 @@ public:
             LL second = minHeap.top();
             minHeap.pop();
             
-            // Combine the two smallest numbers using the given formula
-            LL val = min(first, second) * 2 + max(first, second);
-            minHeap.push(val);
+            minHeap.push(first * 2 + second);
 
             ++count;
         }
