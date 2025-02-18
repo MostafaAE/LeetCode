@@ -1,41 +1,27 @@
 class Solution {
-private:
-    string smallestPattern{"99999999999"};
 public:
     string smallestNumber(string pattern) 
     {
-        unordered_set<int> used;
-        for(int i = 1 ; i <= 9 ; ++i)
+        string result;
+        stack<int> numStack;
+
+        // Iterate through the pattern
+        for (int index = 0; index <= pattern.size(); index++) 
         {
-            used.insert(i);
-            backtrack(pattern, used, 0, i, to_string(i));
-            used.erase(i);
-        }
+            // Push the next number onto the stack
+            numStack.push(index + 1);
 
-        return smallestPattern;
-    }
-
-    void backtrack(string& pattern, unordered_set<int>& used, int idx, int lastChoice, string curPattern)
-    {
-        if(idx == pattern.size())
-        {
-            if(curPattern < smallestPattern)
-                smallestPattern = curPattern;
-
-            return;
-        }
-
-        int direction = pattern[idx] == 'I' ? 1 : -1;
-
-        for(int val = lastChoice + direction ; 1 <= val && val <= 9 ; val += direction)
-        {
-            if(!used.count(val))
+            // If 'I' is encountered or we reach the end, pop all stack elements
+            if (index == pattern.size() || pattern[index] == 'I')
             {
-                used.insert(val);
-                backtrack(pattern, used, idx + 1, val, curPattern + to_string(val));
-                used.erase(val);
+                while (!numStack.empty()) 
+                {
+                    result += to_string(numStack.top());
+                    numStack.pop();
+                }
             }
         }
+
+        return result;
     }
 };
-
