@@ -2,27 +2,13 @@ class Solution {
 public:
     string findDifferentBinaryString(vector<string>& nums) 
     {
-        unordered_set<string> uniqueStrings(nums.begin(), nums.end());
-
-        int n = nums[0].size();
-
-        return generateBinaryString(n, uniqueStrings, "");
-    }
-
-    string generateBinaryString(int n, unordered_set<string>& uniqueStrings, string currentString)
-    {
-        if(currentString.size() == n)
+        string ans;
+        for (int i = 0; i < nums.size(); i++) 
         {
-            if(uniqueStrings.insert(currentString).second)
-                return currentString;
-
-            return "";
+            char curr = nums[i][i];
+            ans += curr == '0' ? '1' : '0';
         }
-
-        string withZero = generateBinaryString(n, uniqueStrings, currentString + "0");
-        if(!withZero.empty())
-            return withZero;
         
-        return generateBinaryString(n, uniqueStrings, currentString + "1");
+        return ans;
     }
 };
