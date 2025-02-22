@@ -10,19 +10,19 @@
  * };
  */
 
-class Solution {
+class Solution 
+{
 private:
-    int idx = 0;                    // Tracks current position in the traversal string
-    int currentDashesCount = 0;     // Tracks the number of dashes at the current level
-
     /**
-     * Counts the number of consecutive dashes starting from the current index.
-     * Used to determine the depth of the next node.
-     **/
-    int countDashesStartingFromIndex(string& str) 
+     * Counts the number of consecutive dashes in the traversal string.
+     * This determines the depth of the next node.
+     * 
+     * Time Complexity: O(d), where d is the number of dashes.
+     */
+    int countDashesStartingFromIndex(string& str, int& idx)
     {
-        int count{};
-        while (idx < str.size() && str[idx] == '-') 
+        int count = 0;
+        while (idx < str.size() && str[idx] == '-')
         {
             ++count;
             ++idx;
@@ -30,13 +30,17 @@ private:
         return count;
     }
 
-    // Parses the next numeric value starting from the current index.
-    string parseValueStartingFromIndex(string& str) 
+    /**
+     * Parses an integer from the traversal string.
+     * 
+     * Time Complexity: O(log V), where V is the value of the parsed number.
+     */
+    int parseIntegerStartingFromIndex(string& str, int& idx)
     {
-        string num{};
-        while (idx < str.size() && isdigit(str[idx])) 
+        int num = 0;
+        while (idx < str.size() && isdigit(str[idx]))
         {
-            num += str[idx];
+            num = num * 10 + (str[idx] - '0');
             ++idx;
         }
         return num;
@@ -45,32 +49,59 @@ private:
 public:
     /**
      * Approach:
-     * - Uses recursion to reconstruct the tree from the preorder traversal string.
-     * - Parses numbers and determines node depth based on dashes.
-     * - Recursively constructs left and right subtrees at the correct depth.
+     * - Uses a stack to keep track of nodes at each depth.
+     * - Iterates over the string, extracting values and depth levels.
+     * - Uses the stack to correctly attach child nodes to their parents.
      * 
      * Complexity:
      * - Time Complexity: O(N), where N is the length of the traversal string.
-     * - Space Complexity: O(H), where H is the height of the tree (recursion depth).
-     **/
-    TreeNode* recoverFromPreorder(string traversal, int level = 0) 
+     * - Space Complexity: O(H), where H is the height of the tree.
+     */
+    TreeNode* recoverFromPreorder(string traversal) 
     {
-        TreeNode* node = nullptr;
-        
-        // If we are at the correct level, create a node
-        if (level == currentDashesCount) 
-        {
-            string num = parseValueStartingFromIndex(traversal);
-            node = new TreeNode(stoi(num));
+        stack<TreeNode*> stack;
+        int index = 0;
 
-            // Count dashes to determine the next level
-            currentDashesCount = countDashesStartingFromIndex(traversal);
-            
-            // Recursively build left and right children
-            node->left = recoverFromPreorder(traversal, level + 1);
-            node->right = recoverFromPreorder(traversal, level + 1);
+        while (index < traversal.size()) 
+        {
+            // Count the number of dashes (depth of the current node)
+            int depth = countDashesStartingFromIndex(traversal, index);
+
+            // Extract the node value
+            int value = parseIntegerStartingFromIndex(traversal, index);
+
+            // Create the current node
+            TreeNode* node = new TreeNode(value);
+
+            // Adjust the stack to the correct depth
+            while (stack.size() > depth) 
+            {
+                stack.pop();
+            }
+
+            // Attach the node to the parent
+            if (!stack.empty()) 
+            {
+                if (stack.top()->left == nullptr) 
+                {
+                    stack.top()->left = node;
+                } 
+                else 
+                {
+                    stack.top()->right = node;
+                }
+            }
+
+            // Push the current node onto the stack
+            stack.push(node);
         }
 
-        return node;
+        // The root is the first node in the stack
+        while (stack.size() > 1) 
+        {
+            stack.pop();
+        }
+
+        return stack.top();
     }
 };
