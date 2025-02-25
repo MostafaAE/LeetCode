@@ -1,45 +1,43 @@
 class Solution {
-private:
-    const int MOD = 1e9 + 7;
-
 public:
     /**
      * Approach:
-     * 1. Maintain two arrays:
-     *    - `evenCount[i]`: Number of subarrays ending at index `i` with an even sum.
-     *    - `oddCount[i]`: Number of subarrays ending at index `i` with an odd sum.
-     * 2. Iterate through the array and update the counts:
-     *    - Every new element increases the count of even subarrays.
-     *    - If the element is odd, swap the `oddCount` and `evenCount` values at that index.
-     * 3. Sum all values in `oddCount[]` to get the total number of subarrays with an odd sum.
-     *
+     * - Maintain a `prefixSum` to track the sum of elements encountered so far.
+     * - Use `oddCount` to store the number of subarrays with an odd sum.
+     * - Use `evenCount` to store the number of subarrays with an even sum.
+     * - Initialize `evenCount = 1` because an empty subarray (sum = 0) is considered even.
+     * - Iterate through the array:
+     *   - If `prefixSum` becomes odd, add `evenCount` to `result` and increment `oddCount`.
+     *   - If `prefixSum` becomes even, add `oddCount` to `result` and increment `evenCount`.
+     * - Apply modulo `1e9 + 7` to prevent overflow.
+     * 
      * Complexity:
-     * - Time Complexity: O(n) since we iterate through `arr` twice.
-     * - Space Complexity: O(n) due to `oddCount` and `evenCount` arrays.
+     * - **Time Complexity:** O(n)
+     * - **Space Complexity:** O(1)
      */
     int numOfSubarrays(vector<int>& arr) 
     {
-        int n = arr.size();
-        vector<int> oddCount(n, 0), evenCount(n, 0);
+        const int MOD = 1e9 + 7;
+        int prefixSum = 0, result = 0;
+        int oddCount = 0, evenCount = 1;  // Even count initialized to 1 for the empty prefix sum case
 
-        // Initialize the first element
-        (arr[0] & 1) ? ++oddCount[0] : ++evenCount[0];
-
-        // Populate oddCount and evenCount arrays
-        for (int i = 1; i < n; ++i)
+        for (int num : arr)
         {
-            evenCount[i] = evenCount[i - 1] + 1;
-            oddCount[i] = oddCount[i - 1];
+            prefixSum += num;
+            
+            if (prefixSum & 1)  // If prefixSum is odd
+            {
+                result += evenCount;
+                ++oddCount;
+            }
+            else  // If prefixSum is even
+            {
+                result += oddCount;
+                ++evenCount;
+            }
 
-            // If arr[i] is odd, swap counts
-            if (arr[i] & 1)
-                swap(oddCount[i], evenCount[i]);
+            result %= MOD;
         }
-
-        // Compute the final result
-        int result = 0;
-        for (int i = 0; i < n; ++i)
-            result = (result + oddCount[i]) % MOD;
 
         return result;
     }
