@@ -9,37 +9,24 @@ public:
     * Time Complexity : O(n)
     * Space Complexity : O(1)
     */
-    int maxAbsoluteSum(vector<int>& nums) {
-        return max(abs(maxSum(nums)), abs(minSum(nums)));
-    }
-    
-    int maxSum(vector<int>& nums)
+    int maxAbsoluteSum(vector<int>& nums) 
     {
-        int maxSoFar{}, maxSum{INT_MIN};
-        
-        for(int n : nums)
+        int maxSum{}, minSum{}, curMaxSum{}, curMinSum{};
+
+        for(int num : nums)
         {
-            maxSoFar += n;
-            maxSum = max(maxSum , maxSoFar);
-            
-            if(maxSoFar < 0)
-                maxSoFar = 0;
+            if(curMaxSum < 0)
+                curMaxSum = 0;
+
+            if(curMinSum > 0)
+                curMinSum = 0;
+
+            curMaxSum += num;
+            curMinSum += num;
+            maxSum = max(maxSum, curMaxSum);
+            minSum = min(minSum, curMinSum);
         }
-        return maxSum;
-    }
-    
-    int minSum(vector<int>& nums)
-    {
-        int minSoFar{}, minSum{INT_MAX};
         
-        for(int n : nums)
-        {
-            minSoFar += n;
-            minSum = min(minSum , minSoFar);
-            
-            if(minSoFar > 0)
-                minSoFar = 0;
-        }
-        return minSum;
+        return max(maxSum, abs(minSum));
     }
 };
