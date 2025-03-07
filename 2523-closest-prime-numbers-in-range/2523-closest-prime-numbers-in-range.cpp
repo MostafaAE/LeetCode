@@ -2,16 +2,16 @@ class Solution {
 public:
     /**
      * Approach:
-     * - Use the Sieve of Eratosthenes to precompute prime numbers up to `10^6` (a large enough range).
+     * - Use the Sieve of Eratosthenes to precompute prime numbers up to right (upper range).
      * - Extract prime numbers within the given range `[left, right]`.
      * - Find the two consecutive prime numbers with the smallest difference.
      * - Return these two numbers; if no such pair exists, return `{-1, -1}`.
      *
      * Complexity Analysis:
-     * - Time Complexity: O(N log log N) + O(R - L) ≈ O(10^6 log log 10^6) + O(R - L)
-     *      - Sieve of Eratosthenes: O(N log log N), where `N = 10^6`
+     * - Time Complexity: O(R log log R) + O(R - L)
+     *      - Sieve of Eratosthenes: O(R log log R)
      *      - Extracting primes in range and finding the closest prime pair: O(R - L) (iterating over `[left, right]`)
-     * - Space Complexity: O(N) for storing the sieve.
+     * - Space Complexity: O(R) for storing the sieve.
      */
     vector<int> closestPrimes(int left, int right) 
     {
@@ -39,16 +39,15 @@ public:
 
     vector<int> getPrimeNumbersInRange(int left, int right)
     {
-        int n = 1e6+1;
-        vector<bool> isPrime(n, true);
+        vector<bool> isPrime(right + 1, true);
         isPrime[0] = isPrime[1] = false;
 
         // Sieve of Eratosthenes to precompute prime numbers
-        for(int i = 2 ; i * i <= n ; ++i)
+        for(int i = 2 ; i * i <= right ; ++i)
         {
             if(isPrime[i])
             {
-                for(int j = i * 2 ; j <= n ; j += i)
+                for(int j = i * 2 ; j <= right ; j += i)
                     isPrime[j] = false;
             }
         }
