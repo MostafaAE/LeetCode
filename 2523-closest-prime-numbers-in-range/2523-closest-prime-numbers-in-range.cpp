@@ -47,7 +47,7 @@ public:
         {
             if(isPrime[i])
             {
-                for(int j = i * 2 ; j <= right ; j += i)
+                for(int j = i * i ; j <= right ; j += i)
                     isPrime[j] = false;
             }
         }
