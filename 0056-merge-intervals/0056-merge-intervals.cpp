@@ -3,40 +3,33 @@ class Solution
 public:
     /**
      * Approach:
-     * - First, **sort** the intervals by their start time.
+     * - First, **sort** the intervals based on their start times.
      * - Iterate through the sorted intervals:
-     *   - If the current interval **overlaps** with the previous one, merge them.
-     *   - Otherwise, store the merged interval and start a new one.
+     *   - If the current interval does **not overlap** with the last merged interval, add it to the result.
+     *   - Otherwise, merge it by updating the end time of the last interval.
      * - Return the list of merged intervals.
      * 
      * Complexity Analysis:
      * - **Time Complexity**: O(n log n) due to sorting, followed by O(n) for merging, resulting in **O(n log n)** overall.
-     * - **Space Complexity**: O(n) for storing merged intervals.
+     * - **Space Complexity**: O(n) for storing the merged intervals.
      */
     vector<vector<int>> merge(vector<vector<int>>& intervals) 
     {
         sort(intervals.begin(), intervals.end()); // Sort intervals based on start time
 
-        vector<vector<int>> mergedIntervals;
-        int start = intervals[0][0], end = intervals[0][1], n = intervals.size();
-
-        for (int i = 1; i < n; ++i) 
+        vector<vector<int>> merged;
+        for (auto interval : intervals) 
         {
-            int left = intervals[i][0], right = intervals[i][1];
-
-            if (start <= left && left <= end) // Merge overlapping intervals
+            if (merged.empty() || merged.back()[1] < interval[0]) // No overlap, add new interval
             {
-                end = max(end, right);
-            } 
-            else // Add the merged interval and start a new one
+                merged.push_back(interval);
+            }
+            else // Overlap, merge intervals
             {
-                mergedIntervals.push_back({start, end});
-                start = left;
-                end = right;
+                merged.back()[1] = max(merged.back()[1], interval[1]);
             }
         }
-
-        mergedIntervals.push_back({start, end}); // Add the last merged interval
-        return mergedIntervals;
+        
+        return merged;
     }
 };
