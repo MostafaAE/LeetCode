@@ -1,6 +1,7 @@
-const int OO = 1e9;
+const int INF = 1e9;
 const int RED = 0;
 const int BLUE = 1;
+
 struct Edge
 {
     int to;
@@ -9,22 +10,27 @@ struct Edge
 
 typedef vector<vector<Edge>> GRAPH;
 
-class Solution {
+class Solution 
+{
 public:
-    /* 
-    * Approach:
-    * Breadth first serach
-    * 
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(n)
-    */
+    /**
+     * Approach:
+     * - Construct a directed graph where edges have a color (red or blue).
+     * - Use **BFS** to find the shortest alternating path (switching between red and blue).
+     * - Maintain a `len` array to track the shortest path for each color.
+     * - Use a queue to explore paths, ensuring alternate colors are taken at each step.
+     * 
+     * Complexity Analysis:
+     * - **Graph Construction**: O(n + e), where `e` is the total number of edges.
+     * - **BFS Traversal**: O(n + e), since each node and edge is processed once.
+     * - **Overall Complexity**: O(n + e).
+     */
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) 
     {
         vector<int> answer(n, -1);
         GRAPH graph(n);
         
-        // building the graph
+        // Build the graph
         for(auto &p : redEdges)
             addDirectedEdge(graph, p[0], p[1], RED);
         for(auto &p : blueEdges)
@@ -35,15 +41,20 @@ public:
         return answer;
     }
     
+private:
+    /**
+     * BFS to find shortest alternating paths from node 0.
+     */
     void bfs(GRAPH& graph, vector<int>& answer)
     {
         queue<Edge> q;
-        vector<vector<int>> len((int)graph.size(), vector<int>(2, OO));
+        vector<vector<int>> len(graph.size(), vector<int>(2, INF));
         
+        // Start BFS from node 0 with both red and blue colors
         q.push({0, RED});
         q.push({0, BLUE});
         answer[0] = 0;
-        int level{};
+        int level = 0;
         
         while(!q.empty())
         {
@@ -56,10 +67,9 @@ public:
                 
                 for(Edge e : graph[node])
                 {
-                    if(e.color != color && len[e.to][e.color] == OO)
+                    if(e.color != color && len[e.to][e.color] == INF)
                     {
                         q.push(e);
-
                         len[e.to][e.color] = level + 1;
                         
                         if(answer[e.to] == -1)
@@ -71,8 +81,11 @@ public:
         }
     }
     
-    void addDirectedEdge(GRAPH& graph ,int from, int to, int color)
+    /**
+     * Adds a directed edge to the graph.
+     */
+    void addDirectedEdge(GRAPH& graph, int from, int to, int color)
     {
-        graph[from].push_back({to,color});
+        graph[from].push_back({to, color});
     }
 };
