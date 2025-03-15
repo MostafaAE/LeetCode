@@ -21,9 +21,8 @@ public:
      * - Use a queue to explore paths, ensuring alternate colors are taken at each step.
      * 
      * Complexity Analysis:
-     * - **Graph Construction**: O(n + e), where `e` is the total number of edges.
-     * - **BFS Traversal**: O(n + e), since each node and edge is processed once.
-     * - **Overall Complexity**: O(n + e).
+     * **Time Complexity**: O(n + e) since each node and edge is visited at most once.
+     * **Space Complexity**: O(n + e) for storing the graph, queue, and `len` array.
      */
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) 
     {
