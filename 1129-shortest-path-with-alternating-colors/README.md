@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/shortest-path-with-alternating-colors/">1129. Shortest Path with Alternating Colors</a></h2><h3>Medium</h3><hr><div><p>You are given an integer <code>n</code>, the number of nodes in a directed graph where the nodes are labeled from <code>0</code> to <code>n - 1</code>. Each edge is red or blue in this graph, and there could be self-edges and parallel edges.</p>
+<h2><a href="https://leetcode.com/problems/shortest-path-with-alternating-colors">1129. Shortest Path with Alternating Colors</a></h2><h3>Medium</h3><hr><p>You are given an integer <code>n</code>, the number of nodes in a directed graph where the nodes are labeled from <code>0</code> to <code>n - 1</code>. Each edge is red or blue in this graph, and there could be self-edges and parallel edges.</p>
 
 <p>You are given two arrays <code>redEdges</code> and <code>blueEdges</code> where:</p>
 
@@ -12,13 +12,15 @@
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
 
-<pre><strong>Input:</strong> n = 3, redEdges = [[0,1],[1,2]], blueEdges = []
+<pre>
+<strong>Input:</strong> n = 3, redEdges = [[0,1],[1,2]], blueEdges = []
 <strong>Output:</strong> [0,1,-1]
 </pre>
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> n = 3, redEdges = [[0,1]], blueEdges = [[2,1]]
+<pre>
+<strong>Input:</strong> n = 3, redEdges = [[0,1]], blueEdges = [[2,1]]
 <strong>Output:</strong> [0,1,-1]
 </pre>
 
@@ -31,4 +33,3 @@
 	<li><code>redEdges[i].length == blueEdges[j].length == 2</code></li>
 	<li><code>0 &lt;= a<sub>i</sub>, b<sub>i</sub>, u<sub>j</sub>, v<sub>j</sub> &lt; n</code></li>
 </ul>
-</div>
