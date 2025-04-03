@@ -1,43 +1,30 @@
 class Solution {
 public:
     /**
-     * Approach:
-     * 1. **Precompute Maximum Values**:
-     *    - Use two arrays `leftMax` and `rightMax`:
-     *      - `leftMax[i]`: Stores the maximum value from `nums[0]` to `nums[i]`.
-     *      - `rightMax[i]`: Stores the maximum value from `nums[i]` to `nums[n-1]`.
-     * 
-     * 2. **Iterate Over Possible Middle Elements (`nums[i]`)**:
-     *    - For each index `i` (1 ≤ i ≤ n-2), compute:
-     *      (leftMax[i-1] - nums[i]) * rightMax[i+1]
-     *    - Keep track of the maximum value found.
+     * Optimized O(N) approach using three tracking variables:
+     * - leftMax: Keeps track of the maximum number encountered so far.
+     * - diffMax: Tracks the maximum difference (leftMax - nums[i]) seen so far.
+     * - result: Stores the maximum triplet value.
      *
-     * Complexity Analysis:
-     * - **Total Time Complexity**: **O(N)**.
-     * - **Space Complexity**: **O(N)**
+     * Complexity:
+     * - Time: O(N), since we iterate once through `nums`.
+     * - Space: O(1), using only three variables.
      */
     long long maximumTripletValue(vector<int>& nums) 
     {
         int n = nums.size();
+        long long result = 0, leftMax = 0, diffMax = 0;
 
-        vector<int> leftMax(n, 0), rightMax(n, 0);
-
-        // Step 1: Precompute leftMax and rightMax
-        leftMax[0] = nums[0];
-        rightMax[n - 1] = nums[n - 1];
-
-        for (int i = 1; i < n; ++i) 
+        for (int i = 0; i < n; ++i) 
         {
-            leftMax[i] = max(nums[i], leftMax[i - 1]);
-            rightMax[n - i - 1] = max(nums[n - i - 1], rightMax[n - i]);
-        }
+            // Compute the best triplet value so far
+            result = max(result, diffMax * nums[i]);
 
-        // Step 2: Compute the maximum triplet value
-        long long result = 0;
-        for (int i = 1; i < n - 1; ++i) 
-        {
-            long long curTripletVal = (long long)(leftMax[i - 1] - nums[i]) * rightMax[i + 1];
-            result = max(result, curTripletVal);
+            // Update the maximum (leftMax - nums[i]) found so far
+            diffMax = max(diffMax, leftMax - nums[i]);
+
+            // Update the leftMax for future calculations
+            leftMax = max(leftMax, (long long)nums[i]);
         }
 
         return result;
