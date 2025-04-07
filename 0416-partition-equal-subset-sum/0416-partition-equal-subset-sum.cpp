@@ -1,6 +1,6 @@
 class Solution {
 private:
-const static int MAX_IDX = 200, MAX_SUM = 100*200 + 1;
+const static int MAX_IDX = 200, MAX_SUM = 100*200/2 + 1;
 int memory[MAX_IDX][MAX_SUM];
     
 public:
@@ -27,14 +27,10 @@ public:
     
     bool subsetSum(vector<int>& values, int idx, int remainingSum)
     {
-        if (remainingSum < 0)
-            return false;
-
         if (remainingSum == 0)
             return true;
 
-        // can't find a combination
-        if (idx == values.size())
+        if (idx == values.size() || remainingSum < 0)
             return false;
 
         auto &ret = memory[idx][remainingSum];
