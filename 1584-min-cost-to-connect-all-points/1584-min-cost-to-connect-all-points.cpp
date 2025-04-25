@@ -1,78 +1,85 @@
-const int OO = 2 * 1e6 * 1000; // careful from OO value
+/**
+ * Approach:
+ * - We use Prim’s algorithm to construct the Minimum Spanning Tree (MST).
+ * - The graph is implicit: edges are calculated on the fly based on Manhattan distance.
+ * - At each step, we pick the minimum-cost edge that connects a new point to the MST.
+ * 
+ * Time Complexity:
+ * - O(E * log v), where v is the number of points.
+ *   - For each node added, we may process up to n edges.
+ * 
+ * Space Complexity:
+ * - O(v) for visited, dist, and priority queue.
+ */
 
 class Solution {
-public:
-    
-    /* 
-    * Approach:
-    * Graph Prim's MST (lazy building the adjacency list)
-    * 
-    * Complexity:
-    * Time Complexity : O(ElogV)
-    * Space Complexity : O(V)
-    */
+private:
+    const int OO = INT_MAX;
 
-    struct edge
-    {
-        int to, w;
+    struct edge {
+        int to, weight;
 
-        edge(int to, int w) : to(to), w(w){}
+        edge(int to, int weight) : to(to), weight(weight) {}
 
-        bool operator<(const edge &e) const
-        {
-            return w > e.w;
+        // Min-heap based on weight
+        bool operator <(const edge& e) const {
+            return weight > e.weight;
         }
     };
-    
-    int minCostConnectPoints(vector<vector<int>>& points) 
-    {
-        int n{(int)points.size()}, src{};
-        vector<int> dist(n, OO);
-        vector<bool> vis(n, 0);
-        dist[src] = 0;
-        int mstCost = 0;
 
-        priority_queue<edge> q; // small to large
-        q.push(edge(src, 0));
+    // Generate edges from `idx` to all other points with Manhattan distance
+    vector<edge> getEdges(vector<vector<int>>& points, int idx) {
+        int n = points.size();
+        vector<edge> edges;
+        
+        for (int j = 0; j < n; j++) {
+            if (j == idx) continue;
+            int distance = abs(points[idx][0] - points[j][0]) +
+                           abs(points[idx][1] - points[j][1]);
+            edges.emplace_back(j, distance);
+        }
 
-        while (!q.empty())
-        {
-            // Get node with the minimum distance
-            edge mnEdge = q.top();
-            int mnIdx = mnEdge.to;
-            q.pop();
+        return edges;
+    }
 
-            if (vis[mnIdx]) // visited
-                continue;
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        vector<bool> visited(n, false);
+        vector<int> dist(n, OO);             // Minimum cost to connect to the MST
+        priority_queue<edge> pq;
 
-            mstCost += mnEdge.w;
+        dist[0] = 0;
+        pq.push({0, 0});
 
-            for (const auto &edge : getEdges(points, mnIdx))
-            { // relax
-                int to = edge.to, weight = edge.w;
+        int totalCost = 0;
 
-                if (dist[to] > weight)
-                {
-                    dist[to] = weight;
-                    q.push({to, dist[to]});
+        while (!pq.empty()) {
+            edge minEdge = pq.top();
+            pq.pop();
+
+            int u = minEdge.to;
+            int w = minEdge.weight;
+
+            if (visited[u]) continue;
+
+            totalCost += w;
+
+            // Mark node as added to the MST
+            visited[u] = true;
+
+            // Explore edges to all unvisited nodes
+            for (edge& e : getEdges(points, u)) {
+                int v = e.to;
+                int weight = e.weight;
+
+                if (!visited[v] && dist[v] > weight) {
+                    dist[v] = weight;
+                    pq.push({v, weight});
                 }
             }
-            vis[mnIdx] = true;
         }
-        
-        return mstCost;
-    }
-    
-    vector<edge> getEdges(vector<vector<int>>& points, int idx)
-    {
-        int n{(int)points.size()};
-        vector<edge> adjList;
-        for(int j = 0 ; j < n ; j++)
-        {
-            int distance = abs(points[idx][0] - points[j][0]) + abs(points[idx][1] - points[j][1]);
-            adjList.push_back({j, distance});
-        }
-        
-        return adjList;
+
+        return totalCost;
     }
 };
