@@ -1,44 +1,45 @@
-const int MAX = 1000 + 1;
-int memory[MAX];
-vector<int> numsg;
-
 class Solution {
+private:
+    static const int MAX = 1001;
+    int memory[MAX];
+    vector<int> nums;
 public:
     /*
      * Approach:
-     * Dynamic Programming Memoization
-     * 
-     * Counting DP
+     * - Top-down Dynamic Programming with memoization.
+     * - Try each number in `nums` and subtract it from the target.
+     * - Recursively find the number of ways to build up the remaining target.
+     * - Order matters in this problem (permutations), unlike the coin change problem.
      *
-     * Complexity:
-     * Time Complexity : O(MN) 
-     * Space Complexity : O(M) where M is the max target, and N is the max index
+     * Time Complexity : O(M * N), where M = target, N = nums.size()
+     * Space Complexity : O(M) for the memoization array
      */
     int combinationSum4(vector<int>& nums, int target) 
     {
         memset(memory, -1 , sizeof(memory));
-        numsg = nums;
+        this->nums = nums;
         return combSum(target);
     }
     
+    // Count permutations that sum up to `remaining`
     int combSum(int remaining)
     {
-        // not valid
-        if(remaining < 0)
-            return 0;
-        
-        // valid way
-        if(remaining == 0)
-            return 1;
-        
+        if (remaining < 0)
+            return 0;  // Not a valid combination
+
+        if (remaining == 0)
+            return 1;  // Found a valid combination
+
         int &ret = memory[remaining];
-        if(ret != -1)
+        if (ret != -1)
             return ret;
-        
+
         ret = 0;
-        for(int i = 0 ; i < (int)numsg.size() ; i++)
-            ret += combSum(remaining - numsg[i]);
-    
+        for (int i = 0 ; i < (int)nums.size() ; i++)
+        {
+            ret += combSum(remaining - nums[i]);
+        }
+
         return ret;
     }
 };
