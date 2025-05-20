@@ -2,8 +2,6 @@ class Solution {
 private:
     static const int MAX = 100 + 1;
     int memory[MAX][MAX];
-    vector<vector<int>> grid;
-
 public:
     /*
      * Approach:
@@ -19,14 +17,13 @@ public:
      * Time Complexity  : O(MN) — where M = rows, N = cols of the grid.
      * Space Complexity : O(MN) — for the memoization table.
      */
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) 
+    int uniquePathsWithObstacles(vector<vector<int>>& grid) 
     {
-        grid = obstacleGrid;
         memset(memory, -1, sizeof(memory));
-        return cntPaths(0, 0);
+        return cntPaths(0, 0, grid);
     }
 
-    int cntPaths(int r, int c)
+    int cntPaths(int r, int c, vector<vector<int>>& grid)
     {
         // Out of bounds or hitting an obstacle
         if (r >= (int)grid.size() || c >= (int)grid[0].size() || grid[r][c] == 1)
@@ -41,8 +38,8 @@ public:
             return ret;
 
         // Move right and down
-        int moveRight = cntPaths(r, c + 1);
-        int moveDown = cntPaths(r + 1, c);
+        int moveRight = cntPaths(r, c + 1, grid);
+        int moveDown = cntPaths(r + 1, c, grid);
 
         return ret = moveRight + moveDown;
     }
