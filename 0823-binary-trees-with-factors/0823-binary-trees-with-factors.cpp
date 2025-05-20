@@ -45,15 +45,10 @@ public:
 
         for (int x : numSet)
         {
-            if (num % x == 0)
+            if (num % x == 0 && numSet.count(num / x))
             {
-                int y = num / x;
-                if (numSet.count(y))
-                {
-                    long long left = cntTrees(x);
-                    long long right = cntTrees(y);
-                    cnt = (cnt + (left * right) % MOD) % MOD;
-                }
+                long long subTree = cntTrees(x) + cntTrees(num / x);
+                cnt = (cnt + subTree % MOD) % MOD;
             }
         }
 
