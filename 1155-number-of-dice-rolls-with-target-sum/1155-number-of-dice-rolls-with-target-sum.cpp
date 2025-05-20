@@ -1,7 +1,7 @@
 class Solution {
 private:
-    const int MAX_DICES = 31;       // Max value for n = 30
-    const int MAX_TARGET = 1001;    // Max value for target = 1000
+    static const int MAX_DICES = 31;       // Max value for n = 30
+    static const int MAX_TARGET = 1001;    // Max value for target = 1000
     const int MOD = 1e9 + 7;
     int memory[MAX_DICES][MAX_TARGET];
     int faces;
