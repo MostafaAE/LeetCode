@@ -30,7 +30,8 @@ public:
         int result = 0;
         for (int num : numSet)
         {
-            result = (result + cntTrees(num)) % MOD;
+            result += cntTrees(num);
+            result %= MOD;
         }
 
         return result;
@@ -47,7 +48,7 @@ public:
         {
             if (num % x == 0 && numSet.count(num / x))
             {
-                long long subTree = cntTrees(x) + cntTrees(num / x);
+                long long subTree = cntTrees(x) * cntTrees(num / x);
                 cnt = (cnt + subTree % MOD) % MOD;
             }
         }
