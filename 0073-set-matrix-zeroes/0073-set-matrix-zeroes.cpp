@@ -2,52 +2,62 @@ class Solution {
 public:
     /*
      * Approach:
-     * Use two hash sets to keep track of which rows and columns need to be set to zero.
-     * 
-     * First pass:
-     * - Identify all rows and columns that contain at least one zero.
-     * 
-     * Second pass:
-     * - Set all cells in the identified rows and columns to zero.
+     * In-Place Marker Strategy using First Row and Column
      *
-     * Complexity:
-     * Time Complexity  : O(M * N) — where M = rows, N = columns of the matrix.
-     * Space Complexity : O(M + N) — additional space for row and column sets.
+     * We use the first row and first column to mark which rows and columns need to be zeroed.
+     * Additionally, we keep two flags to remember if the first row or first column should be zeroed.
+     * This avoids using extra space beyond a few variables (O(1) space).
+     *
+     * Time Complexity : O(m * n)
+     * Space Complexity : O(1)
      */
     void setZeroes(vector<vector<int>>& matrix) 
     {
         int m = matrix.size(), n = matrix[0].size();
-        unordered_set<int> rows, cols;
+        bool firstRowZero = false, firstColZero = false;
 
-        // First pass: record rows and columns containing zero
+        // First pass: mark zeros in the first row and column
         for(int i = 0 ; i < m ; ++i)
         {
             for(int j = 0 ; j < n ; ++j)
             {
                 if(matrix[i][j] == 0)
                 {
-                    rows.insert(i);
-                    cols.insert(j);
+                    // If the zero is in the first row or column, remember to zero them at the end
+                    if(i == 0)
+                        firstRowZero = true;
+                    if(j == 0)
+                        firstColZero = true;
+
+                    // Mark the corresponding row and column to be zeroed
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
                 }
             }
         }
 
-        // Second pass: zero out recorded rows
-        for(int r : rows)
+        // Second pass: zero out cells based on markers, skipping first row and column
+        for(int i = 1; i < m; ++i)
         {
-            for(int c = 0 ; c < n ; ++c)
+            for(int j = 1; j < n; ++j)
             {
-                matrix[r][c] = 0;
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
             }
         }
 
-        // Second pass: zero out recorded columns
-        for(int c : cols)
+        // Zero out the first row if needed
+        if(firstRowZero)
         {
-            for(int r = 0 ; r < m ; ++r)
-            {
-                matrix[r][c] = 0;
-            }
+            for(int j = 0; j < n; ++j)
+                matrix[0][j] = 0;
+        }
+
+        // Zero out the first column if needed
+        if(firstColZero)
+        {
+            for(int i = 0; i < m; ++i)
+                matrix[i][0] = 0;
         }
     }
 };
