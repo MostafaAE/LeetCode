@@ -18,14 +18,14 @@ public:
 
         for (int i = 1; i < n; ++i) 
         {
-            if (ratings[i] < ratings[i - 1]) // descending trend
+            if (ratings[i] < ratings[i - 1]) // Descending trend
             {
                 up = 0; // Reset increasing sequence
                 ++down;
                 // Add descending candies + 1 if peak child needs more
                 result += down + (down > peak);
             }
-            else if (ratings[i] == ratings[i - 1]) // flat
+            else if (ratings[i] == ratings[i - 1]) // Flat
             {
                 // Reset everything since no preference
                 up = down = peak = 0;
