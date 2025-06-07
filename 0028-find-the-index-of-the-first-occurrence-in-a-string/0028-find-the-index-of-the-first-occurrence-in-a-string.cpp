@@ -1,56 +1,69 @@
+using ll = long long;
+
 class Solution {
+private:
+    const int BASE = 26;
+    const ll MOD = 1e9 + 7;
+
+    // Helper to verify characters match to guard against hash collisions
+    bool existFrom(int start, string& haystack, string& needle)
+    {
+        for (int i = 0; i < (int)needle.size(); ++i)
+        {
+            if (haystack[start + i] != needle[i])
+                return false;
+        }
+        return true;
+    }
 public:
-    /* 
-    * Approach:
-    * Knuth–Morris–Pratt algorithm (KMP).
-    * 
-    * Complexity:
-    * Time Complexity : O(N + M)
-    * Space Complexity : O(M)
-    */
+    /*
+     * Approach:
+     * Rabin-Karp (Rolling Hash) for Substring Search
+     * - Compute the hash value of the needle and the first window of the haystack.
+     * - Slide the window over the haystack, updating the rolling hash in O(1) per step.
+     * - If a matching hash is found, confirm with a direct substring comparison to avoid false positives due to hash collisions.
+     *
+     * Time Complexity : O(n + m), where n = length of haystack, m = length of needle.
+     * Space Complexity: O(1) extra space (excluding input storage).
+     */
     int strStr(string haystack, string needle) 
     {
-        int n{(int)haystack.size()}, m{(int)needle.size()}, i{}, j{};
-        vector<int> LPS = computeLPS(needle);
-        
-        while(i < n)
+        if (needle.size() > haystack.size())
+            return -1;
+
+        int patternLength = needle.size();
+        int textLength = haystack.size();
+
+        ll highestPower = 1;
+        for (int i = 0; i < patternLength - 1; ++i)
         {
-            if(haystack[i] == needle[j])
-                i++, j++;
-            else 
+            highestPower = (highestPower * BASE) % MOD;
+        }
+
+        ll patternHash = 0;
+        ll windowHash = 0;
+        for (int i = 0; i < patternLength; ++i)
+        {
+            patternHash = (patternHash * BASE + (needle[i] - 'a')) % MOD;
+            windowHash = (windowHash * BASE + (haystack[i] - 'a')) % MOD;
+        }
+
+        for (int i = 0; i <= textLength - patternLength; ++i)
+        {
+            if (patternHash == windowHash && existFrom(i, haystack, needle))
             {
-                if(j == 0)
-                    i++;
-                else
-                    j = LPS[j - 1];
+                return i;
             }
-            
-            if(j == m)
-                return i-m;
+
+            // Remove the leftmost character and add the next character in the window
+            if (i < textLength - patternLength)
+            {
+                ll leftChar = ((haystack[i] - 'a') * highestPower) % MOD;
+                windowHash = (windowHash - leftChar + MOD) % MOD;
+                windowHash = (windowHash * BASE + (haystack[i + patternLength] - 'a')) % MOD;
+            }
         }
-        
+
         return -1;
-    }
-    
-    // 
-    // longest prefix suffix O(M)
-    vector<int> computeLPS(string needle)
-    {
-        int m{(int)needle.size()};
-        vector<int> LPS(m, 0);
-        
-        int i{1}, prevLPS{};
-        
-        while(i < m)
-        {
-            if(needle[i] == needle[prevLPS])
-                LPS[i] = prevLPS + 1, prevLPS++, i++;
-            else if(prevLPS == 0)
-                LPS[i] = 0, i++;
-            else
-                prevLPS = LPS[prevLPS - 1];
-        }
-        
-        return LPS;
     }
 };
