@@ -1,74 +1,106 @@
-class NumArray 
-{
+class NumArray {
 private:
-    vector<int> _tree; // Binary Indexed Tree (BIT)
-    vector<int> _nums; // Original array for reference
+    int n;
+    vector<int> tree;
+
+    /*
+     * Build the segment tree.
+     */
+    void build(vector<int>& nums, int node, int left, int right)
+    {
+        if (left == right)
+        {
+            tree[node] = nums[left];
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+        build(nums, node * 2, left, mid);
+        build(nums, node * 2 + 1, mid + 1, right);
+
+        tree[node] = tree[node * 2] + tree[node * 2 + 1];
+    }
+
+    /*
+     * Query the sum in range [queryLeft, queryRight].
+     */
+    int sumRange(int queryLeft, int queryRight, int node, int left, int right)
+    {
+        // No overlap
+        if (queryRight < left || right < queryLeft)
+        {
+            return 0;
+        }
+
+        // Full overlap
+        if (queryLeft <= left && right <= queryRight)
+        {
+            return tree[node];
+        }
+
+        // Partial overlap
+        int mid = left + (right - left) / 2;
+        return sumRange(queryLeft, queryRight, node * 2, left, mid)
+             + sumRange(queryLeft, queryRight, node * 2 + 1, mid + 1, right);
+    }
+
+    /*
+     * Update the value at index.
+     */
+    void update(int index, int val, int node, int left, int right)
+    {
+        if (left == right)
+        {
+            tree[node] = val;
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        if (index <= mid)
+        {
+            update(index, val, node * 2, left, mid);
+        }
+        else
+        {
+            update(index, val, node * 2 + 1, mid + 1, right);
+        }
+
+        tree[node] = tree[node * 2] + tree[node * 2 + 1];
+    }
 
 public:
-    /**
-     * Approach:
-     * - Use a Binary Indexed Tree (BIT) for efficient range sum queries and updates.
-     * - Construct the BIT from the input array:
-     *     - Update the tree values using the BIT formula.
-     * - To update a value:
-     *     - Calculate the difference between the new value and the original value.
-     *     - Propagate the difference through the BIT.
-     * - To calculate a range sum:
-     *     - Use the BIT to compute prefix sums up to `right` and `left-1`.
-     *     - Subtract the two prefix sums to get the range sum.
-     *
-     * Complexity:
-     * Time Complexity:
-     * - Construction: O(n log n), where `n` is the size of the input array.
-     * - Update: O(log n) per update operation.
-     * - Query (sumRange): O(log n) per range sum query.
-     * Space Complexity: O(n) for the BIT array.
+    /*
+     * Constructor to build segment tree from input array.
+     * Time: O(n), Space: O(4n)
      */
-
     NumArray(vector<int>& nums) 
     {
-        _nums = nums;
-        _tree = vector<int>(_nums.size() + 1, 0); // Initialize BIT with 0
-
-        // Build the Binary Indexed Tree (BIT)
-        for (int i = 0; i < _nums.size(); ++i)
-            _tree[i + 1] = _nums[i];
-
-        for (int i = 1; i < _tree.size(); ++i) 
-        {
-            int parent = i + (i & -i);
-            if (parent < _tree.size())
-                _tree[parent] += _tree[i];
-        }
+        n = nums.size();
+        tree = vector<int>(4 * n, 0);
+        build(nums, 1, 0, n - 1);
     }
 
-    // Update a value in the array and propagate the change through the BIT
+    /*
+     * Update index to new value.
+     * Time: O(log n)
+     */
     void update(int index, int val) 
     {
-        int diff = val - _nums[index];
-        _nums[index] = val;
-
-        for (++index; index < _tree.size(); index += (index & -index))
-            _tree[index] += diff;
+        update(index, val, 1, 0, n - 1);
     }
 
-    // Get the prefix sum up to a given index
-    int sum(int index) 
-    {
-        int sum = 0;
-        for (++index; index > 0; index -= (index & -index))
-            sum += _tree[index];
-        return sum;
-    }
-
-    // Compute the range sum between `left` and `right`
+    /*
+     * Return sum in range [left, right].
+     * Time: O(log n)
+     */
     int sumRange(int left, int right) 
     {
-        return left == 0 ? sum(right) : sum(right) - sum(left - 1);
+        return sumRange(left, right, 1, 0, n - 1);
     }
 };
 
-/**
+/*
  * Your NumArray object will be instantiated and called as such:
  * NumArray* obj = new NumArray(nums);
  * obj->update(index, val);
