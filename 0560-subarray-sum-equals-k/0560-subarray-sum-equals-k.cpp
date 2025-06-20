@@ -1,33 +1,37 @@
+/*
+ * Approach:
+ * - Prefix Sum + Hash Map
+ * - Keep track of prefix sums seen so far and their frequencies in a map.
+ * - For each element, compute the current prefix sum.
+ * - Check if (currentSum - k) exists in the map — if yes, that means there is a subarray that sums to k.
+ * - Add the frequency of (currentSum - k) to the count.
+ * - Update the map with the current prefix sum.
+ *
+ * Time Complexity: O(n), where n = size of nums
+ * Space Complexity:
+ * - O(n), for the hash map to store prefix sums.
+ */
+
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Calculate the prefix sum and iterate over it counting subarrays sum that equals to k
-    * Note: sum(i,j)=sum(0,j)-sum(0,i)
-    * 
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(n)
-    */
-    int subarraySum(vector<int>& nums, int k) {
-        int n{(int)nums.size()}, count{};
-        unordered_map<int, int> freq;
-        
-        // prefix sum
-        for(int i = 1 ; i < n ; i++)
-            nums[i] += nums[i - 1];
-        
-        
-        for(int i = 0 ; i < n ; i++)
+    int subarraySum(vector<int>& nums, int k) 
+    {
+        unordered_map<int, int> sumFreq;
+        int currentSum = 0, count = 0;    
+
+        sumFreq[0] = 1; // Base case: sum 0 seen once
+
+        for (int num : nums)
         {
-            if(nums[i] == k)
-                count++;
-            if(freq[nums[i] - k])
-                count += freq[nums[i] - k];
-            
-            freq[nums[i]]++;
+            currentSum += num;
+
+            // If (currentSum - k) exists, add its frequency to the result
+            count += sumFreq[currentSum - k];
+
+            // Update frequency of currentSum
+            ++sumFreq[currentSum];
         }
-        
+
         return count;
     }
 };
