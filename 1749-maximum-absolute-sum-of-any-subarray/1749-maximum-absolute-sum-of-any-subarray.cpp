@@ -1,32 +1,32 @@
+/*
+ * Approach:
+ * - Variant of Kadane's Algorithm.
+ * - Track maximum subarray sum (`curMaxSum`) and minimum subarray sum (`curMinSum`) as we iterate.
+ * - The answer is the maximum of absolute value of minSum and maxSum.
+ * 
+ * Time Complexity : O(n), where n = size of nums.
+ * Space Complexity: O(1), constant space.
+ */
+
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Get both the maximum sum subarray and the minimum sum subarray and return the max absolute of them
-    * Note: use Kadane's algorithm to get the maximum sum and minumim sum subarray to make the alogithm O(n)
-    *
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(1)
-    */
     int maxAbsoluteSum(vector<int>& nums) 
     {
-        int maxSum{}, minSum{}, curMaxSum{}, curMinSum{};
+        int maxSum = 0, minSum = 0;
+        int curMaxSum = 0, curMinSum = 0;
 
-        for(int num : nums)
+        for (int num : nums)
         {
-            if(curMaxSum < 0)
-                curMaxSum = 0;
-
-            if(curMinSum > 0)
-                curMinSum = 0;
-
             curMaxSum += num;
+            curMaxSum = max(curMaxSum, 0);
+
             curMinSum += num;
+            curMinSum = min(curMinSum, 0);
+
             maxSum = max(maxSum, curMaxSum);
             minSum = min(minSum, curMinSum);
         }
-        
+
         return max(maxSum, abs(minSum));
     }
 };
