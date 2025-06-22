@@ -1,54 +1,40 @@
+/*
+ * Approach:
+ * - Modified Kadane’s Algorithm for circular subarray.
+ * - There are 2 cases:
+ *   1. Max subarray is a normal subarray — use regular Kadane’s to compute maxSum.
+ *   2. Max subarray is circular — totalSum - minSum gives the max circular sum.
+ * - If all elements are negative, totalSum == minSum → in this case return maxSum (avoids empty subarray).
+ *
+ * Time Complexity : O(n), where n = size of nums.
+ * Space Complexity: O(1), constant space.
+ */
+
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Get both the maximum sum subarray and the minimum sum subarray and return the max between the max sum subarray or the total sum - the min sum subarray
-    * Note: use Kadane's algorithm to get the maximum sum and minumim sum subarray to make the alogithm O(n)
-    *
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(1)
-    */
     int maxSubarraySumCircular(vector<int>& nums) 
     {
-        int maxSubSum = maxSum(nums);
-        int minSubSum = minSum(nums);
-        
-        int totalSum = accumulate(nums.begin(), nums.end(), 0);
-    
-        if(totalSum == minSubSum)
-            return maxSubSum;
-        
-        return max(maxSubSum, totalSum - minSubSum);
-    }
-    
-    int maxSum(vector<int>& nums)
-    {
-        int maxSoFar{}, maxSum{INT_MIN};
-        
-        for(int n : nums)
+        int maxSum = INT_MIN, minSum = INT_MAX, totalSum = 0;
+        int curMaxSum = 0, curMinSum = 0;
+
+        for (int num : nums)
         {
-            maxSoFar += n;
-            maxSum = max(maxSum , maxSoFar);
-            
-            if(maxSoFar < 0)
-                maxSoFar = 0;
+            curMaxSum += num;
+            curMinSum += num;
+
+            maxSum = max(maxSum, curMaxSum);
+            minSum = min(minSum, curMinSum);
+
+            curMaxSum = max(curMaxSum, 0);
+            curMinSum = min(curMinSum, 0);
+
+            totalSum += num;
         }
-        return maxSum;
-    }
-    
-    int minSum(vector<int>& nums)
-    {
-        int minSoFar{}, minSum{INT_MAX};
-        
-        for(int n : nums)
-        {
-            minSoFar += n;
-            minSum = min(minSum , minSoFar);
-            
-            if(minSoFar > 0)
-                minSoFar = 0;
-        }
-        return minSum;
+
+        // All elements negative → totalSum == minSum
+        if (totalSum == minSum)
+            return maxSum;
+
+        return max(maxSum, totalSum - minSum);
     }
 };
