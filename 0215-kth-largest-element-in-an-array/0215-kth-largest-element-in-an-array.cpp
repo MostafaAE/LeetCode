@@ -1,34 +1,37 @@
 /*
  * Approach:
- * To find the k-th largest element, we use a min-heap of size `k`.
+ * Use a min-heap of size `k` to track the k largest elements from the array.
  * 
- * - Traverse the array and maintain a min-heap with at most `k` elements.
- * - For each number, insert it into the heap.
- * - If the heap size exceeds `k`, remove the smallest element (heap top).
- * - After processing all numbers, the top of the min-heap will be the k-th largest element.
+ * - Iterate over each number in the array.
+ * - If the heap size is less than `k`, or the current number is larger than the smallest in the heap,
+ *   push it into the heap.
+ * - If the heap exceeds size `k`, pop the smallest element.
+ * - After processing all elements, the top of the min-heap will hold the k-th largest element.
  *
  * Time Complexity  : O(n log k), where n is the number of elements in the array.
- *                    Each insertion/deletion in the heap takes O(log k).
- * Space Complexity : O(k), for storing at most `k` elements in the heap.
+ *                    Insertion and removal from the heap is O(log k), and we do this at most n times.
+ * Space Complexity : O(k), for maintaining the min-heap.
  */
 
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) 
     {
-        // Min-heap to store the k largest elements
+        // Min-heap to maintain the k largest elements
         priority_queue<int, vector<int>, greater<>> minHeap;
 
         for (int num : nums)
         {
-            minHeap.push(num);
+            // Insert if heap has fewer than k elements or num is greater than current minimum
+            if ((int)minHeap.size() < k || num > minHeap.top())
+                minHeap.push(num);
 
-            // Remove the smallest if we have more than k elements
-            if (minHeap.size() > k)
+            // Ensure heap size doesn't exceed k
+            if ((int)minHeap.size() > k)
                 minHeap.pop();
         }
 
-        // The top of the heap is the k-th largest element
+        // The root of the heap is the k-th largest element
         return minHeap.top();
     }
 };
