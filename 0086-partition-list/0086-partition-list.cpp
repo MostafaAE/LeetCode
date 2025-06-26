@@ -59,8 +59,13 @@ public:
 
         // Link the end of the less list to the head of the greater list
         lessTail->next = greaterEqualHead->next;
+        head = lessHead->next;
+
+        // Free dummy nodes memory
+        delete lessHead;
+        delete greaterEqualHead;
 
         // Return the head of the combined list
-        return lessHead->next;
+        return head;
     }
 };
