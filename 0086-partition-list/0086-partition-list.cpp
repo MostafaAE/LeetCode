@@ -8,50 +8,59 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+/*
+ * Approach:
+ * The problem requires us to partition a linked list into two parts:
+ *  - One with nodes having values less than `x`
+ *  - Another with nodes having values greater than or equal to `x`
+ * 
+ * We'll use two dummy nodes to build two separate lists and then merge them at the end.
+ * 
+ * Time Complexity  : O(n) where n is the number of nodes in the list (single pass).
+ * Space Complexity : O(1) excluding the output (no extra data structures used, just pointers).
+ */
+
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Partition the linked list into two lists (one contains elements less than x and the other greater than or equal to x) then merge them.
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(1)
-    */
     ListNode* partition(ListNode* head, int x) 
     {
-        ListNode *p1Head{}, *p1Tail{}, *p2Head{}, *p2Tail{}, *cur = head;
-        
-        while(cur)
-        {   
-            if(cur->val < x)
+        // Dummy nodes to anchor the two new lists
+        ListNode* lessHead = new ListNode(0);
+        ListNode* greaterEqualHead = new ListNode(0);
+
+        // Tail pointers for the two lists
+        ListNode* lessTail = lessHead;
+        ListNode* greaterEqualTail = greaterEqualHead;
+
+        // Traverse the original list
+        ListNode* current = head;
+        while (current != nullptr)
+        {
+            if (current->val < x)
             {
-                if(!p1Head)
-                    p1Head = cur;
-                else
-                    p1Tail->next = cur;
-                
-                p1Tail = cur;
+                // Append to the 'less than x' list
+                lessTail->next = current;
+                lessTail = lessTail->next;
             }
             else
             {
-                if(!p2Head)
-                    p2Head = cur;
-                else
-                    p2Tail->next = cur;
-                
-                p2Tail = cur;
+                // Append to the 'greater or equal to x' list
+                greaterEqualTail->next = current;
+                greaterEqualTail = greaterEqualTail->next;
             }
-            cur = cur->next;
+
+            // Move to next node
+            current = current->next;
         }
-        
-        if(p1Head)
-            p1Tail->next = p2Head;
-        if(p2Head)
-            p2Tail->next = nullptr;
-        
-        if(!p1Head && p2Head)
-            return p2Head;
-        
-        return p1Head;
+
+        // Terminate the greater list to avoid cycle
+        greaterEqualTail->next = nullptr;
+
+        // Link the end of the less list to the head of the greater list
+        lessTail->next = greaterEqualHead->next;
+
+        // Return the head of the combined list
+        return lessHead->next;
     }
 };
