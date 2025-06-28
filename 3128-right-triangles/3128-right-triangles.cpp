@@ -1,19 +1,21 @@
 /*
  * Approach:
- * - The goal is to count the number of right-angled triangles in a grid 
- *   where the right angle is at a point with value 1 (i.e., grid[r][c] == 1).
- * - For a right triangle with a right angle at (r, c), it must have one point in the same row
- *   and one point in the same column (excluding the point itself).
- *
- * - First, count the number of 1s in each row and each column using hash maps: `xFreq` and `yFreq`.
- * - Then, iterate through the grid again:
- *     - For each 1 at (r, c), the number of valid triangles centered at this point is:
- *       (number of other 1s in the same row) * (number of other 1s in the same column)
- *     - That is: (xFreq[r] - 1) * (yFreq[c] - 1)
- *
- * Time Complexity  : O(m * n), where m is the number of rows and n is the number of columns.
- *                    We visit each cell twice: once for counting frequencies, once for computing results.
- * Space Complexity : O(m + n), for storing the frequency of 1s in each row and column.
+ * We are given a binary grid and need to count the number of right-angled triangles 
+ * where the right angle lies at a cell (r, c) with value 1.
+ * 
+ * A valid triangle requires at least one other 1 in the same row and one in the same column.
+ * 
+ * Steps:
+ * 1. Count how many 1s exist in each row and column using `xFreq` and `yFreq`.
+ * 2. For each cell (r, c) where grid[r][c] == 1:
+ *    - We can pair this cell with (xFreq[r] - 1) cells in the same row
+ *      and (yFreq[c] - 1) cells in the same column to form valid right-angled triangles.
+ *    - Multiply the two to get the number of triangles centered at (r, c).
+ * 3. Accumulate the total number of such triangles.
+ * 
+ * Time Complexity  : O(m * n), where m = number of rows, n = number of columns
+ *                    -> One full pass to count, one pass to calculate results.
+ * Space Complexity : O(m + n), for the row and column frequency vectors.
  */
 
 class Solution {
@@ -21,30 +23,29 @@ public:
     long long numberOfRightTriangles(vector<vector<int>>& grid) 
     {
         int rows = grid.size(), cols = grid[0].size();
-        unordered_map<int, int> xFreq; // row index -> count of 1s
-        unordered_map<int, int> yFreq; // col index -> count of 1s
 
-        // First pass: count number of 1s in each row and column
+        // Count of 1s in each row and column
+        vector<int> xFreq(rows, 0); 
+        vector<int> yFreq(cols, 0); 
+
+        // First pass: count 1s in each row and column
         for (int r = 0; r < rows; ++r)
         {
             for (int c = 0; c < cols; ++c)
             {
-                if (grid[r][c])
-                {
-                    ++xFreq[r];
-                    ++yFreq[c];
-                }
+                xFreq[r] += grid[r][c];
+                yFreq[c] += grid[r][c];
             }
         }
 
         long long result = 0;
 
-        // Second pass: for each 1, count triangles with right angle at (r, c)
+        // Second pass: count right-angled triangles centered at (r, c)
         for (int r = 0; r < rows; ++r)
         {
             for (int c = 0; c < cols; ++c)
             {
-                if (grid[r][c])
+                if (grid[r][c] == 1)
                 {
                     result += (long long)(xFreq[r] - 1) * (yFreq[c] - 1);
                 }
