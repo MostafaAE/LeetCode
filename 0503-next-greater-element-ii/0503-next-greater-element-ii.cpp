@@ -16,11 +16,15 @@ public:
         
         for(int i = 0 ; i < n*2 ; i++)
         {
-            while(!st.empty() && nums[st.top()] < nums[i%n])
-                answer[st.top()] = nums[i%n], st.pop();
+            int idx = i % n;
+            while(!st.empty() && nums[st.top()] < nums[idx])
+            {
+                answer[st.top()] = nums[idx];
+                st.pop();
+            }
             
             if(i < n)
-                st.push(i);
+                st.push(idx);
         }
         
         return answer;
