@@ -9,51 +9,54 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+/*
+ * Approach:
+ * 1. Traverse the unbalanced BST using in-order traversal to get a sorted array of values.
+ * 2. Recursively build a balanced BST from the sorted array by choosing the middle element as root.
+ *    This ensures that the depth of the left and right subtrees remains balanced.
+ *
+ * Time Complexity  : O(n), where n is the number of nodes in the tree (due to traversal and reconstruction).
+ * Space Complexity : O(n), for storing the in-order traversal result and recursive call stack.
+ */
+
 class Solution {
 public:
-    
-    /* 
-    * Approach: 
-    * Convert the tree to a sorted array using an in-order traversal, then construct a new balanced tree from the sorted array recursively.
-    *
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(n)
-    */
     TreeNode* balanceBST(TreeNode* root) 
     {
-        vector<int> traversal;
-        dfs(root, traversal);
-        
-        return build(traversal, 0, (int)traversal.size()-1);
+        vector<int> inorderTraversal;
+
+        // Step 1: Get sorted elements
+        inOrderDFS(root, inorderTraversal); 
+
+        // Step 2: Rebuild
+        return buildBalancedBST(inorderTraversal, 0, inorderTraversal.size() - 1);
     }
-    
-    // O(n)
-    TreeNode* build(vector<int> &traversal, int start, int end)
+
+private:
+    // Helper function to perform in-order traversal and collect node values
+    void inOrderDFS(TreeNode* node, vector<int>& result)
     {
-        if(start > end)
-            return nullptr;
-        
-        int mid = start + (end - start) / 2;
-        
-        TreeNode* node = new TreeNode(traversal[mid]);
-        
-        node->left = build(traversal, start, mid - 1);
-        node->right = build(traversal, mid + 1, end);
-        
-        return node;
-    }
-    
-    // O(n)
-    void dfs(TreeNode* node, vector<int> &traversal)
-    {
-        if(!node)
+        if (!node)
             return;
-        
-        dfs(node->left, traversal);
-        
-        traversal.push_back(node->val);
-        
-        dfs(node->right, traversal);
+
+        inOrderDFS(node->left, result);
+        result.push_back(node->val);
+        inOrderDFS(node->right, result);
+    }
+
+    // Recursively build balanced BST from sorted array
+    TreeNode* buildBalancedBST(const vector<int>& nums, int left, int right)
+    {
+        if (left > right)
+            return nullptr;
+
+        int mid = left + (right - left) / 2;
+
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = buildBalancedBST(nums, left, mid - 1);
+        root->right = buildBalancedBST(nums, mid + 1, right);
+
+        return root;
     }
 };
