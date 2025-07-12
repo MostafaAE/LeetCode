@@ -1,3 +1,4 @@
+using ll = long long;
 const int MOD = 1e9 + 7;
 class Solution {
 public:
@@ -13,7 +14,7 @@ public:
     {
         set<pair<int,int>> efficiencyToIdx;
         priority_queue<int, vector<int>, greater<int>> speedHeap;
-        long maxPerformanceVal{}, totalSpeed{};
+        ll maxPerformanceVal{}, totalSpeed{};
         
         // O(nlogn)
         for(int i = 0 ; i < n ; i++)
@@ -25,7 +26,7 @@ public:
         while(itr != efficiencyToIdx.rend())
         {
             int idx = itr->second;
-            long curEfficiency = itr->first, curSpeed = speed[idx];
+            ll curEfficiency = itr->first, curSpeed = speed[idx];
 
             totalSpeed += curSpeed;
             
