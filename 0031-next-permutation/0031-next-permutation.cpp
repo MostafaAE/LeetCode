@@ -1,29 +1,43 @@
+/*
+ * Approach:
+ * 1. Traverse from right to left to find the first pair where nums[i] < nums[i + 1]. Let's call this index the pivot.
+ * 2. If no such pivot exists, the array is the highest permutation. Reverse the entire array.
+ * 3. Otherwise, find the rightmost element greater than nums[pivot], and swap them.
+ * 4. Finally, reverse the suffix starting at pivot + 1 to get the next smallest lexicographic permutation.
+ *
+ * Time Complexity  : O(n), where n is the size of the array.
+ * Space Complexity : O(1), in-place operations.
+ */
+
 class Solution {
 public:
-    /* 
-    * Approach: 
-    * Get the length of the longest decreasing suffix subarray, then swap the next number to it with its successor from longest decreasing suffix subarray, then sort the longest decreasing suffix subarray (reverse).
-    *
-    * Complexity:
-    * Time Complexity : O(n)
-    * Space Complexity : O(1)
-    */
     void nextPermutation(vector<int>& nums) 
     {
-        int sz{(int)nums.size()}, i = sz - 2, j = sz - 1;
-        
-        // get the length of the consecutive decreasing suffix
-        while(i >= 0 && nums[i] >= nums[i + 1])
-            i--;
-        
-        if(i == -1)
-            return reverse(nums.begin(), nums.end());
-        
-        while(j > i && nums[i] >= nums[j])
-            j--;
-        
-        swap(nums[j], nums[i]);
-            
-        return reverse(nums.begin() + i + 1, nums.end());
+        int n = nums.size();
+        int pivotIndex = n - 2;
+
+        // Step 1: Find the first decreasing element from the right
+        while (pivotIndex >= 0 && nums[pivotIndex] >= nums[pivotIndex + 1]) 
+        {
+            --pivotIndex;
+        }
+
+        // Step 2: If pivot is found, find the next greater element to the right
+        if (pivotIndex >= 0) 
+        {
+            int successorIndex = n - 1;
+
+            // Find the element just larger than nums[pivotIndex]
+            while (nums[successorIndex] <= nums[pivotIndex])
+            {
+                --successorIndex;
+            }
+
+            // Swap pivot with successor
+            swap(nums[pivotIndex], nums[successorIndex]);
+        }
+
+        // Step 3: Reverse the suffix starting from pivotIndex + 1
+        reverse(nums.begin() + pivotIndex + 1, nums.end());
     }
 };
