@@ -1,49 +1,41 @@
-/*
- * Approach:
- * 1. First, compute the maximum OR value that can be achieved from any subset.
- * 2. Use recursion with memoization (Top-down DP) to count the number of subsets that achieve this OR value.
- *    At each index, we have two choices:
- *    - Include the current element in the OR
- *    - Skip the current element
- * 3. If the OR at the end of the subset equals the maximum, count it.
- * 4. Use memoization to cache subproblems using index and current OR value.
- *
- * Time Complexity: O(n * maxOrValue)
- * - n = number of elements
- * - maxOrValue = max OR value from all elements
- *
- * Space Complexity: O(n * maxOrValue)
- */
-
 class Solution {
 public:
+    /**
+     * Approach:
+     * - First, we calculate the maximum OR value achievable by taking the OR of all elements in the array.
+     * - Then, we recursively check each subset of the array, counting how many of them have the same OR value as the maximum.
+     * 
+     * Complexity:
+     * - Time Complexity: O(2^n), where `n` is the size of the input array `nums`. For each element, we have two choices: include it in the subset or exclude it, resulting in 2^n subsets.
+     * - Space Complexity: O(n), where `n` is the depth of the recursion stack, which is equal to the size of the array.
+     */
+
     int countMaxOrSubsets(vector<int>& nums) 
     {
         int maxOrValue = 0;
-
+        
+        // Step 1: Calculate the maximum OR value of the entire array
         for (int num : nums)
             maxOrValue |= num;
 
-        vector<vector<int>> memory(nums.size(), vector<int>(maxOrValue + 1, -1));
-
-        return countSubsets(nums, memory, 0, 0, maxOrValue);
+        // Step 2: Use a recursive function to count subsets that achieve this maximum OR value
+        return countSubsets(nums, 0, 0, maxOrValue);
     }
     
-private:
-    int countSubsets(vector<int>& nums, vector<vector<int>>& memory, int index, int currentOr, const int& targetOr)
+    // Recursive function to count subsets
+    int countSubsets(vector<int>& nums, int index, int currentOr, int targetOr)
     {
-        if (index >= nums.size())
-            return (currentOr == targetOr) ? 1 : 0;
-
-        if (memory[index][currentOr] != -1)
-            return memory[index][currentOr];
-
-        // Option 1: Pick current element
-        int pick = countSubsets(nums, memory, index + 1, currentOr | nums[index], targetOr);
+        // Base case: If we have considered all elements
+        if(index >= nums.size())
+            return (currentOr == targetOr) ? 1 : 0; 
         
-        // Option 2: Skip current element
-        int leave = countSubsets(nums, memory, index + 1, currentOr, targetOr); 
+        // Option 1: Include the current element in the subset (pick)
+        int pick = countSubsets(nums, index + 1, currentOr | nums[index], targetOr);
         
-        return memory[index][currentOr] = pick + leave;
+        // Option 2: Exclude the current element from the subset (leave)
+        int leave = countSubsets(nums, index + 1, currentOr, targetOr); 
+        
+        // Return the total count from both the pick and leave options
+        return pick + leave;
     }
 };
