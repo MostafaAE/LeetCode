@@ -16,7 +16,6 @@ public:
      * Time Complexity  : O(9^(n)) — worst case exponential where n is number of empty cells.
      * Space Complexity : O(1) — fixed-size board and constraint arrays (no dynamic memory).
      */
-
     void solveSudoku(vector<vector<char>>& board) 
     {
         memset(row, 0, sizeof(row));
