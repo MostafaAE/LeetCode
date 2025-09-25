@@ -14,7 +14,10 @@ public:
      */
     int minimumTotal(vector<vector<int>>& triangle) 
     {
-        memset(memory, -1, sizeof(memory));
+        for(int i = 0 ; i < MAX ; ++i)
+            for(int j = 0 ; j < MAX ; ++j)
+                memory[i][j] = INT_MAX;
+
         triangleg = triangle;
         
         return minimumPath(0, 0);
@@ -27,7 +30,7 @@ public:
             return triangleg[r][c];
         
         int &ret = memory[r][c];
-        if(ret != -1)
+        if(ret != INT_MAX)
             return ret;
         
         int choice1 = minimumPath(r + 1, c);
