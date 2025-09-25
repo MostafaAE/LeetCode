@@ -1,8 +1,4 @@
 class Solution {
-private:
-    static const int MAX = 200 + 1;
-    int memory[MAX][MAX];
-    vector<vector<int>> triangleg;
 public:
     /*
      * Approach:
@@ -14,28 +10,24 @@ public:
      */
     int minimumTotal(vector<vector<int>>& triangle) 
     {
-        for(int i = 0 ; i < MAX ; ++i)
-            for(int j = 0 ; j < MAX ; ++j)
-                memory[i][j] = INT_MAX;
+        vector<vector<int>> memory(triangle.size());
+        for(int i = 0 ; i < triangle.size() ; ++i)
+            memory[i] = vector<int>(i + 1, INT_MAX);
 
-        triangleg = triangle;
-        
-        return minimumPath(0, 0);
+        return minTotal(0, 0, memory, triangle);
     }
-    
-    int minimumPath(int r, int c)
+
+    int minTotal(int row, int col, vector<vector<int>>& memory, const vector<vector<int>>& triangle)
     {
-        // last row
-        if(r == (int)triangleg.size() - 1)
-            return triangleg[r][c];
+        if(row >= triangle.size())
+            return 0;
+
+        if(memory[row][col] != INT_MAX)
+            return memory[row][col];
         
-        int &ret = memory[r][c];
-        if(ret != INT_MAX)
-            return ret;
-        
-        int choice1 = minimumPath(r + 1, c);
-        int choice2 = minimumPath(r + 1, c + 1);
-        
-        return ret = triangleg[r][c] + min(choice1, choice2);
+        int choice1 = minTotal(row + 1, col, memory, triangle);
+        int choice2 = minTotal(row + 1, col + 1, memory, triangle);
+
+        return memory[row][col] = triangle[row][col] + min(choice1, choice2);
     }
 };
