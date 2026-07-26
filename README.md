@@ -20,6 +20,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
+| [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Math
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -32,11 +33,13 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
+| [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Greedy
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
+| [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Counting Sort
 | Problem Name | Difficulty |
 | ------- | ------- |
