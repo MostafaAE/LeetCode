@@ -1,20 +1,15 @@
 class Solution {
 public:
-    /* 
-    * Approach:
-    * Complexity:
-    * Time Complexity : O(nlogn)
-    * Space Complexity : O(1)
-    */
     int reductionOperations(vector<int>& nums) 
     {
-        int opsCnt{};
-        sort(nums.begin(), nums.end(), greater<int>());
+        int n = nums.size();
+        sort(nums.begin(), nums.end(), greater<>());
         
-        for(int i = 1 ; i < (int)nums.size() ; i++)
-            if(nums[i-1] > nums[i])
-                opsCnt += i;
-        
-        return opsCnt;
+        int totalReductions{};
+        for(int i = 1 ; i < n ; ++i)
+            if(nums[i] != nums[i-1])
+                totalReductions += i;
+
+        return totalReductions;
     }
 };
