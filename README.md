@@ -23,6 +23,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
+| [1887-reduction-operations-to-make-the-array-elements-equal](https://github.com/MostafaAE/LeetCode/tree/main/1887-reduction-operations-to-make-the-array-elements-equal/) | Medium |
 | [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Math
 | Problem Name | Difficulty |
@@ -39,6 +40,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
+| [1887-reduction-operations-to-make-the-array-elements-equal](https://github.com/MostafaAE/LeetCode/tree/main/1887-reduction-operations-to-make-the-array-elements-equal/) | Medium |
 | [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Greedy
 | Problem Name | Difficulty |
