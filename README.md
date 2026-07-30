@@ -16,6 +16,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 ## Array
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
@@ -73,6 +74,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 ## Binary Search
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 ## String
 | Problem Name | Difficulty |
