@@ -30,6 +30,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
+| [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
 ## Sorting
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -51,6 +52,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
 | [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
+| [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
 ## Counting Sort
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -72,4 +74,8 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
+## String
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
 <!---LeetCode Topics End-->
