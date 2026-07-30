@@ -20,6 +20,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
+| [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
@@ -39,6 +40,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
+| [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
@@ -51,6 +53,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
+| [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
@@ -64,6 +67,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
+| [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 ## Stack
 | Problem Name | Difficulty |
@@ -78,6 +82,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
+| [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 ## String
 | Problem Name | Difficulty |
