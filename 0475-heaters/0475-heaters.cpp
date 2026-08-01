@@ -33,17 +33,18 @@ public:
     
     bool possibleRadius(vector<int>& houses, vector<int>& heaters, int radius)
     {
-        int houseIdx = 0, n = houses.size();
-        for(int h : heaters)
+        int houseIdx = 0, housesCount = houses.size();
+        for(int i = 0 ; i < (int)heaters.size() ; i++)
         {
-            int leftRadius = h - radius;
-            int rightRadius = h + radius;
-
-            while(houseIdx < n && leftRadius <= houses[houseIdx] && houses[houseIdx] <= rightRadius)
-                ++houseIdx;
+            // Covered range [left, right] by the ith heater
+            int heaterStart = heaters[i] - radius;
+            int heaterEnd = heaters[i] + radius;
             
-            if(houseIdx == n)
-                return  true;
+            while(houseIdx < (int)houses.size() && heaterStart <= houses[houseIdx] && houses[houseIdx] <= heaterEnd)
+                houseIdx++; // cover more houses with ith heater
+
+            if(houseIdx >= housesCount)
+                return true;
         }
 
         return false;
