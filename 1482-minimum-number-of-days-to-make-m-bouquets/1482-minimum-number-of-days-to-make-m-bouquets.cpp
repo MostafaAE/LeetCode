@@ -1,64 +1,51 @@
 class Solution {
 public:
-    /*
-    * Approach:
-    * - Use binary search to find the minimum number of days needed to pick m bouquets.
-    * - Define the search range from 0 to the maximum value in bloomDay.
-    * - For each midpoint in the binary search: Check if it is possible to pick m bouquets in mid days. If possible, update the result and search in the left half; otherwise, search in the right half.
-    *
-    * Complexity:
-    * - Time Complexity: O(n logD), where N is the number of flowers and D is the highest value in the array bloomDay.
-    * - Space Complexity: O(1)
-    */
     int minDays(vector<int>& bloomDay, int m, int k) 
     {
-        // If there are not enough flowers to make m bouquets, return -1.
-        if(m > (int)bloomDay.size() / k)
+        int n = bloomDay.size();
+
+        if(m > n / k)
             return -1;
-        
-        int end = *max_element(bloomDay.begin(), bloomDay.end());
-        int start{}, result = end;
-        
-        // Perform binary search to find the minimum number of days.
-        while(start <= end)
+
+        int left = 1, right = 1e9, result = -1;
+
+        while(left <= right)
         {
-            int mid = start + (end - start) / 2;
-            
-            // Check if it is possible to make m bouquets in mid days.
-            if(isPossibleDay(bloomDay, mid, m, k))
+            int mid = left + (right - left) / 2;
+            if(isValid(bloomDay, m, k, mid))
             {
+                right = mid - 1;
                 result = mid;
-                end = mid - 1;
             }
             else
-                start = mid + 1;
+                left = mid + 1;
         }
-        
+
         return result;
     }
-    
-    // Helper function to check if it is possible to make m bouquets in a given number of days.
-    bool isPossibleDay(vector<int>& bloomDay, int days, int m, int k)
+
+    bool isValid(vector<int>& bloomDay, int m, int k, int days)
     {
-        int pickedCount{};
-        
-        for(auto val : bloomDay)
+        int bouquets = 0, n = bloomDay.size(), i = 0;
+        while(i <= n-k && bouquets < m)
         {
-            if(val <= days)
-                ++pickedCount;
-            else
-                pickedCount = 0;
-            
-            if(pickedCount == k)
+            int cnt = 0;
+            for(int j = 0 ; j < k ; ++j)
             {
-                --m;
-                pickedCount = 0;
-                // Return early if m bouquets are made.
-                if(m == 0)
-                    return true;
+                if(bloomDay[i+j] > days)
+                    break;
+                ++cnt;
             }
+
+            if(cnt == k)
+            {
+                ++bouquets;
+                i += k;
+            }
+            else
+                ++i;
         }
-        
-        return m <= 0;
+
+        return bouquets >= m;
     }
 };
