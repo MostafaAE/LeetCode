@@ -27,6 +27,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
 | [1283-find-the-smallest-divisor-given-a-threshold](https://github.com/MostafaAE/LeetCode/tree/main/1283-find-the-smallest-divisor-given-a-threshold/) | Medium |
+| [1482-minimum-number-of-days-to-make-m-bouquets](https://github.com/MostafaAE/LeetCode/tree/main/1482-minimum-number-of-days-to-make-m-bouquets/) | Medium |
 | [1887-reduction-operations-to-make-the-array-elements-equal](https://github.com/MostafaAE/LeetCode/tree/main/1887-reduction-operations-to-make-the-array-elements-equal/) | Medium |
 | [1921-eliminate-maximum-number-of-monsters](https://github.com/MostafaAE/LeetCode/tree/main/1921-eliminate-maximum-number-of-monsters/) | Medium |
 ## Math
@@ -88,6 +89,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 | [1283-find-the-smallest-divisor-given-a-threshold](https://github.com/MostafaAE/LeetCode/tree/main/1283-find-the-smallest-divisor-given-a-threshold/) | Medium |
+| [1482-minimum-number-of-days-to-make-m-bouquets](https://github.com/MostafaAE/LeetCode/tree/main/1482-minimum-number-of-days-to-make-m-bouquets/) | Medium |
 ## String
 | Problem Name | Difficulty |
 | ------- | ------- |
