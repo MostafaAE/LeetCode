@@ -18,6 +18,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
+| [0475-heaters](https://github.com/MostafaAE/LeetCode/tree/main/0475-heaters/) | Medium |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
@@ -41,6 +42,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
+| [0475-heaters](https://github.com/MostafaAE/LeetCode/tree/main/0475-heaters/) | Medium |
 | [0561-array-partition](https://github.com/MostafaAE/LeetCode/tree/main/0561-array-partition/) | Easy |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
@@ -69,6 +71,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 ## Two Pointers
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0475-heaters](https://github.com/MostafaAE/LeetCode/tree/main/0475-heaters/) | Medium |
 | [0581-shortest-unsorted-continuous-subarray](https://github.com/MostafaAE/LeetCode/tree/main/0581-shortest-unsorted-continuous-subarray/) | Medium |
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
@@ -86,6 +89,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
 | [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
+| [0475-heaters](https://github.com/MostafaAE/LeetCode/tree/main/0475-heaters/) | Medium |
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 | [1283-find-the-smallest-divisor-given-a-threshold](https://github.com/MostafaAE/LeetCode/tree/main/1283-find-the-smallest-divisor-given-a-threshold/) | Medium |
