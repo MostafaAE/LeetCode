@@ -31,6 +31,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 ## Math
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
@@ -82,6 +83,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
+| [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
 ## String
