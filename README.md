@@ -24,6 +24,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | [0611-valid-triangle-number](https://github.com/MostafaAE/LeetCode/tree/main/0611-valid-triangle-number/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0826-most-profit-assigning-work](https://github.com/MostafaAE/LeetCode/tree/main/0826-most-profit-assigning-work/) | Medium |
+| [0877-stone-game](https://github.com/MostafaAE/LeetCode/tree/main/0877-stone-game/) | Medium |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [1005-maximize-sum-of-array-after-k-negations](https://github.com/MostafaAE/LeetCode/tree/main/1005-maximize-sum-of-array-after-k-negations/) | Easy |
 | [1200-minimum-absolute-difference](https://github.com/MostafaAE/LeetCode/tree/main/1200-minimum-absolute-difference/) | Easy |
@@ -36,6 +37,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | ------- | ------- |
 | [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
+| [0877-stone-game](https://github.com/MostafaAE/LeetCode/tree/main/0877-stone-game/) | Medium |
 | [0976-largest-perimeter-triangle](https://github.com/MostafaAE/LeetCode/tree/main/0976-largest-perimeter-triangle/) | Easy |
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
 ## Sorting
@@ -98,4 +100,12 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/MostafaAE/LeetCode/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
+## Dynamic Programming
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0877-stone-game](https://github.com/MostafaAE/LeetCode/tree/main/0877-stone-game/) | Medium |
+## Game Theory
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0877-stone-game](https://github.com/MostafaAE/LeetCode/tree/main/0877-stone-game/) | Medium |
 <!---LeetCode Topics End-->
