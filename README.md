@@ -35,6 +35,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 ## Math
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0069-sqrtx](https://github.com/MostafaAE/LeetCode/tree/main/0069-sqrtx/) | Easy |
 | [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
 | [0628-maximum-product-of-three-numbers](https://github.com/MostafaAE/LeetCode/tree/main/0628-maximum-product-of-three-numbers/) | Easy |
 | [0877-stone-game](https://github.com/MostafaAE/LeetCode/tree/main/0877-stone-game/) | Medium |
@@ -89,6 +90,7 @@ This repository serves as a centralized hub for my solutions to LeetCode problem
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0034-find-first-and-last-position-of-element-in-sorted-array](https://github.com/MostafaAE/LeetCode/tree/main/0034-find-first-and-last-position-of-element-in-sorted-array/) | Medium |
+| [0069-sqrtx](https://github.com/MostafaAE/LeetCode/tree/main/0069-sqrtx/) | Easy |
 | [0436-find-right-interval](https://github.com/MostafaAE/LeetCode/tree/main/0436-find-right-interval/) | Medium |
 | [0441-arranging-coins](https://github.com/MostafaAE/LeetCode/tree/main/0441-arranging-coins/) | Easy |
 | [0475-heaters](https://github.com/MostafaAE/LeetCode/tree/main/0475-heaters/) | Medium |
